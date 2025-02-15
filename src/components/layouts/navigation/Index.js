@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "./navbar.css";
 import logo from "../../../assets/brand/brand.png";
-import notifOutline from "../../../assets/icons/bell-regular.svg";
-import notifFill from "../../../assets/icons/bell-solid.svg";
+import notifFill from "../../../assets/icons/bell-regular.svg";
+import notifOutline from "../../../assets/icons/bell-solid.svg";
 import Button from "../../button/Button";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const Navbar = () => {
+  const { user } = useAuthContext();
   return (
     <div className="navigation-bar">
       <div className="left">
@@ -16,7 +18,7 @@ const Navbar = () => {
       </div>
       <div className="right">
         <Button icon={notifFill} iconHovered={notifOutline} />
-        <span>John Doe</span>
+        <span>{user?.username || "No user"}</span>
       </div>
     </div>
   );

@@ -1,11 +1,12 @@
 .btn {
+  background-color: var(--gray-200);
+  border: 1px var(--gray-700) solid;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 10px 12px;
-  border-radius: 0.25rem;
+  border-radius: 0.4rem;
   outline: none;
-  border: none;
   cursor: pointer;
 
   .btn-icon {
@@ -13,13 +14,13 @@
   }
   .btn-label {
     padding-inline-start: 0.5rem;
-    color: var(--primary-color);
+    color: var(--gray-700);
   }
 }
 .btn:hover {
-  background-color: var(--primary-color);
+  background-color: var(--gray-700);
   .btn-label {
-    color: white;
+    color: var(--gray-200);
   }
-  transition: all 0.2s ease-in;
+  transition: all 0.3s ease-in;
 }
