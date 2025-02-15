@@ -24,18 +24,23 @@ const App = () => {
       element:
         user?.position === 1 ? <Navigate to={"/request"} replace /> : <Login />,
     },
+    {
+      isPrivate: false,
+      path: "/request",
+      element: <Request />,
+    },
   ];
 
   const ADMIN_ROUTES = [
     {
-      isPrivate: true,
+      isPrivate: false,
       path: "/request",
       element: <Request />,
     },
   ];
   const USER_ROUTES = [
     {
-      isPrivate: true,
+      isPrivate: false,
       path: "/request",
       element: <Request />,
     },
@@ -58,7 +63,7 @@ const App = () => {
               <Route {...route} />
             </Route>
           ) : (
-            <Route key={index} {...route} />
+            <Route {...route} />
           )
         )}
         <Route path="*" element={<Navigate to={"/"} replace />} />

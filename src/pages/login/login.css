@@ -1,9 +1,31 @@
+:root {
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-400: #ced4da;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-700: #495057;
+  --gray-800: #343a40;
+  --gray-900: #212529;
+}
 .login-container {
   display: flex;
-  padding-top: 10dvh;
-  justify-content: center;
-  align-items: center;
+  background-color: var(--gray-400);
+  height: 100vh;
+  width: 100%;
 
+  .login-card {
+    width: calc(270px);
+    margin-top: 10dvh;
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    height: min-content;
+  }
+  .brand-container {
+    padding: 1rem;
+  }
   .login-forms {
     display: flex;
     flex-direction: column;
@@ -16,17 +38,22 @@
       border: 1px var(--primary-color) solid !important;
       height: 35px;
       padding-inline: 1rem;
+      border-radius: 0.3rem;
+    }
+    input:focus {
+      outline: var(--primary-color);
     }
   }
   .input-label {
     margin-bottom: -0.5rem;
     margin-top: 1rem;
     z-index: 1;
-    margin-inline-start: 0.3rem;
+    margin-inline-start: 0.45rem;
 
     .label {
       text-transform: capitalize;
       background-color: white;
+      mix-blend-mode: overlay;
       padding-inline: 0.3rem;
     }
   }
