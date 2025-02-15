@@ -1,0 +1,33 @@
+.login-container {
+  display: flex;
+  padding-top: 10dvh;
+  justify-content: center;
+  align-items: center;
+
+  .login-forms {
+    display: flex;
+    flex-direction: column;
+  }
+  .form-input {
+    display: flex;
+    flex-direction: column;
+
+    input {
+      border: 1px var(--primary-color) solid !important;
+      height: 35px;
+      padding-inline: 1rem;
+    }
+  }
+  .input-label {
+    margin-bottom: -0.5rem;
+    margin-top: 1rem;
+    z-index: 1;
+    margin-inline-start: 0.3rem;
+
+    .label {
+      text-transform: capitalize;
+      background-color: white;
+      padding-inline: 0.3rem;
+    }
+  }
+}

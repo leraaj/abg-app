@@ -1,0 +1,25 @@
+.navigation-bar {
+  background-color: var(--primary-color);
+  height: 90px;
+  padding-inline: 1rem;
+  display: flex;
+  align-items: center;
+
+  .left,
+  .right {
+    color: #fff;
+    width: 50%;
+    display: flex;
+    align-items: center;
+  }
+  .left {
+    display: flex;
+    justify-content: start;
+    gap: 1rem;
+  }
+  .right {
+    display: flex;
+    justify-content: end;
+    gap: 1rem;
+  }
+}

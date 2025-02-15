@@ -1,0 +1,25 @@
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 0.25rem;
+  outline: none;
+  border: none;
+  cursor: pointer;
+
+  .btn-icon {
+    height: 15px;
+  }
+  .btn-label {
+    padding-inline-start: 0.5rem;
+    color: var(--primary-color);
+  }
+}
+.btn:hover {
+  background-color: var(--primary-color);
+  .btn-label {
+    color: white;
+  }
+  transition: all 0.2s ease-in;
+}
