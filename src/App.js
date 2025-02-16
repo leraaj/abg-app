@@ -31,6 +31,11 @@ const App = () => {
       path: "/request",
       element: <Request />,
     },
+    {
+      isPrivate: false,
+      path: "/scan",
+      element: <Scan />,
+    },
   ];
 
   const ADMIN_ROUTES = [
@@ -45,11 +50,6 @@ const App = () => {
       isPrivate: false,
       path: "/request",
       element: <Request />,
-    },
-    {
-      isPrivate: false,
-      path: "/scan",
-      element: <Scan />,
     },
   ];
   let routes = [];
