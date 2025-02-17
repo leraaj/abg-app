@@ -7,6 +7,8 @@ import {
 import InternalLayout from "./components/layouts/InternalLayout/InternalLayout";
 import Login from "./pages/login/Index";
 import Request from "./pages/request/Index";
+import Scan from "./pages/scan/Index";
+
 import { useAuthContext } from "./hooks/useAuthContext";
 
 const App = () => {
@@ -33,6 +35,11 @@ const App = () => {
       isPrivate: false,
       path: "/request",
       element: <Request />,
+    },
+    {
+      isPrivate: false,
+      path: "/scan",
+      element: <Scan />,
     },
   ];
 
