@@ -1,5 +1,18 @@
 :root {
   --primary-color: rgb(31, 102, 17);
+  --primary-light-color: rgb(31, 102, 17);
+  --secondary-color: #1e1e1e;
+  --secondary-light-color: var(--gray-700);
+
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-400: #ced4da;
+  --gray-500: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-700: #495057;
+  --gray-800: #343a40;
+  --gray-900: #212529;
 }
 body {
   margin: 0;
@@ -14,17 +27,45 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-.position-left {
+.d-flex {
+  display: flex;
+}
+.row {
+  display: flex;
+  flex-direction: column;
+}
+.gap {
+  gap: 0.25rem;
+}
+.gap-1 {
+  gap: 1rem;
+}
+.gap-2 {
+  gap: 1.5rem;
+}
+.gap-3 {
+  gap: 2rem;
+}
+.gap-4 {
+  gap: 2.5rem;
+}
+.gap-5 {
+  gap: 3rem;
+}
+.justify-left {
   display: flex;
   justify-content: start;
 }
-.position-right {
+.justify-right {
   display: flex;
   justify-content: end;
 }
-.position-centered {
+.justify-centered {
   display: flex;
   justify-content: center;
+}
+.align-centered {
+  align-items: center;
 }
 .mt-1 {
   margin-top: 1rem;
@@ -40,4 +81,19 @@ code {
 }
 .mt-5 {
   margin-top: 5rem;
+}
+.m-0 {
+  margin: 0;
+}
+.p-0 {
+  padding: 0;
+}
+.debug {
+  border: 1px red solid;
+}
+.col {
+  width: 100%;
+}
+.col-auto {
+  width: max-content;
 }

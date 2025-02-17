@@ -1,6 +1,4 @@
-.btn {
-  background-color: var(--gray-200);
-  border: 1px var(--gray-700) solid;
+button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,19 +6,132 @@
   border-radius: 0.4rem;
   outline: none;
   cursor: pointer;
-
-  .btn-icon {
-    height: 15px;
-  }
-  .btn-label {
-    padding-inline-start: 0.5rem;
-    color: var(--gray-700);
-  }
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
-.btn:hover {
-  background-color: var(--gray-700);
-  .btn-label {
-    color: var(--gray-200);
-  }
-  transition: all 0.3s ease-in;
+
+.primary,
+.secondary,
+.secondary-outline,
+.light {
+  width: max-content;
+  border: 1px solid;
+}
+
+.primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.primary:hover {
+  background-color: white;
+  border-color: var(--primary-color);
+}
+
+.primary-icon,
+.secondary-outline-icon,
+.light-icon {
+  height: 15px;
+}
+
+.primary-label,
+.secondary-outline-label {
+  font-size: 0.9rem;
+}
+
+.primary-label {
+  color: white;
+}
+
+.primary:hover .primary-label {
+  color: var(--primary-color);
+}
+/* Secondary */
+.secondary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.secondary-label {
+  color: white;
+}
+
+.secondary:hover {
+  background-color: var(--secondary-light-color);
+  border-color: var(--secondary-color);
+}
+
+.secondary:hover .secondary-label {
+  color: white;
+}
+/* Secondary-Outline */
+.secondary-outline {
+  background-color: white;
+  border-color: var(--secondary-color);
+}
+
+.secondary-outline-label {
+  color: black;
+}
+
+.secondary-outline:hover {
+  background-color: var(--secondary-color);
+  border-color: white;
+}
+
+.secondary-outline:hover .secondary-outline-label {
+  color: white;
+}
+/* Light */
+.light {
+  background-color: white;
+  border-color: white;
+}
+
+.light-label {
+  color: var(--secondary-light-color);
+}
+
+.light:hover {
+  background-color: var(--gray-100);
+  border-color: var(--gray-200);
+}
+
+.light:hover .light-label {
+  color: var(--secondary-light-color);
+}
+/* Notification Button */
+.notif {
+  background-color: white;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.notif:hover {
+  transform: scale(1.1);
+}
+
+.notif-icon {
+  height: 17px;
+  width: 17px;
+}
+/* User card */
+.next {
+  background-color: #e9ffe5;
+  border: 1px #c1ffb7 solid;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  transition: all 0.3s ease-in-out;
+}
+.next:hover {
+  background-color: #c1ffb7;
+  border: 1px #e9ffe5 solid;
+  transform: scale(1.1);
+}
+.next-icon {
+  height: 17px;
+  width: 17px;
 }

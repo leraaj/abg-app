@@ -1,24 +1,38 @@
 import React, { useContext, useState } from "react";
-import { useAuthContext } from "../../hooks/useAuthContext";
 import "./btnStyles.css";
-const Button = ({ label, icon, iconHovered, onClick }) => {
-  const { toggle, toggler } = useAuthContext();
+const Button = ({
+  btnStyle,
+  borderRadius,
+  label,
+  icon,
+  iconHovered,
+  onClick,
+  type,
+  disabled,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   return (
     <button
-      type="button"
-      className="btn"
+      type={type || "button"}
+      className={`${btnStyle || "primary"}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={onClick}>
+      disabled={disabled || false}
+      onClick={onClick}
+      style={{ borderRadius: borderRadius || "0.8rem" }}>
       {icon && (
         <img
-          src={isHovered ? icon : iconHovered}
+          src={
+            icon && !iconHovered ? icon : icon && isHovered ? iconHovered : icon
+          }
           height={15}
-          className="btn-icon"
+          className={`${btnStyle || "primary"}-icon`}
+          style={{ paddingInlineEnd: icon && label && "0.2rem" }}
         />
       )}
-      {label && <span className="btn-label">{label}</span>}
+      {label && (
+        <span className={`${btnStyle || "primary"}-label`}>{label}</span>
+      )}
     </button>
   );
 };

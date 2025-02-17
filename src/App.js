@@ -10,13 +10,18 @@ import Request from "./pages/request/Index";
 import { useAuthContext } from "./hooks/useAuthContext";
 
 const App = () => {
-  const { user } = useAuthContext();
+  const { user } = useAuthContext(); // Everytime na i-aaccess si user details dito kunin
   const defaultRoutes = [
     {
       isPrivate: false,
       path: "/",
       element:
         user?.position === 1 ? <Navigate to={"/request"} replace /> : <Login />,
+    },
+    {
+      isPrivate: false,
+      path: "/request",
+      element: <Request />,
     },
     {
       isPrivate: false,
@@ -33,14 +38,14 @@ const App = () => {
 
   const ADMIN_ROUTES = [
     {
-      isPrivate: false,
+      isPrivate: false, //TRUE dapat to, finalse ko lang para ma design
       path: "/request",
       element: <Request />,
     },
   ];
   const USER_ROUTES = [
     {
-      isPrivate: false,
+      isPrivate: false, //TRUE dapat to, finalse ko lang para ma design
       path: "/request",
       element: <Request />,
     },
@@ -60,10 +65,12 @@ const App = () => {
         {routes.map((route, index) =>
           route.isPrivate ? (
             <Route key={index} element={<InternalLayout />}>
-              <Route {...route} />
+              <Route key={index} {...route} />
             </Route>
           ) : (
-            <Route {...route} />
+            <Route key={index} element={<InternalLayout />}>
+              <Route key={index} {...route} />
+            </Route>
           )
         )}
         <Route path="*" element={<Navigate to={"/"} replace />} />

@@ -1,0 +1,26 @@
+.user-card {
+  display: flex;
+  align-items: center;
+  border: 1px rgba(0, 0, 0, 0.2) solid;
+  padding: 1rem 1.5rem;
+  border-radius: 0.8rem;
+  .card-name {
+    text-transform: capitalize;
+    font-size: large;
+    font-weight: 700;
+  }
+  .card-bdate {
+    text-transform: capitalize;
+    color: var(--secondary-light-color);
+  }
+  .card-status {
+    text-transform: capitalize;
+    font-size: small;
+    background-color: var(--gray-400);
+    width: max-content;
+    padding-inline: 0.5rem;
+    padding-block-start: 0.1rem;
+    padding-block-end: 0.3rem;
+    border-radius: 0.25rem;
+  }
+}

@@ -1,0 +1,9 @@
+.container {
+  padding: 2rem;
+}
+.search-bar {
+  min-width: 200px;
+  width: 100%;
+  min-width: none;
+  border-radius: 1.5rem;
+}
