@@ -1,4 +1,10 @@
-import { Box, Button, ButtonGroup, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Grid2 as Grid,
+  Typography,
+} from "@mui/material";
 import React, { useRef, useState } from "react";
 import Tesseract from "tesseract.js";
 
@@ -50,13 +56,12 @@ const Index = ({ onSendData }) => {
         xs={12}
         display="flex"
         justifyContent="center"
-        backgroundColor="black"
-      >
+        backgroundColor="black">
         {
           <img
             src={image ? image : imagePlaceholder}
             alt="Uploaded"
-            style={{ hidth: "100%", height: "100%" }}
+            style={{ width: "100%", height: "100%" }}
           />
         }
         <form style={{ display: "inline-block" }}>
@@ -76,12 +81,10 @@ const Index = ({ onSendData }) => {
             variant="contained"
             aria-label="Basic button group"
             fullWidth
-            size="large"
-          >
+            size="large">
             <Button
               type="button"
-              onClick={() => document.getElementById("imageInput").click()}
-            >
+              onClick={() => document.getElementById("imageInput").click()}>
               Upload Image
             </Button>
             <Button
@@ -89,8 +92,7 @@ const Index = ({ onSendData }) => {
               style={{
                 backgroundColor: isProcessing ? "#ccc" : "blue",
               }}
-              disabled={isProcessing}
-            >
+              disabled={isProcessing}>
               {isProcessing ? "Processing..." : "Scan Document"}
             </Button>
           </ButtonGroup>

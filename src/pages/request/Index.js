@@ -3,16 +3,25 @@ import "./request.css";
 import addIcon from "../../assets/icons/plus.svg";
 import Button from "../../components/button/Button";
 import UserCard from "../../components/card/UserCard";
+import requests from "./sampleRequest";
+
 const Request = () => {
   const [activeButton, setActiveButton] = useState("pending");
+  const [search, setSearch] = useState("");
+
   const handleToggle = (button) => {
     setActiveButton(button);
   };
 
-  const [search, setSearch] = useState("");
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
+
+  const filteredRequests = requests.filter((req) => {
+    if (activeButton === "all") return true;
+    return req.status === activeButton;
+  });
+
   return (
     <div className="container">
       <div className="col">
@@ -57,13 +66,14 @@ const Request = () => {
         />
       </div>
       <div className="row gap-1 mt-1">
-        <UserCard name={"John Doe"} date={"FEB-18-2025"} status={"Pending"} />
-        <UserCard name={"Dwin Cruz"} date={"FEB-18-2025"} status={"Pending"} />
-        <UserCard
-          name={"Sam Will Smith"}
-          date={"FEB-18-2025"}
-          status={"Pending"}
-        />
+        {filteredRequests.map((req) => (
+          <UserCard
+            key={req.name}
+            name={req.name}
+            date={req.date}
+            status={req.status}
+          />
+        ))}
       </div>
     </div>
   );

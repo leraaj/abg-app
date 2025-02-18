@@ -1,4 +1,10 @@
-import { Box, Button, ButtonGroup, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Grid2 as Grid,
+  Typography,
+} from "@mui/material";
 import React, { useRef, useState, useEffect } from "react";
 import Tesseract from "tesseract.js";
 
@@ -86,8 +92,7 @@ const Index = ({ onSendData }) => {
           style={{
             width: "100%",
             height: "100%", // Adjust the video to match the aspect ratio
-          }}
-        ></video>
+          }}></video>
       </Grid>
       <Grid item sx={6} md={6}>
         <canvas
@@ -95,8 +100,7 @@ const Index = ({ onSendData }) => {
           style={{
             maxWidth: "100%",
             maxHeight: "100%",
-          }}
-        ></canvas>
+          }}></canvas>
       </Grid>
       <Grid item xs={12} md={12}>
         <Box>
@@ -104,8 +108,7 @@ const Index = ({ onSendData }) => {
             variant="contained"
             aria-label="Basic button group"
             fullWidth
-            size="large"
-          >
+            size="large">
             <Button onClick={toggleCamera}>
               Switch to {cameraMode === "environment" ? "Front" : "Rear"} Camera
             </Button>
@@ -117,8 +120,7 @@ const Index = ({ onSendData }) => {
               style={{
                 backgroundColor: isProcessing ? "#ccc" : "blue",
               }}
-              disabled={isProcessing}
-            >
+              disabled={isProcessing}>
               {isProcessing ? "Processing..." : "Scan Document"}
             </Button>
           </ButtonGroup>

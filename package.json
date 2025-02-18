@@ -5,6 +5,7 @@
   "dependencies": {
     "@mui/icons-material": "^6.4.4",
     "@mui/material": "^6.4.4",
+    "@mui/system": "^6.4.3",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
