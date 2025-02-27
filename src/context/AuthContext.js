@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useReducer, useState } from "react";
 import useToggle from "../hooks/useToggle";
+import useFetchUserPosition from "../hooks/useFetchUserPosition";
 
 export const AuthContext = createContext();
 
@@ -23,11 +24,14 @@ const authReducer = (state, action) => {
 export const AuthContextProvider = ({ children }) => {
   const API_URL = `http://localhost:3001`;
   const [state, dispatch] = useReducer(authReducer, { user: undefined });
+  const [toggle, setToggle] = useState(false);
+  const toggler = () => {
+    setToggle(!toggle);
+  };
   // state = default value niya is yung { user: undefined }
   // kapag gusto mo mag-edit ng state gagamitin mo ngayon yung authReducer na function
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
   const currentUser = async () => {
     //Updates authentication state if the user is authenticated
     setIsLoading(true);
@@ -39,9 +43,8 @@ export const AuthContextProvider = ({ children }) => {
       });
 
       const data = await response.json();
-
       if (response.ok) {
-        await dispatch({ type: "LOGIN", payload: data?.user }); //Function for user (LOGIN, LOGOUT).
+        await dispatch({ type: "LOGIN", payload: data?.user?.user[0] }); //Function for user (LOGIN, LOGOUT).
       } else {
         setError(data?.message);
         await dispatch({ type: "LOGOUT" }); //Function for user (LOGIN, LOGOUT).
@@ -61,7 +64,8 @@ export const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ ...state, dispatch, currentUser, API_URL }}>
+    <AuthContext.Provider
+      value={{ ...state, dispatch, toggle, toggler, currentUser, API_URL }}>
       {/* dispatch = para sa redux functions kung mag LOGIN or LOGOUT */}
       {/* currentUser = tawagin every login or logout or update ng current user */}
       {children}

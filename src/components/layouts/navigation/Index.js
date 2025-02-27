@@ -5,40 +5,71 @@ import logoutIcon from "../../../assets/icons/logout.svg";
 import Button from "../../button/Button";
 import { useAuthContext } from "../../../hooks/useAuthContext";
 import useLogout from "../../../hooks/useLogout";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { links } from "./links";
+import { useEffect } from "react";
+import useFetchUserPosition from "../../../hooks/useFetchUserPosition";
+import dropdownIcon from "../../../assets/icons/caret-down-outline.svg";
 
 const Navbar = () => {
-  const { user } = useAuthContext();
+  const location = useLocation();
+  const { user, toggle, toggler } = useAuthContext();
+  const { position } = useFetchUserPosition();
   const { handleLogout, isLoading } = useLogout();
-  return (
+
+  // Filter links based on user's position
+  const privateLinks = links.filter((link) => {
+    if (!link.isPrivate) return !user; // Hide non-private links when user is logged in
+    return link.access.includes(position?.id);
+  });
+
+  return location.pathname == "/login" ? (
+    <></>
+  ) : (
     <div className="navigation-bar">
-      <div className="left">
+      <div className="left col-auto">
         <span className="brand">
           <img src={logo} alt="logo" height={55} />
         </span>
-        <span className="brand-name">ABG requests</span>
+        <span className="brand-name">ABG</span>
       </div>
-      <div className="d-flex justify-centered align-items-centered gap-1">
-        <Link to={"/request"} className="nav-link">
-          Request
-        </Link>
-        <Link to={"/login"} className="nav-link">
-          Login
-        </Link>
+      <div
+        className={`col d-flex justify-${
+          !user ? "right" : "left"
+        } align-items-centered gap-1 px-1`}>
+        {privateLinks.map((link) => (
+          <Link key={link.url} to={link.url} className="nav-link">
+            {link.label}
+          </Link>
+        ))}
       </div>
-      <div className="right">
-        <Button btnStyle={"notif"} icon={notifLight} />
+      <div className="right col-auto">
         {user && (
           <>
-            <span>{user?.user[0].username}</span>
-            <Button
-              type={"button"}
-              icon={isLoading ? "Loading" : logoutIcon}
-              btnStyle={"notif"}
-              disable={isLoading}
-              onClick={handleLogout}
-            />
+            <Button btnStyle={"notif"} icon={notifLight} />
+            <span
+              className="user-name text-nowrap d-flex align-centered"
+              onClick={toggler}>
+              <span>{user?.employee_name}</span>
+              <img
+                src={dropdownIcon}
+                className="dropdown-icon"
+                alt="caret-down"
+              />
+            </span>
           </>
+        )}
+        {toggle && (
+          <div className="dropdown-menu">
+            <a
+              className="nav-link dropdown-item"
+              onClick={() => {
+                handleLogout();
+                toggler();
+              }}>
+              Logout
+            </a>
+          </div>
         )}
       </div>
     </div>

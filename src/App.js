@@ -5,63 +5,56 @@ import {
   Navigate,
 } from "react-router-dom";
 import InternalLayout from "./components/layouts/InternalLayout/InternalLayout";
+import Home from "./pages/home/Index";
 import Login from "./pages/login/Index";
 import Request from "./pages/request/Index";
-import Scan from "./pages/scan/Index";
+import Accounts from "./pages/accounts/Index";
 
 import { useAuthContext } from "./hooks/useAuthContext";
+import useFetchUserPosition from "./hooks/useFetchUserPosition";
 
 const App = () => {
-  const { user } = useAuthContext(); // Everytime na i-aaccess si user details dito kunin
+  const { position } = useFetchUserPosition();
+  const p_id = position?.id;
+  const p_type = position?.type;
+
   const defaultRoutes = [
     {
       isPrivate: false,
       path: "/",
-      element:
-        user?.position === 1 ? <Navigate to={"/request"} replace /> : <Login />,
-    },
-    {
-      isPrivate: false,
-      path: "/request",
-      element: <Request />,
+      element: p_id != null ? <Navigate to={"/request"} replace /> : <Home />,
     },
     {
       isPrivate: false,
       path: "/login",
-      element:
-        user?.position === 1 ? <Navigate to={"/request"} replace /> : <Login />,
-    },
-    {
-      isPrivate: false,
-      path: "/request",
-      element: <Request />,
-    },
-    {
-      isPrivate: false,
-      path: "/scan",
-      element: <Scan />,
+      element: p_id != null ? <Navigate to={"/request"} replace /> : <Login />,
     },
   ];
 
-  const ADMIN_ROUTES = [
+  const NURSE_ROUTES = [
     {
-      isPrivate: false, //TRUE dapat to, finalse ko lang para ma design
+      isPrivate: true,
+      path: "/request",
+      element: <Request />,
+    },
+    {
+      isPrivate: true,
+      path: "/accounts",
+      element: <Accounts />,
+    },
+  ];
+  const RT_ROUTES = [
+    {
+      isPrivate: true,
       path: "/request",
       element: <Request />,
     },
   ];
-  const USER_ROUTES = [
-    {
-      isPrivate: false, //TRUE dapat to, finalse ko lang para ma design
-      path: "/request",
-      element: <Request />,
-    },
-  ];
+
   let routes = [];
-  if (user?.position === 1) {
-    routes = [...defaultRoutes, ...ADMIN_ROUTES];
-  } else if (user?.position === 2) {
-    routes = [...defaultRoutes, ...USER_ROUTES];
+
+  if (p_id) {
+    routes = [...defaultRoutes, ...NURSE_ROUTES];
   } else {
     routes = [...defaultRoutes];
   }

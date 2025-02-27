@@ -2,6 +2,14 @@ body {
   margin: 0;
   padding: 0;
 }
+.internal-header {
+  display: flex;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  padding-block: 1rem;
+}
 .internal-layout {
   display: flex;
   flex-direction: column;
@@ -14,5 +22,7 @@ body {
 
 .content {
   flex-grow: 1;
-  width: 100%;
+  padding-inline: 2rem;
+  overflow: auto;
+  padding-bottom: 2rem;
 }

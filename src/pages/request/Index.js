@@ -4,6 +4,7 @@ import addIcon from "../../assets/icons/plus.svg";
 import Button from "../../components/button/Button";
 import UserCard from "../../components/card/UserCard";
 import requests from "./sampleRequest";
+import InternalHeader from "../../components/layouts/InternalLayout/InternalHeader";
 
 const Request = () => {
   const [activeButton, setActiveButton] = useState("pending");
@@ -23,48 +24,50 @@ const Request = () => {
   });
 
   return (
-    <div className="container">
-      <div className="col">
-        <div className="d-flex gap-1">
-          <div className="col">
-            <input
-              type="search"
-              className="form-control search-bar"
-              onChange={handleSearch}
-              placeholder="Search patient code"
-              style={{ borderRadius: "1.5rem" }}
-            />
+    <>
+      <InternalHeader>
+        <div className="row col gap-1">
+          <div className="d-flex gap-1">
+            <div className="col">
+              <input
+                type="search"
+                className="form-control search-bar"
+                onChange={handleSearch}
+                placeholder="Search patient code"
+                style={{ borderRadius: "1.5rem" }}
+              />
+            </div>
+            <div className="col-auto">
+              <Button
+                label={"Request"}
+                btnStyle={"light"}
+                borderRadius={"1rem"}
+                icon={addIcon}
+              />
+            </div>
           </div>
-          <div className="col-auto">
+          <div className="d-flex gap-1 ">
             <Button
-              label={"Request"}
-              btnStyle={"light"}
+              label={"All"}
+              btnStyle={activeButton === "all" ? "secondary" : "light"}
               borderRadius={"1rem"}
-              icon={addIcon}
+              onClick={() => handleToggle("all")}
+            />
+            <Button
+              label={"Pending"}
+              btnStyle={activeButton === "pending" ? "secondary" : "light"}
+              borderRadius={"1rem"}
+              onClick={() => handleToggle("pending")}
+            />
+            <Button
+              label={"For Releasing"}
+              btnStyle={activeButton === "releasing" ? "secondary" : "light"}
+              borderRadius={"1rem"}
+              onClick={() => handleToggle("releasing")}
             />
           </div>
         </div>
-      </div>
-      <div className="d-flex gap-1 mt-1">
-        <Button
-          label={"All"}
-          btnStyle={activeButton === "all" ? "secondary" : "light"}
-          borderRadius={"1rem"}
-          onClick={() => handleToggle("all")}
-        />
-        <Button
-          label={"Pending"}
-          btnStyle={activeButton === "pending" ? "secondary" : "light"}
-          borderRadius={"1rem"}
-          onClick={() => handleToggle("pending")}
-        />
-        <Button
-          label={"For Releasing"}
-          btnStyle={activeButton === "releasing" ? "secondary" : "light"}
-          borderRadius={"1rem"}
-          onClick={() => handleToggle("releasing")}
-        />
-      </div>
+      </InternalHeader>
       <div className="row gap-1 mt-1">
         {filteredRequests.map((req) => (
           <UserCard
@@ -74,8 +77,8 @@ const Request = () => {
             status={req.status}
           />
         ))}
-      </div>
-    </div>
+      </div>{" "}
+    </>
   );
 };
 

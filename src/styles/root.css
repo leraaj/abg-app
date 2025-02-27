@@ -27,6 +27,34 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border: 1px rgba(0, 0, 0, 0.25) solid;
+  padding: 1rem;
+  border-radius: 16px;
+}
+.input-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding-inline-start: 0.2rem;
+  text-transform: capitalize;
+}
+.form-input {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px rgba(0, 0, 0, 0.25) solid;
+}
+select.form-input {
+  appearance: none;
+  background: url("../assets/icons/caret-down-outline.svg") no-repeat right 10px
+    center;
+  background-size: 0.8rem;
+}
+.text-nowrap {
+  text-wrap: nowrap;
+}
 .d-flex {
   display: flex;
 }
@@ -88,6 +116,9 @@ code {
 .p-0 {
   padding: 0;
 }
+.px-1 {
+  padding-inline: 1rem;
+}
 .debug {
   border: 1px red solid;
 }
@@ -96,4 +127,28 @@ code {
 }
 .col-auto {
   width: max-content;
+}
+.dropdown-icon {
+  height: 0.8rem;
+  padding-top: 0.1rem;
+  padding-left: 0.5rem;
+  filter: invert();
+}
+.f6 {
+  font-size: 1.25rem;
+}
+.f5 {
+  font-size: 1rem;
+}
+.f4 {
+  font-size: 0.8rem;
+}
+.f3 {
+  font-size: 0.65rem;
+}
+.f2 {
+  font-size: 0.45rem;
+}
+.f1 {
+  font-size: 0.4rem;
 }

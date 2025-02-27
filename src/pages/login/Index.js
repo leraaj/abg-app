@@ -7,12 +7,14 @@ import brand from "../../assets/brand/brand.png";
 import useLogin from "../../hooks/useLogin";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import useLogout from "../../hooks/useLogout";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const { handleLogin, isLoading: loginLoading } = useLogin();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState([]);
+  const [error, setError] = useState(null);
   const handleUsername = (e) => setUsername(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
 
@@ -26,13 +28,13 @@ const Login = () => {
     await handleLogin({
       username: username,
       password: password,
-    }); //Updates authentication state(sa redux) if login is successful.
+    });
   };
 
   return (
     <div className="login-container d-flex justify-centered align-centered">
       <div className="login-card d-flex">
-        <div className="login-pane col-auto d-flex justify-centered align-centered">
+        <div className="login-pane col-auto d-flex justify-centered align-centered ">
           <img src={brand} className="brand-image" />
         </div>
         <form className="login-pane form-group col " onSubmit={onSubmit}>
@@ -53,6 +55,12 @@ const Login = () => {
             />
           </div>
           <div className="d-flex justify-right mt-1 gap-1">
+            <Button
+              type={"button"}
+              label={"Back to Homepage"}
+              btnStyle={"secondary-outline"}
+              onClick={() => navigate("/")}
+            />
             <Button
               type={"submit"}
               label={loginLoading ? "Loading" : "Login"}
