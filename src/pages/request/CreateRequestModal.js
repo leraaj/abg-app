@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Modal from "../../components/modal/Modal";
-import useFetchPositions from "../../hooks/auth/useFetchPositions";
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import useCreateRequest from "../../hooks/requests/useCreateRequest";
 import useFetchUsers from "../../hooks/useFetchUsers";
-import { useAuthContext } from "../../hooks/auth/useAuthContext";
 
 const Index = ({ modal, closeModal, title, isStatic }) => {
   const { user } = useAuthContext();
@@ -33,7 +32,8 @@ const Index = ({ modal, closeModal, title, isStatic }) => {
       diagnosis: data.diagnosis,
       requestorId: user?.id,
       status: 1,
-      date: new Date().toISOString(),
+      assigneeId: 1,
+      // date: new Date().toISOString(),
     };
     console.log("Input Data: \n", requestData);
     await handleCreateRequest(requestData);
@@ -54,7 +54,8 @@ const Index = ({ modal, closeModal, title, isStatic }) => {
       title={title}
       isStatic={isStatic}
       onSubmit={onSubmit}
-      submitLoading={submitLoading}>
+      submitLoading={submitLoading}
+    >
       <div className="row gap-1">
         <div className="input-container">
           <span className="input-title">diagnosis</span>
@@ -104,15 +105,19 @@ const Index = ({ modal, closeModal, title, isStatic }) => {
               name="requestorId"
               className="form-input"
               defaultValue=""
-              required>
-              <option disabled>Select a physician</option>
+              required
+            >
+              {/* <option disabled>Select a physician</option>
               {currentPhysicians?.map((user, index) => {
                 return (
                   <option key={index} value={user?.id}>
                     {user?.employee_name}
                   </option>
                 );
-              })}
+              })} */}
+              <option value="1">Jane Doe</option>
+              <option value="2">Katherine Miles</option>
+              <option value="3">Warren Cruz</option>
             </select>
           </div>
         </div>

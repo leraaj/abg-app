@@ -1,48 +1,89 @@
-import { useEffect, useState } from "react";
-import ScanViaUpload from "../../components/ocr/scanViaUpload";
-import ScanViaCamera from "../../components/ocr/scanViaCamera";
-
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { CameraAlt, Image } from "@mui/icons-material";
 import {
+  Box,
+  Button,
+  ButtonGroup,
   FormControl,
+  Grid,
   InputLabel,
   MenuItem,
-  Box,
-  Grid,
+  Select,
   TextField,
-  Typography,
-  Button,
 } from "@mui/material";
-import { CameraAlt, Image } from "@mui/icons-material";
+import { useCallback, useEffect, useState } from "react";
+import ScanViaCamera from "../../components/ocr/scanViaCamera";
+import ScanViaUpload from "../../components/ocr/scanViaUpload";
+
+// Constants for machine types
+const MACHINE_TYPES = ["Edan", "Gem 3500", "Gem 5000"];
+// Constants for filter keys
+const FILTER_KEYS = [
+  "Model:",
+  "First Name",
+  "Last Name",
+  "pH",
+  "pCO",
+  "PO",
+  "HCO",
+  "BE",
+  "TCO",
+  "FLO",
+];
 
 const Index = () => {
   const [extractedText, setExtractedText] = useState([]);
+  const [modifyText, setModifyText] = useState({
+    model: "",
+    firstName: "",
+    lastName: "",
+    pH: "",
+    pCO: "",
+    PO: "",
+    HCO: "",
+    BE: "",
+    TCO: "",
+    FLO: "",
+  });
   const [machine, setMachine] = useState("");
   const [scanOption, setScanOption] = useState("Image");
 
-  const handleMachineType = (event: SelectChangeEvent) => {
-    setMachine(event.target.value); // Set machine state to the selected value
-  };
-  const handleExtractedText = (text) => {
-    setExtractedText(text); // Store the extracted text in parent state
+  const handleMachineType = useCallback((event) => {
+    setMachine(event.target.value);
+  }, []);
+
+  const handleExtractedText = useCallback((text) => {
+    setExtractedText(text);
     console.log(text);
-  };
-  const handleTextChange = (index, value) => {
-    const updatedText = [...extractedText];
-    updatedText[index] = value;
-    setExtractedText(updatedText);
-  };
+  }, []);
+
+  const handleTextChange = useCallback(
+    (index, value) => {
+      const updatedText = [...extractedText];
+      updatedText[index] = value;
+      setExtractedText(updatedText);
+    },
+    [extractedText]
+  );
 
   useEffect(() => {}, [extractedText]);
 
+  const filteredText = extractedText.filter((text) =>
+    FILTER_KEYS.some((key) => text.includes(key) || text.startsWith(key))
+  );
+
   return (
-    <>
-      <Grid container justifyContent="center">
-        <Grid item xs={8} md={8}>
-          <Typography variant="h3" textAlign="center">
-            Document Scanner
-          </Typography>
-          <Box>
+    <Grid container justifyContent="center" spacing={3}>
+      <Grid item xs={4} md={4}>
+        {scanOption === "Camera" ? (
+          <ScanViaCamera onSendData={handleExtractedText} />
+        ) : (
+          <ScanViaUpload onSendData={handleExtractedText} />
+        )}
+      </Grid>
+
+      <Grid item xs={4} md={4}>
+        <Box paddingTop={5} display="flex" flexDirection="column" gap={2}>
+          <ButtonGroup>
             <Button
               startIcon={<CameraAlt />}
               onClick={() => setScanOption("Camera")}
@@ -55,63 +96,38 @@ const Index = () => {
             >
               Image
             </Button>
-          </Box>
-        </Grid>
-        <Grid item xs={8} md={8}>
-          {scanOption == "Camera" ? (
-            <ScanViaCamera onSendData={handleExtractedText} />
-          ) : (
-            <ScanViaUpload onSendData={handleExtractedText} />
-          )}
-        </Grid>
-        <Grid item xs={8} md={8}>
-          <Box paddingTop={5}>
-            <div>
-              <FormControl fullWidth sx={{ marginBottom: "1em" }}>
-                <InputLabel id="machine-type-label">Machine Type</InputLabel>
-                <Select
-                  labelId="machine-type-label"
-                  value={machine}
-                  onChange={handleMachineType}
-                  label="Machine Type"
-                >
-                  <MenuItem value="Machine 1">Machine 1</MenuItem>
-                  <MenuItem value="Machine 2">Machine 2</MenuItem>
-                  <MenuItem value="Machine 3">Machine 3</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-            <div>
-              {extractedText
-                .filter(
-                  (x) =>
-                    x.includes("Model:") ||
-                    x.includes("First Name") ||
-                    x.includes("Last Name") ||
-                    x.includes("pH") ||
-                    x.includes("pCO") ||
-                    x.includes("PO") ||
-                    x.includes("HCO") ||
-                    x.includes("BE") ||
-                    x.includes("TCO") ||
-                    x.startsWith("FLO")
-                )
-                .map((field, index) => {
-                  return (
-                    <TextField
-                      key={index}
-                      value={field}
-                      onChange={(e) => handleTextChange(index, e.target.value)} // use e.target.value for the change handler
-                      fullWidth
-                      sx={{ marginBottom: "1em" }}
-                    />
-                  );
-                })}
-            </div>
-          </Box>
-        </Grid>
+          </ButtonGroup>
+
+          <FormControl fullWidth sx={{ marginBottom: "1em" }}>
+            <InputLabel id="machine-type-label">Machine Type</InputLabel>
+            <Select
+              labelId="machine-type-label"
+              value={machine}
+              onChange={handleMachineType}
+              label="Machine Type"
+            >
+              {MACHINE_TYPES.map((machineType) => (
+                <MenuItem key={machineType} value={machineType}>
+                  {machineType}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <div>
+            {filteredText.map((field, index) => (
+              <TextField
+                key={index}
+                value={field}
+                onChange={(e) => handleTextChange(index, e.target.value)}
+                fullWidth
+                sx={{ marginBottom: "1em" }}
+              />
+            ))}
+          </div>
+        </Box>
       </Grid>
-    </>
+    </Grid>
   );
 };
 

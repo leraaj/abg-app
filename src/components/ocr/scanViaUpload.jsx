@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Grid2 as Grid,
-  Typography,
-} from "@mui/material";
+import { Box, Button, ButtonGroup } from "@mui/material";
 import React, { useRef, useState } from "react";
 import Tesseract from "tesseract.js";
 
@@ -37,7 +31,7 @@ const Index = ({ onSendData }) => {
     setIsProcessing(true);
     try {
       const result = await Tesseract.recognize(image, "eng", {
-        logger: (info) => console.log(info),
+        logger: (info) => "",
       });
       const extractedText = result.data.text.split("\n");
       onSendData(extractedText);
@@ -50,55 +44,45 @@ const Index = ({ onSendData }) => {
   };
 
   return (
-    <Grid container justifyContent="center">
-      <Grid
-        item
-        xs={12}
-        display="flex"
-        justifyContent="center"
-        backgroundColor="black">
-        {
-          <img
-            src={image ? image : imagePlaceholder}
-            alt="Uploaded"
-            style={{ width: "100%", height: "100%" }}
-          />
-        }
-        <form style={{ display: "inline-block" }}>
-          <input
-            type="file"
-            id="imageInput"
-            accept="image/*"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
-          />
-        </form>
-      </Grid>
-
-      <Grid item xs={12}>
-        <Box>
-          <ButtonGroup
-            variant="contained"
-            aria-label="Basic button group"
-            fullWidth
-            size="large">
-            <Button
-              type="button"
-              onClick={() => document.getElementById("imageInput").click()}>
-              Upload Image
-            </Button>
-            <Button
-              onClick={handleOCR}
-              style={{
-                backgroundColor: isProcessing ? "#ccc" : "blue",
-              }}
-              disabled={isProcessing}>
-              {isProcessing ? "Processing..." : "Scan Document"}
-            </Button>
-          </ButtonGroup>
-        </Box>
-      </Grid>
-    </Grid>
+    <Box>
+      <form style={{ display: "inline-block" }}>
+        <input
+          type="file"
+          id="imageInput"
+          accept="image/*"
+          onChange={handleFileChange}
+          style={{ display: "none" }}
+        />
+      </form>
+      <ButtonGroup
+        variant="contained"
+        aria-label="Basic button group"
+        fullWidth
+      >
+        <Button
+          type="button"
+          onClick={() => document.getElementById("imageInput").click()}
+        >
+          Upload Image
+        </Button>
+        <Button
+          onClick={handleOCR}
+          style={{
+            backgroundColor: isProcessing ? "#ccc" : "blue",
+          }}
+          disabled={isProcessing}
+        >
+          {isProcessing ? "Processing..." : "Scan Document"}
+        </Button>
+      </ButtonGroup>
+      {
+        <img
+          src={image ? image : imagePlaceholder}
+          alt="Uploaded"
+          style={{ width: "100%", height: "100%" }}
+        />
+      }
+    </Box>
   );
 };
 

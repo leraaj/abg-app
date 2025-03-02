@@ -1,16 +1,17 @@
 import {
+  Navigate,
+  Route,
   BrowserRouter as Router, // Wrap everything inside Router
   Routes,
-  Route,
-  Navigate,
 } from "react-router-dom";
 import InternalLayout from "./components/layouts/InternalLayout/InternalLayout";
+import { useAuthContext } from "./hooks/auth/useAuthContext";
+import useFetchUserPosition from "./hooks/auth/useFetchUserPosition";
+import Accounts from "./pages/accounts/Index";
 import Home from "./pages/home/Index";
 import Login from "./pages/login/Index";
 import Request from "./pages/request/Index";
-import Accounts from "./pages/accounts/Index";
-import { useAuthContext } from "./hooks/auth/useAuthContext";
-import useFetchUserPosition from "./hooks/auth/useFetchUserPosition";
+import Scan from "./pages/scan/Index";
 
 const App = () => {
   const { user } = useAuthContext();
@@ -83,6 +84,8 @@ const App = () => {
             </Route>
           )
         )}
+        <Route path="/scan" element={<Scan />} />
+
         <Route path="*" element={<Navigate to={"/"} replace />} />
       </Routes>
     </Router>
