@@ -1,49 +1,70 @@
 import React, { useState } from "react";
 import Modal from "../../components/modal/Modal";
 import useFetchPositions from "../../hooks/auth/useFetchPositions";
-import Button from "../../components/button/Button";
-import useUpdateUser from "../../hooks/users/useUpdateUser";
+import useCreateUser from "../../hooks/users/useCreateUser";
 
-const Index = ({ modal, closeModal, title, isStatic, user, updateUser }) => {
-  const { handleUserUpdate, isLoading, error } = useUpdateUser();
+const Index = ({ modal, closeModal, title, isStatic, addUser }) => {
   const { positions } = useFetchPositions();
+  const { handleCreateUser, isLoading, error } = useCreateUser();
   const [submitLoading, setSubmitLoading] = useState(false);
+
   const onSubmitLoading = (e) => {
     if (!isLoading) {
       setSubmitLoading(false);
     }
   };
+
   const onSubmit = async (e) => {
     setSubmitLoading(true);
-    e.preventDefault(); // Prevent page reload
+    e.preventDefault();
 
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
-    // Convert position_id to an integer
-    data.positionId = parseInt(data.positionId, 10);
 
-    console.log("Parsed position_id:", data.positionId);
+    const positionId = parseInt(data.positionId, 10);
 
-    // Prevent update if no fields have changed
-    if (Object.keys(data).length === 0) {
-      return console.log(data);
-    } else {
-      const newData = {
-        employee_name: data.employeeName,
-        employee_number: data.employeeNumber, // Ensure this matches the memoized data structure
-        username: data.username,
-        position_id: parseInt(data.positionId, 10), // Convert to integer
-      };
+    const requiredFields = [
+      "employeeName",
+      "employeeNumber",
+      "username",
+      "password",
+      "positionId",
+    ];
+    const emptyFields = requiredFields.filter(
+      (field) => !data[field] || data[field].toString().trim() === ""
+    );
 
-      if (!error) {
-        setTimeout(() => {
-          e.target.reset();
-          closeModal();
-          handleUserUpdate(user?.id, data);
-          updateUser(user?.id, newData);
-          onSubmitLoading();
-        }, 3000);
-      }
+    if (emptyFields.length > 0) {
+      alert(`Please fill in all required fields: ${emptyFields.join(", ")}`);
+      return;
+    }
+
+    const newUser = {
+      id: Date.now(), // Temporary unique ID until the backend assigns one
+      employee_name: data.employeeName,
+      employee_number: data.employeeNumber,
+      username: data.username,
+      password: data.password,
+      position_id: positionId,
+      position_type:
+        positions.find((pos) => pos.id === positionId)?.type || "Unknown",
+    };
+
+    await handleCreateUser({
+      employeeName: data.employeeName,
+      employeeNumber: data.employeeNumber,
+      username: data.username,
+      password: data.password,
+      positionId: parseInt(positionId, 10),
+    });
+
+    if (!error) {
+      setTimeout(() => {
+        e.target.reset();
+        closeModal();
+        addUser(newUser);
+        onSubmitLoading(e);
+      }, 3000);
     }
   };
 
@@ -64,7 +85,8 @@ const Index = ({ modal, closeModal, title, isStatic, user, updateUser }) => {
               type="text"
               name="employeeName"
               className="form-input"
-              defaultValue={user?.employee_name || ""}
+              defaultValue=""
+              required
             />
           </div>
 
@@ -74,7 +96,8 @@ const Index = ({ modal, closeModal, title, isStatic, user, updateUser }) => {
               type="text"
               name="employeeNumber"
               className="form-input"
-              defaultValue={user?.employee_number || ""}
+              defaultValue=""
+              required
             />
           </div>
         </div>
@@ -85,24 +108,27 @@ const Index = ({ modal, closeModal, title, isStatic, user, updateUser }) => {
             type="text"
             name="username"
             className="form-input"
-            defaultValue={user?.username || ""}
+            defaultValue=""
+            required
           />
-          {/* <div className="row gap-1">
+          <div className="row gap-1">
             <span className="input-title">Password</span>
             <input
               type="password"
               name="password"
               className="form-input"
-              defaultValue={user?.password || ""}
+              defaultValue=""
+              required
             />
-          </div> */}
+          </div>
 
           <span className="input-title">Position</span>
           <select
             name="positionId"
             className="form-input"
-            defaultValue={user?.position_id || ""}>
-            <option value="0" disabled>
+            defaultValue={0}
+            required>
+            <option value={0} disabled>
               Select user position
             </option>
             {positions?.map((pos) => (

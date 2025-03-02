@@ -35,9 +35,9 @@ const Modal = ({
         {/* Header */}
         <div className="modal-header">
           <h2>{title || "No title"}</h2>
-          <button type="button" onClick={onClose} className="modal-close">
+          <span onClick={onClose} className="modal-close">
             &times;
-          </button>
+          </span>
         </div>
 
         <form onSubmit={onSubmit}>
@@ -63,6 +63,7 @@ const Modal = ({
                     ? "Loading"
                     : "Apply changes"
                 }
+                disabled={submitLoading && true}
               />
             )}
           </div>

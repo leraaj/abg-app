@@ -9,11 +9,11 @@ import Home from "./pages/home/Index";
 import Login from "./pages/login/Index";
 import Request from "./pages/request/Index";
 import Accounts from "./pages/accounts/Index";
-
-import { useAuthContext } from "./hooks/useAuthContext";
-import useFetchUserPosition from "./hooks/useFetchUserPosition";
+import { useAuthContext } from "./hooks/auth/useAuthContext";
+import useFetchUserPosition from "./hooks/auth/useFetchUserPosition";
 
 const App = () => {
+  const { user } = useAuthContext();
   const { position } = useFetchUserPosition();
   const p_id = position?.id;
   const p_type = position?.type;
@@ -22,12 +22,22 @@ const App = () => {
     {
       isPrivate: false,
       path: "/",
-      element: p_id != null ? <Navigate to={"/request"} replace /> : <Home />,
+      element:
+        user?.position_id != null ? (
+          <Navigate to={"/request"} replace />
+        ) : (
+          <Home />
+        ),
     },
     {
       isPrivate: false,
       path: "/login",
-      element: p_id != null ? <Navigate to={"/request"} replace /> : <Login />,
+      element:
+        user?.position_id != null ? (
+          <Navigate to={"/request"} replace />
+        ) : (
+          <Login />
+        ),
     },
   ];
 
@@ -53,7 +63,7 @@ const App = () => {
 
   let routes = [];
 
-  if (p_id) {
+  if (user?.position_id) {
     routes = [...defaultRoutes, ...NURSE_ROUTES];
   } else {
     routes = [...defaultRoutes];

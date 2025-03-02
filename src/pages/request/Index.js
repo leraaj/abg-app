@@ -5,6 +5,7 @@ import Button from "../../components/button/Button";
 import UserCard from "../../components/card/UserCard";
 import requests from "./sampleRequest";
 import InternalHeader from "../../components/layouts/InternalLayout/InternalHeader";
+import CreateRequestModal from "./CreateRequestModal";
 
 const Request = () => {
   const [activeButton, setActiveButton] = useState("pending");
@@ -23,6 +24,8 @@ const Request = () => {
     return req.status === activeButton;
   });
 
+  // MODALS
+  const [createRequestModal, setCreateRequestModal] = useState(false);
   return (
     <>
       <InternalHeader>
@@ -43,6 +46,7 @@ const Request = () => {
                 btnStyle={"light"}
                 borderRadius={"1rem"}
                 icon={addIcon}
+                onClick={() => setCreateRequestModal(true)}
               />
             </div>
           </div>
@@ -77,7 +81,13 @@ const Request = () => {
             status={req.status}
           />
         ))}
-      </div>{" "}
+      </div>
+      <CreateRequestModal
+        modal={createRequestModal}
+        closeModal={() => setCreateRequestModal(false)}
+        title="Create Request"
+        isStatic={true}
+      />
     </>
   );
 };

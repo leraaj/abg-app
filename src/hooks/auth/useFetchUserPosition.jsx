@@ -1,5 +1,5 @@
 import { useAuthContext } from "./useAuthContext";
-import useFetchPositions from "./useFetchPositions";
+import useFetchPositions from "../auth/useFetchPositions";
 
 const useFetchUserPosition = () => {
   const { user } = useAuthContext();

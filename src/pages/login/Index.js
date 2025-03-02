@@ -4,12 +4,12 @@ import loginHovered from "../../assets/icons/login.svg";
 import login from "../../assets/icons/loginLight.svg";
 import Button from "../../components/button/Button";
 import brand from "../../assets/brand/brand.png";
-import useLogin from "../../hooks/useLogin";
-import { useAuthContext } from "../../hooks/useAuthContext";
-import useLogout from "../../hooks/useLogout";
+import useLogin from "../../hooks/auth/useLogin";
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const { currentUser } = useAuthContext();
   const navigate = useNavigate();
   const { handleLogin, isLoading: loginLoading } = useLogin();
   const [username, setUsername] = useState("");
@@ -66,6 +66,12 @@ const Login = () => {
               label={loginLoading ? "Loading" : "Login"}
               btnStyle={"primary"}
               disable={loginLoading}
+            />
+            <Button
+              type={"button"}
+              label={"Current User"}
+              btnStyle={"primary"}
+              onClick={currentUser}
             />
           </div>
         </form>

@@ -3,13 +3,13 @@ import logo from "../../../assets/brand/brand.png";
 import notifLight from "../../../assets/icons/notification-line.png";
 import logoutIcon from "../../../assets/icons/logout.svg";
 import Button from "../../button/Button";
-import { useAuthContext } from "../../../hooks/useAuthContext";
-import useLogout from "../../../hooks/useLogout";
 import { Link, useLocation } from "react-router-dom";
 import { links } from "./links";
 import { useEffect } from "react";
-import useFetchUserPosition from "../../../hooks/useFetchUserPosition";
 import dropdownIcon from "../../../assets/icons/caret-down-outline.svg";
+import { useAuthContext } from "../../../hooks/auth/useAuthContext";
+import useLogout from "../../../hooks/auth/useLogout";
+import useFetchUserPosition from "../../../hooks/auth/useFetchUserPosition";
 
 const Navbar = () => {
   const location = useLocation();

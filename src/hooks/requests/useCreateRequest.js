@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { useAuthContext } from "./useAuthContext";
+import { useAuthContext } from "../auth/useAuthContext";
 
-const useUpdateUser = () => {
+const useCreateRequest = () => {
   const { API_URL } = useAuthContext();
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleUserUpdate = async (id, data) => {
+  const handleCreateRequest = async (data) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${API_URL}/api/users/${id}`, {
-        method: "PUT",
+      const response = await fetch(`${API_URL}/api/medical-test-request/`, {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify(data),
@@ -24,6 +24,7 @@ const useUpdateUser = () => {
       } else {
         const data = await response.json();
         setMessage(data);
+        setError(null);
       }
     } catch (error) {
       setError("Catch Error: ", error);
@@ -31,7 +32,7 @@ const useUpdateUser = () => {
       setIsLoading(false);
     }
   };
-  return { handleUserUpdate, message, error, isLoading };
+  return { handleCreateRequest, message, error, isLoading };
 };
 
-export default useUpdateUser;
+export default useCreateRequest;

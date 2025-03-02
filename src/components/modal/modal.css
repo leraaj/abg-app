@@ -13,59 +13,68 @@
 /* Modal container */
 .modal-container {
   max-width: 90%;
-  background-color: white;
   border-radius: 0.5rem; /* Equivalent to rounded-lg */
   box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
-  padding: 1rem;
   display: flex;
   flex-direction: column;
-  min-height: max-content;
+  overflow: auto;
 }
-
+.modal-header h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding-inline-start: 0.5rem;
+}
+.modal-close:hover {
+  color: #1f2937;
+}
+.modal-close {
+  padding: 0.4rem 0.8rem;
+  color: #4b5563;
+  cursor: pointer;
+  border: none !important;
+  font-size: 2rem;
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+.modal-close:hover {
+  color: rgb(111, 124, 142);
+}
+.modal-header,
+.modal-footer {
+  background-color: #fbfbfb !important;
+}
 /* Header */
 .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* border-bottom: 1px solid #e5e7eb; */
-  padding-bottom: 0.5rem;
+  position: sticky;
+  top: 0;
+  background-color: white;
+  padding-block: 1rem;
+  padding-inline-start: 1rem;
+  padding-inline-end: 1.3rem;
+  border-radius: 1rem 1rem 0 0;
+  border-bottom: 1px solid #e5e7eb;
 }
-
-.modal-header h2 {
-  font-size: 1.125rem;
-  font-weight: 600;
-}
-
-.modal-close {
-  padding: 0.5rem 0.8rem;
-  color: #4b5563;
-  cursor: pointer;
-  background-color: transparent !important;
-  border: none !important;
-  font-size: 1.5rem;
-  box-shadow: none !important;
-}
-
-.modal-close:hover {
-  color: #1f2937;
-}
-
 /* Body */
 .modal-body {
+  background-color: rgb(255, 255, 255);
   flex: 1;
-  max-height: 50vh;
-  padding: 0.5rem;
-  flex-wrap: wrap;
-  text-wrap: wrap;
-  overflow: auto;
+  overflow-x: hidden;
+  max-height: 350px;
+  /* height: fit-content; */
+  padding: 1.3rem;
 }
 /* Footer */
 .modal-footer {
-  margin-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 0 0 1rem 1rem;
   display: flex;
   justify-content: flex-end;
-  /* border-top: 1px solid #e5e7eb; */
-  padding-top: 0.5rem;
+  scroll-padding: 1rem;
 }
 
 .modal-footer .cancel-btn {

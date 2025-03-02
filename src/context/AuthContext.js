@@ -1,6 +1,4 @@
 import React, { createContext, useEffect, useReducer, useState } from "react";
-import useToggle from "../hooks/useToggle";
-import useFetchUserPosition from "../hooks/useFetchUserPosition";
 
 export const AuthContext = createContext();
 
@@ -44,6 +42,7 @@ export const AuthContextProvider = ({ children }) => {
 
       const data = await response.json();
       if (response.ok) {
+        console.log("Current User:\n", data);
         await dispatch({ type: "LOGIN", payload: data?.user?.user[0] }); //Function for user (LOGIN, LOGOUT).
       } else {
         setError(data?.message);
@@ -61,7 +60,7 @@ export const AuthContextProvider = ({ children }) => {
   // para mafetch/update ang user credentials
   useEffect(() => {
     currentUser();
-  }, []);
+  }, [dispatch]);
 
   return (
     <AuthContext.Provider

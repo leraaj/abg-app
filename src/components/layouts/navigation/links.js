@@ -1,13 +1,13 @@
 export const links = [
   {
     isPrivate: true,
-    access: [1], // 1
+    access: [1, 2], // 1
     url: "/request",
     label: "Requests",
   },
   {
     isPrivate: true,
-    access: [1], // 1
+    access: [1, 2], // 1
     url: "/accounts",
     label: "Accounts",
   },

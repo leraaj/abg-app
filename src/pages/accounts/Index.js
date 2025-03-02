@@ -1,48 +1,85 @@
 import React, { useMemo, useState } from "react";
 import useFetchUsers from "../../hooks/useFetchUsers";
-import useFetchPositions from "../../hooks/useFetchPositions";
+import useFetchPositions from "../../hooks/auth/useFetchPositions";
 import Button from "../../components/button/Button";
 import addIcon from "../../assets/icons/plus.svg";
-import InternalHeader from "../../components/layouts/InternalLayout/InternalHeader";
 import MaterialTable from "../../components/table/MaterialTable";
 import UpdateUserModal from "../accounts/UpdateUserModal.js";
 import DeleteUserModal from "../accounts/DeleteUserModal.js";
+import CreateUserModal from "../accounts/CreateUserModal.js";
+import useDeleteUser from "../../hooks/users/useDeleteUser.js";
+
 const Index = () => {
   const { users, isLoading: userLoading } = useFetchUsers();
+  const {
+    handleDeleteUser,
+    error: deleteUserError,
+    message: deleteUserMessage,
+  } = useDeleteUser();
   const { positions, isLoading: positionsLoading } = useFetchPositions();
-  const [selectedUser, setSelectedUser] = useState([]);
+
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [editedUsers, setEditedUsers] = useState({}); // Store edited users
+  const [createdUsers, setCreatedUsers] = useState([]); // Store new users before fetching updates
+
+  // Function to edit a user by ID
+  const updateUser = (id, updatedData) => {
+    setEditedUsers((prev) => {
+      const newUserData = { ...prev[id], ...updatedData };
+
+      // Ensure position_type updates dynamically
+      const newPosition = positions.find(
+        (pos) => pos.id === newUserData.position_id
+      );
+      newUserData.position_type = newPosition
+        ? newPosition.type
+        : prev[id]?.position_type;
+
+      return { ...prev, [id]: newUserData };
+    });
+  };
+
+  // Function to add a new user (used in CreateUserModal)
+  const addUser = (newUser) => {
+    setCreatedUsers((prev) => [...prev, newUser]);
+  };
+  const deleteUser = (id) => {
+    setCreatedUsers((prev) => prev.filter((user) => user.id !== id));
+    setEditedUsers((prev) => {
+      const newEditedUsers = { ...prev };
+      delete newEditedUsers[id];
+      return newEditedUsers;
+    });
+  };
+
+  // Memoized data with applied edits & created users
   const data = useMemo(() => {
     if (!users) return [];
 
-    return users.map((user) => {
+    // Combine fetched users and locally created users
+    const allUsers = [...users, ...createdUsers];
+
+    return allUsers.map((user) => {
       const position = positions.find((pos) => pos?.id === user?.position_id);
+      const editedUser = editedUsers[user.id] || {};
 
       return {
         id: user?.id,
-        employee_name: user?.employee_name,
-        employee_number: user?.employee_number,
-        username: user?.username,
-        password: user?.password,
-        position_id: user?.position_id,
-        position_type: position?.type,
+        employee_name: editedUser.employee_name ?? user?.employee_name,
+        employee_number: editedUser.employee_number ?? user?.employee_number,
+        username: editedUser.username ?? user?.username,
+        password: editedUser.password ?? user?.password,
+        position_id: editedUser.position_id ?? user?.position_id,
+        position_type: editedUser.position_type ?? position?.type, // Ensure correct type mapping
       };
     });
-  }, [users]);
+  }, [users, createdUsers, editedUsers, positions]); // Include `createdUsers`
 
   const columns = useMemo(
     () => [
-      {
-        accessorKey: "employee_name",
-        header: "Employee Name",
-      },
-      {
-        accessorKey: "employee_number",
-        header: "Employee Number",
-      },
-      {
-        accessorKey: "username",
-        header: "Username",
-      },
+      { accessorKey: "employee_name", header: "Employee Name" },
+      { accessorKey: "employee_number", header: "Employee Number" },
+      { accessorKey: "username", header: "Username" },
       {
         accessorKey: "position_type",
         header: "Position",
@@ -52,26 +89,26 @@ const Index = () => {
     ],
     [users]
   );
-  // UPDATE USER MODAL
+  const handleDelete = async (user) => {
+    console.log(user.position_id);
+    await handleDeleteUser(user.position_id); // Await the deletion before continuing
+
+    if (!deleteUserError) {
+      // Check if there was no error
+      deleteUser(user.id); // Proceed to delete the user
+    } else {
+      console.log(deleteUserMessage);
+      alert("Failed to delete user");
+    }
+  };
+
+  // Modals
+  const [createUserModal, setCreateUserModal] = useState(false);
   const [updateUserModal, setUpdateUserModal] = useState(false);
-  const openUpdateUserModal = () => setUpdateUserModal(true);
-  const closeUpdateUserModal = () => setUpdateUserModal(false);
-  // UPDATE USER MODAL
   const [deleteUserModal, setDeleteUserModal] = useState(false);
-  const openDeleteUserModal = () => setDeleteUserModal(true);
-  const closeDeleteUserModal = () => setDeleteUserModal(false);
+
   return (
     <>
-      {/* <InternalHeader flexPosition={"right"}>
-        <div className="col-auto">
-          <Button
-            label={"Create User"}
-            btnStyle={"light"}
-            borderRadius={"1rem"}
-            icon={addIcon}
-          />
-        </div>
-      </InternalHeader> */}
       <div className="mt-2">
         <MaterialTable
           data={data}
@@ -84,8 +121,8 @@ const Index = () => {
                 btnStyle={"light"}
                 borderRadius={"1rem"}
                 onClick={() => {
-                  openUpdateUserModal();
                   setSelectedUser(row.original);
+                  setUpdateUserModal(true);
                 }}
               />
               <Button
@@ -93,38 +130,46 @@ const Index = () => {
                 btnStyle={"light"}
                 borderRadius={"1rem"}
                 onClick={() => {
-                  openDeleteUserModal();
-                  setSelectedUser(row.original);
+                  // setSelectedUser(row.original);
+                  // setDeleteUserModal(true);
+                  handleDelete(row.original);
                 }}
               />
             </div>
           )}
           renderTopToolbarCustomActions={() => (
-            <>
-              <Button
-                label={"Create User"}
-                btnStyle={"light"}
-                borderRadius={"1rem"}
-                icon={addIcon}
-              />
-            </>
+            <Button
+              label={"Create User"}
+              btnStyle={"light"}
+              borderRadius={"1rem"}
+              icon={addIcon}
+              onClick={() => setCreateUserModal(true)}
+            />
           )}
         />
       </div>
+      <CreateUserModal
+        modal={createUserModal}
+        closeModal={() => setCreateUserModal(false)}
+        title="Create User"
+        isStatic={true}
+        addUser={addUser} // Pass addUser function to modal
+      />
       <UpdateUserModal
         modal={updateUserModal}
-        closeModal={closeUpdateUserModal}
+        closeModal={() => setUpdateUserModal(false)}
         title={`Update User - ${selectedUser?.employee_name}`}
         isStatic={true}
         user={selectedUser}
+        updateUser={updateUser} // Pass edit function to modal
       />
-      <DeleteUserModal
+      {/* <DeleteUserModal
         modal={deleteUserModal}
-        closeModal={closeDeleteUserModal}
+        closeModal={() => setDeleteUserModal(false)}
         title={`Delete User - ${selectedUser?.employee_name}`}
         isStatic={false}
         user={selectedUser}
-      />
+      /> */}
     </>
   );
 };

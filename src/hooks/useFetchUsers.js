@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAuthContext } from "./useAuthContext";
+import { useAuthContext } from "./auth/useAuthContext";
 
 const useFetchUsers = () => {
   const { API_URL } = useAuthContext();
