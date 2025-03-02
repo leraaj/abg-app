@@ -37,8 +37,6 @@ const Index = () => {
 
   return (
     <>
-      {/* <ScanViaUpload onSendData={handleExtractedText} /> */}
-
       <Grid container justifyContent="center">
         <Grid item xs={8} md={8}>
           <Typography variant="h3" textAlign="center">
@@ -69,7 +67,7 @@ const Index = () => {
         <Grid item xs={8} md={8}>
           <Box paddingTop={5}>
             <div>
-              <FormControl fullWidth>
+              <FormControl fullWidth sx={{ marginBottom: "1em" }}>
                 <InputLabel id="machine-type-label">Machine Type</InputLabel>
                 <Select
                   labelId="machine-type-label"
@@ -85,14 +83,27 @@ const Index = () => {
             </div>
             <div>
               {extractedText
-                .filter((x) => x.includes("pH"))
+                .filter(
+                  (x) =>
+                    x.includes("Model:") ||
+                    x.includes("First Name") ||
+                    x.includes("Last Name") ||
+                    x.includes("pH") ||
+                    x.includes("pCO") ||
+                    x.includes("PO") ||
+                    x.includes("HCO") ||
+                    x.includes("BE") ||
+                    x.includes("TCO") ||
+                    x.startsWith("FLO")
+                )
                 .map((field, index) => {
                   return (
                     <TextField
+                      key={index}
                       value={field}
-                      onChange={(field) =>
-                        handleTextChange(index, field.target.value)
-                      }
+                      onChange={(e) => handleTextChange(index, e.target.value)} // use e.target.value for the change handler
+                      fullWidth
+                      sx={{ marginBottom: "1em" }}
                     />
                   );
                 })}
