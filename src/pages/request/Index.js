@@ -3,12 +3,15 @@ import "./request.css";
 import addIcon from "../../assets/icons/plus.svg";
 import Button from "../../components/button/Button";
 import UserCard from "../../components/card/UserCard";
-import requests from "./sampleRequest";
 import InternalHeader from "../../components/layouts/InternalLayout/InternalHeader";
 import CreateRequestModal from "./CreateRequestModal";
+import useFetchRequests from "../../hooks/requests/useFetchRequests";
+import ViewRequestModal from "./ViewRequestModal";
 
 const Request = () => {
-  const [activeButton, setActiveButton] = useState("pending");
+  const { requests } = useFetchRequests();
+  const [activeButton, setActiveButton] = useState("");
+  const [selectedRequest, setSelectedRequest] = useState(null);
   const [search, setSearch] = useState("");
 
   const handleToggle = (button) => {
@@ -20,12 +23,13 @@ const Request = () => {
   };
 
   const filteredRequests = requests.filter((req) => {
-    if (activeButton === "all") return true;
+    if (activeButton === "") return true;
     return req.status === activeButton;
   });
 
   // MODALS
   const [createRequestModal, setCreateRequestModal] = useState(false);
+  const [viewRequestModal, setViewRequestModal] = useState(false);
   return (
     <>
       <InternalHeader>
@@ -53,40 +57,56 @@ const Request = () => {
           <div className="d-flex gap-1 ">
             <Button
               label={"All"}
-              btnStyle={activeButton === "all" ? "secondary" : "light"}
+              btnStyle={activeButton === "" ? "secondary" : "light"}
               borderRadius={"1rem"}
-              onClick={() => handleToggle("all")}
+              onClick={() => handleToggle("")}
             />
             <Button
               label={"Pending"}
-              btnStyle={activeButton === "pending" ? "secondary" : "light"}
+              btnStyle={activeButton === 1 ? "secondary" : "light"}
               borderRadius={"1rem"}
-              onClick={() => handleToggle("pending")}
+              onClick={() => handleToggle(1)}
             />
             <Button
               label={"For Releasing"}
-              btnStyle={activeButton === "releasing" ? "secondary" : "light"}
+              btnStyle={activeButton === 2 ? "secondary" : "light"}
               borderRadius={"1rem"}
-              onClick={() => handleToggle("releasing")}
+              onClick={() => handleToggle(2)}
             />
           </div>
         </div>
       </InternalHeader>
       <div className="row gap-1 mt-1">
-        {filteredRequests.map((req) => (
-          <UserCard
-            key={req.name}
-            name={req.name}
-            date={req.date}
-            status={req.status}
-          />
-        ))}
+        {filteredRequests.length ? (
+          filteredRequests.map((req, index) => (
+            <UserCard
+              key={index}
+              name={req?.patient_name}
+              age={req?.age}
+              status={req?.status}
+              onClick={() => {
+                setSelectedRequest(req);
+                setViewRequestModal(true);
+              }}
+            />
+          ))
+        ) : (
+          <p>No requests, create a request</p>
+        )}
+        {JSON.stringify(requests)}
       </div>
       <CreateRequestModal
         modal={createRequestModal}
         closeModal={() => setCreateRequestModal(false)}
         title="Create Request"
         isStatic={true}
+      />
+      <ViewRequestModal
+        modal={viewRequestModal}
+        closeModal={() => setViewRequestModal(false)}
+        title="View Request"
+        isStatic={false}
+        data={selectedRequest}
       />
     </>
   );

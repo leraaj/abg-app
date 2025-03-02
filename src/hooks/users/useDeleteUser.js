@@ -16,23 +16,13 @@ const useDeleteUser = () => {
         credentials: "include",
       });
 
+      const data = await response.json();
+      console.warn(data);
       if (!response.ok) {
-        // If not successful, try to parse the error message from the server.
-        const errorData = await response.text(); // Use text() for cases without JSON
-        setError(errorData);
-        return console.error("Response Error", errorData);
-      }
-
-      // If response is OK, check for content before parsing JSON
-      if (response.status !== 204) {
-        // 204 No Content response doesn't need .json()
-        const data = await response.json();
-        setMessage(data);
-        setError(null);
+        setError(data);
       } else {
-        // Handle the case where there is no content (204 status)
-        setMessage({ success: true, message: "User deleted successfully" });
         setError(null);
+        setMessage(data);
       }
     } catch (error) {
       setError(error);

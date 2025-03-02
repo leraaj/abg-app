@@ -90,8 +90,7 @@ const Index = () => {
     [users]
   );
   const handleDelete = async (user) => {
-    console.log(user.position_id);
-    await handleDeleteUser(user.position_id); // Await the deletion before continuing
+    await handleDeleteUser(user.id); // Await the deletion before continuing
 
     if (!deleteUserError) {
       // Check if there was no error

@@ -126,7 +126,6 @@ button {
   background-color: #e9ffe5;
   border: 1px #c1ffb7 solid;
   padding: 0.5rem;
-  border: none;
   border-radius: 0.25rem;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 2px 9px 0px;
   transition: all 0.3s ease-in-out;
@@ -134,7 +133,7 @@ button {
 .next:hover {
   background-color: #c1ffb7;
   border: 1px #e9ffe5 solid;
-  transform: scale(1.1);
+  /* transform: scale(1.1); */
 }
 .next-icon {
   height: 17px;

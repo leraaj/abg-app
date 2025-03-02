@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import Modal from "../../components/modal/Modal";
 import useFetchPositions from "../../hooks/auth/useFetchPositions";
-import useCreateUser from "../../hooks/users/useCreateUser";
+import useCreateRequest from "../../hooks/requests/useCreateRequest";
 
-const Index = ({ modal, closeModal, title, isStatic, addUser }) => {
-  const { positions } = useFetchPositions();
-  const { handleCreateUser, isLoading, error } = useCreateUser();
+const Index = ({ modal, closeModal, title, isStatic }) => {
+  const { handleCreateRequest, isLoading, error } = useCreateRequest();
   const [submitLoading, setSubmitLoading] = useState(false);
 
   const onSubmitLoading = (e) => {
@@ -29,9 +28,8 @@ const Index = ({ modal, closeModal, title, isStatic, addUser }) => {
       requestorId: data.requestorId,
       status: data.status,
     };
-    await handleCreateUser({
-      requestData,
-    });
+
+    await handleCreateRequest(requestData);
 
     if (!error) {
       setTimeout(() => {

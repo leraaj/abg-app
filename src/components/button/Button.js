@@ -18,7 +18,7 @@ const Button = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       disabled={disabled || false}
-      onClick={onClick}
+      onClick={onClick || undefined}
       style={{ borderRadius: borderRadius || "0.8rem" }}>
       {icon && (
         <img
