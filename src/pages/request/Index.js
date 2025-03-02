@@ -84,6 +84,7 @@ const Request = () => {
               name={req?.patient_name}
               age={req?.age}
               status={req?.status}
+              date={req?.date}
               onClick={() => {
                 setSelectedRequest(req);
                 setViewRequestModal(true);
@@ -93,7 +94,7 @@ const Request = () => {
         ) : (
           <p>No requests, create a request</p>
         )}
-        {JSON.stringify(requests)}
+        {/* {JSON.stringify(requests)} */}
       </div>
       <CreateRequestModal
         modal={createRequestModal}

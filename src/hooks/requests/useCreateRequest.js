@@ -19,6 +19,7 @@ const useCreateRequest = () => {
 
       if (!response.ok) {
         const data = await response.json();
+        alert(data);
         setError(data);
         return console.error("Response Error", data);
       } else {
@@ -27,6 +28,8 @@ const useCreateRequest = () => {
         setError(null);
       }
     } catch (error) {
+      console.log(error);
+      alert(error);
       setError("Catch Error: ", error);
     } finally {
       setIsLoading(false);

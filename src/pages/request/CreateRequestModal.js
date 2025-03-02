@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import Modal from "../../components/modal/Modal";
 import useFetchPositions from "../../hooks/auth/useFetchPositions";
 import useCreateRequest from "../../hooks/requests/useCreateRequest";
+import useFetchUsers from "../../hooks/useFetchUsers";
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
 
 const Index = ({ modal, closeModal, title, isStatic }) => {
+  const { user } = useAuthContext();
+  const { users } = useFetchUsers();
+  const currentPhysicians =
+    users?.filter((user) => user?.position_id === 2) || [];
   const { handleCreateRequest, isLoading, error } = useCreateRequest();
   const [submitLoading, setSubmitLoading] = useState(false);
 
@@ -25,12 +31,12 @@ const Index = ({ modal, closeModal, title, isStatic }) => {
       age: data.age,
       sex: data.sex,
       diagnosis: data.diagnosis,
-      requestorId: data.requestorId,
-      status: data.status,
+      requestorId: user?.id,
+      status: 1,
+      date: new Date().toISOString(),
     };
-
+    console.log("Input Data: \n", requestData);
     await handleCreateRequest(requestData);
-
     if (!error) {
       setTimeout(() => {
         e.target.reset();
@@ -71,12 +77,12 @@ const Index = ({ modal, closeModal, title, isStatic }) => {
             defaultValue=""
             required
           />
-          <div className="d-flex gap-1">
+          <div className="d-flex gap-1 col">
             <input
               type="text"
               name="age"
               placeholder="age"
-              className="form-input"
+              className="form-input col"
               defaultValue=""
               required
             />
@@ -84,7 +90,7 @@ const Index = ({ modal, closeModal, title, isStatic }) => {
               type="text"
               name="sex"
               placeholder="sex"
-              className="form-input"
+              className="form-input col"
               defaultValue=""
               required
             />
@@ -99,16 +105,15 @@ const Index = ({ modal, closeModal, title, isStatic }) => {
               className="form-input"
               defaultValue=""
               required>
-              <option value="1">Physician</option>
+              <option disabled>Select a physician</option>
+              {currentPhysicians?.map((user, index) => {
+                return (
+                  <option key={index} value={user?.id}>
+                    {user?.employee_name}
+                  </option>
+                );
+              })}
             </select>
-            {/* <span className="input-title">status</span>
-            <input
-              type="password"
-              name="status"
-              className="form-input"
-              defaultValue=""
-              required
-            /> */}
           </div>
         </div>
       </div>
