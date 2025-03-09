@@ -63,7 +63,7 @@ const Index = ({ modal, closeModal, title, isStatic, user, updateUser }) => {
             <input
               type="text"
               name="employeeName"
-              className="form-input"
+              className="form-control"
               defaultValue={user?.employee_name || ""}
             />
           </div>
@@ -73,7 +73,7 @@ const Index = ({ modal, closeModal, title, isStatic, user, updateUser }) => {
             <input
               type="text"
               name="employeeNumber"
-              className="form-input"
+              className="form-control"
               defaultValue={user?.employee_number || ""}
             />
           </div>
@@ -84,7 +84,7 @@ const Index = ({ modal, closeModal, title, isStatic, user, updateUser }) => {
           <input
             type="text"
             name="username"
-            className="form-input"
+            className="form-control"
             defaultValue={user?.username || ""}
           />
           {/* <div className="row gap-1">
@@ -92,7 +92,7 @@ const Index = ({ modal, closeModal, title, isStatic, user, updateUser }) => {
             <input
               type="password"
               name="password"
-              className="form-input"
+              className="form-control"
               defaultValue={user?.password || ""}
             />
           </div> */}
@@ -100,7 +100,7 @@ const Index = ({ modal, closeModal, title, isStatic, user, updateUser }) => {
           <span className="input-title">Position</span>
           <select
             name="positionId"
-            className="form-input"
+            className="form-control"
             defaultValue={user?.position_id || ""}>
             <option value="0" disabled>
               Select user position

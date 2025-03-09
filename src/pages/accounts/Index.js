@@ -8,6 +8,8 @@ import UpdateUserModal from "../accounts/UpdateUserModal.js";
 import DeleteUserModal from "../accounts/DeleteUserModal.js";
 import CreateUserModal from "../accounts/CreateUserModal.js";
 import useDeleteUser from "../../hooks/users/useDeleteUser.js";
+import updateIcon from "../../assets/icons/pen-solid.svg";
+import deleteIcon from "../../assets/icons/trash-solid.svg";
 
 const Index = () => {
   const { users, isLoading: userLoading } = useFetchUsers();
@@ -116,7 +118,7 @@ const Index = () => {
           renderRowActions={({ row }) => (
             <div className={"d-flex gap-1"}>
               <Button
-                label={"Update"}
+                label={<img src={updateIcon} height={15} />}
                 btnStyle={"light"}
                 borderRadius={"1rem"}
                 onClick={() => {
@@ -125,7 +127,7 @@ const Index = () => {
                 }}
               />
               <Button
-                label={"Remove"}
+                label={<img src={deleteIcon} height={15} />}
                 btnStyle={"light"}
                 borderRadius={"1rem"}
                 onClick={() => {

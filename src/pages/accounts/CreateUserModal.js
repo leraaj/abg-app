@@ -84,7 +84,7 @@ const Index = ({ modal, closeModal, title, isStatic, addUser }) => {
             <input
               type="text"
               name="employeeName"
-              className="form-input"
+              className="form-control"
               defaultValue=""
               required
             />
@@ -95,7 +95,7 @@ const Index = ({ modal, closeModal, title, isStatic, addUser }) => {
             <input
               type="text"
               name="employeeNumber"
-              className="form-input"
+              className="form-control"
               defaultValue=""
               required
             />
@@ -107,7 +107,7 @@ const Index = ({ modal, closeModal, title, isStatic, addUser }) => {
           <input
             type="text"
             name="username"
-            className="form-input"
+            className="form-control"
             defaultValue=""
             required
           />
@@ -116,7 +116,7 @@ const Index = ({ modal, closeModal, title, isStatic, addUser }) => {
             <input
               type="password"
               name="password"
-              className="form-input"
+              className="form-control"
               defaultValue=""
               required
             />
@@ -125,7 +125,7 @@ const Index = ({ modal, closeModal, title, isStatic, addUser }) => {
           <span className="input-title">Position</span>
           <select
             name="positionId"
-            className="form-input"
+            className="form-control"
             defaultValue={0}
             required>
             <option value={0} disabled>

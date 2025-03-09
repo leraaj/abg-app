@@ -10,7 +10,7 @@ const useCreateRequest = () => {
   const handleCreateRequest = async (data) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${API_URL}/api/medical-test-request/`, {
+      const response = await fetch(`${API_URL}/api/medical-test-request`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

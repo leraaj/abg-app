@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import Modal from "../../components/modal/Modal";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import useCreateRequest from "../../hooks/requests/useCreateRequest";
-import useFetchUsers from "../../hooks/useFetchUsers";
+import useFetchPhysicians from "../../hooks/requests/useFetchPhysicians";
 
 const Index = ({ modal, closeModal, title, isStatic }) => {
   const { user } = useAuthContext();
-  const { users } = useFetchUsers();
-  const currentPhysicians =
-    users?.filter((user) => user?.position_id === 2) || [];
+  const { physicians } = useFetchPhysicians();
   const { handleCreateRequest, isLoading, error } = useCreateRequest();
   const [submitLoading, setSubmitLoading] = useState(false);
 
@@ -30,11 +28,11 @@ const Index = ({ modal, closeModal, title, isStatic }) => {
       age: data.age,
       sex: data.sex,
       diagnosis: data.diagnosis,
+      rtId: data?.rtId,
       requestorId: user?.id,
       status: 1,
-      assigneeId: 1,
-      // date: new Date().toISOString(),
     };
+
     console.log("Input Data: \n", requestData);
     await handleCreateRequest(requestData);
     if (!error) {
@@ -54,8 +52,7 @@ const Index = ({ modal, closeModal, title, isStatic }) => {
       title={title}
       isStatic={isStatic}
       onSubmit={onSubmit}
-      submitLoading={submitLoading}
-    >
+      submitLoading={submitLoading}>
       <div className="row gap-1">
         <div className="input-container">
           <span className="input-title">diagnosis</span>
@@ -102,22 +99,21 @@ const Index = ({ modal, closeModal, title, isStatic }) => {
             <span className="input-title">Assignee</span>
             <select
               type="password"
-              name="requestorId"
+              name="rtId"
               className="form-input"
               defaultValue=""
-              required
-            >
-              {/* <option disabled>Select a physician</option>
-              {currentPhysicians?.map((user, index) => {
+              required>
+              <option disabled>Select a physician</option>
+              {physicians?.map((user, index) => {
                 return (
                   <option key={index} value={user?.id}>
                     {user?.employee_name}
                   </option>
                 );
-              })} */}
-              <option value="1">Jane Doe</option>
+              })}
+              {/* <option value="1">Jane Doe</option>
               <option value="2">Katherine Miles</option>
-              <option value="3">Warren Cruz</option>
+              <option value="3">Warren Cruz</option> */}
             </select>
           </div>
         </div>

@@ -62,7 +62,7 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
           </div>
         </div>
         <div className="input-container">
-          <span className="f6">{useFormattedDate(data?.date)}</span>
+          <span className="f6">{useFormattedDate(data?.date_created)}</span>
           <span className="row gap-1 f4 input-title">
             <span>{data?.patient_name}</span>
             <span>

@@ -22,7 +22,7 @@ const Request = () => {
     setSearch(e.target.value);
   };
 
-  const filteredRequests = requests.filter((req) => {
+  const filteredRequest = requests.filter((req) => {
     if (activeButton === "") return true;
     return req.status === activeButton;
   });
@@ -77,14 +77,14 @@ const Request = () => {
         </div>
       </InternalHeader>
       <div className="row gap-1 mt-1">
-        {filteredRequests.length ? (
-          filteredRequests.map((req, index) => (
+        {filteredRequest.length ? (
+          filteredRequest.map((req, index) => (
             <UserCard
               key={index}
               name={req?.patient_name}
               age={req?.age}
               status={req?.status}
-              date={req?.date}
+              date={req?.date_created}
               onClick={() => {
                 setSelectedRequest(req);
                 setViewRequestModal(true);

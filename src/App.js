@@ -4,6 +4,7 @@ import {
   BrowserRouter as Router, // Wrap everything inside Router
   Routes,
 } from "react-router-dom";
+import "./styles/inputStyles.css";
 import InternalLayout from "./components/layouts/InternalLayout/InternalLayout";
 import { useAuthContext } from "./hooks/auth/useAuthContext";
 import useFetchUserPosition from "./hooks/auth/useFetchUserPosition";
@@ -12,6 +13,8 @@ import Home from "./pages/home/Index";
 import Login from "./pages/login/Index";
 import Request from "./pages/request/Index";
 import Scan from "./pages/scan/Index";
+// Form
+import AbgForm from "./components/layouts/abg-form/Index";
 
 const App = () => {
   const { user } = useAuthContext();
@@ -40,6 +43,16 @@ const App = () => {
           <Login />
         ),
     },
+    {
+      isPrivate: false,
+      path: "/abg",
+      element:
+        user?.position_id != null ? (
+          <Navigate to={"/request"} replace />
+        ) : (
+          <AbgForm />
+        ),
+    },
   ];
 
   const NURSE_ROUTES = [
@@ -65,7 +78,7 @@ const App = () => {
   let routes = [];
 
   if (user?.position_id) {
-    routes = [...defaultRoutes, ...NURSE_ROUTES];
+    routes = [...defaultRoutes, ...NURSE_ROUTES, ...RT_ROUTES];
   } else {
     routes = [...defaultRoutes];
   }
@@ -79,9 +92,7 @@ const App = () => {
               <Route key={index} {...route} />
             </Route>
           ) : (
-            <Route key={index} element={<InternalLayout />}>
-              <Route key={index} {...route} />
-            </Route>
+            <Route key={index} {...route} />
           )
         )}
         <Route path="/scan" element={<Scan />} />
