@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import "./request.css";
 import addIcon from "../../assets/icons/plus.svg";
 import Button from "../../components/button/Button";
@@ -9,7 +9,7 @@ import useFetchRequests from "../../hooks/requests/useFetchRequests";
 import ViewRequestModal from "./ViewRequestModal";
 
 const Request = () => {
-  const { requests } = useFetchRequests();
+  const { requests, fetchRequests } = useFetchRequests();
   const [activeButton, setActiveButton] = useState("");
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [search, setSearch] = useState("");
@@ -22,18 +22,29 @@ const Request = () => {
     setSearch(e.target.value);
   };
 
-  const filteredRequest = requests.filter((req) => {
-    if (activeButton === "") return true;
-    return req.status === activeButton;
-  });
+  const filteredRequest = useMemo(() => {
+    return (
+      requests
+        ?.filter((req) => {
+          if (activeButton === "") return true; // Show all requests when "All" is selected
+          return req.status === activeButton;
+        })
+        .filter((req) =>
+          req.patient_name?.toLowerCase().includes(search.toLowerCase())
+        )
+        // Sort by `date_created` in descending order (most recent first)
+        .sort((a, b) => new Date(b.date_created) - new Date(a.date_created))
+    );
+  }, [requests, activeButton, search]); // Add `requests` to dependencies
 
   // MODALS
   const [createRequestModal, setCreateRequestModal] = useState(false);
   const [viewRequestModal, setViewRequestModal] = useState(false);
+
   return (
     <>
       <InternalHeader>
-        <div className="row col gap-1">
+        <div className="col row gap-1">
           <div className="d-flex gap-1">
             <div className="col">
               <input
@@ -44,7 +55,7 @@ const Request = () => {
                 style={{ borderRadius: "1.5rem" }}
               />
             </div>
-            <div className="col-auto">
+            <div className="col-auto d-flex gap-2">
               <Button
                 label={"Request"}
                 btnStyle={"light"}
@@ -54,7 +65,7 @@ const Request = () => {
               />
             </div>
           </div>
-          <div className="d-flex gap-1 ">
+          <div className="d-flex gap-1">
             <Button
               label={"All"}
               btnStyle={activeButton === "" ? "secondary" : "light"}
@@ -92,15 +103,26 @@ const Request = () => {
             />
           ))
         ) : (
-          <p>No requests, create a request</p>
+          <p>
+            {activeButton === ""
+              ? "There are no requests for today"
+              : activeButton === 1
+              ? "There are no pending requests for today"
+              : activeButton === 2
+              ? "There are no requests pending release for today"
+              : ""}
+          </p>
         )}
-        {/* {JSON.stringify(requests)} */}
       </div>
       <CreateRequestModal
         modal={createRequestModal}
-        closeModal={() => setCreateRequestModal(false)}
+        closeModal={() => {
+          setCreateRequestModal(false);
+          fetchRequests();
+        }}
         title="Create Request"
         isStatic={true}
+        refreshList={() => fetchRequests()}
       />
       <ViewRequestModal
         modal={viewRequestModal}

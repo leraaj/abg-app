@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Modal from "../../components/modal/Modal";
 import Button from "../../components/button/Button";
 import rightIcon from "../../assets/icons/chevron-right.svg";
@@ -6,10 +6,13 @@ import UserCard from "../../components/card/UserCard";
 import OCR from "./OCR";
 import useFormattedDate from "../../hooks/useFormattedDate";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
+import useFetchPhysicians from "../../hooks/requests/useFetchPhysicians";
+import useFetchRequests from "../../hooks/requests/useFetchRequests";
+import { renderToString } from "react-dom/server";
 
 const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
-  const { users } = useAuthContext();
-  const currentPhysician = users?.filter((user) => user?.id === data?.id);
+  const { physicians, fetchAssignee } = useFetchPhysicians();
+  const { requests } = useFetchRequests();
   return (
     <Modal
       isOpen={modal}
@@ -49,10 +52,11 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
                   OCR({ requestId: data?.id, requestorId: data?.requestor_id });
                   alert(
                     "Request ID: " +
-                      data.id +
+                      data?.id +
                       "\nRequestor ID: " +
                       data.requestor_id
                   );
+                  // console.log(data);
                 }}
               />
             </span>
@@ -66,15 +70,19 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
           <span className="row gap-1 f4 input-title">
             <span>{data?.patient_name}</span>
             <span>
-              {data?.sex || "No specified gender"} <span className="f4">🞄</span>{" "}
-              {`${data?.age} years old`}
+              {data?.sex || "No specified gender"} <span className="f4">🞄</span>
+              {` ${data?.age} years old`}
             </span>
           </span>
         </div>
         <div className="input-container">
           <span className="row gap-1 f4 input-title">
-            <span>{JSON.stringify(currentPhysician) || "No assignee"}</span>
-            <span>Assignee Physician</span>
+            <span className="f6">
+              {physicians?.find(
+                (phy) => parseInt(phy.id) === parseInt(data?.rt_id)
+              )?.employee_name || "No Assignee"}
+            </span>
+            <span>Assigned Physician</span>
           </span>
         </div>
       </div>

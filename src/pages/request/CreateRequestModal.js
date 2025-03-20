@@ -4,7 +4,7 @@ import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import useCreateRequest from "../../hooks/requests/useCreateRequest";
 import useFetchPhysicians from "../../hooks/requests/useFetchPhysicians";
 
-const Index = ({ modal, closeModal, title, isStatic }) => {
+const Index = ({ modal, closeModal, title, isStatic, refreshList }) => {
   const { user } = useAuthContext();
   const { physicians } = useFetchPhysicians();
   const { handleCreateRequest, isLoading, error } = useCreateRequest();
@@ -24,22 +24,23 @@ const Index = ({ modal, closeModal, title, isStatic }) => {
     const data = Object.fromEntries(formData.entries());
 
     const requestData = {
-      patientName: data.patientName,
-      age: data.age,
-      sex: data.sex,
-      diagnosis: data.diagnosis,
+      patientName: data?.patientName,
+      age: data?.age,
+      sex: data?.sex,
+      diagnosis: data?.diagnosis,
       rtId: data?.rtId,
       requestorId: user?.id,
+      physicianId: 0,
+      // date_created: new Date().toISOString(),
       status: 1,
     };
 
-    console.log("Input Data: \n", requestData);
     await handleCreateRequest(requestData);
     if (!error) {
       setTimeout(() => {
+        refreshList();
         e.target.reset();
         closeModal();
-        // addRequest(newUser);
         onSubmitLoading(e);
       }, 3000);
     }
@@ -97,12 +98,7 @@ const Index = ({ modal, closeModal, title, isStatic }) => {
         <div className="input-container">
           <div className="row gap-1">
             <span className="input-title">Assignee</span>
-            <select
-              type="password"
-              name="rtId"
-              className="form-input"
-              defaultValue=""
-              required>
+            <select name="rtId" className="form-input" defaultValue="" required>
               <option disabled>Select a physician</option>
               {physicians?.map((user, index) => {
                 return (
@@ -111,9 +107,6 @@ const Index = ({ modal, closeModal, title, isStatic }) => {
                   </option>
                 );
               })}
-              {/* <option value="1">Jane Doe</option>
-              <option value="2">Katherine Miles</option>
-              <option value="3">Warren Cruz</option> */}
             </select>
           </div>
         </div>

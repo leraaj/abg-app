@@ -74,6 +74,8 @@ code {
   font-weight: 500;
   padding-inline-start: 0.5rem;
   text-transform: capitalize;
+  display: flex;
+  justify-content: start;
 }
 .form-input {
   padding: 0.5rem 1rem;

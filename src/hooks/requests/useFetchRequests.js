@@ -35,7 +35,7 @@ const useFetchRequests = () => {
     fetchRequests();
   }, []);
 
-  return { requests, isLoading, error };
+  return { requests, isLoading, fetchRequests, error };
 };
 
 export default useFetchRequests;

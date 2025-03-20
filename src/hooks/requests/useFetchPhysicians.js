@@ -35,7 +35,7 @@ const useFetchPhysicians = () => {
     fetchAssignee();
   }, []);
 
-  return { physicians, isLoading, error };
+  return { physicians, isLoading, error, fetchAssignee };
 };
 
 export default useFetchPhysicians;

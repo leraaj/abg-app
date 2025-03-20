@@ -12,8 +12,8 @@ const Login = () => {
   const { currentUser } = useAuthContext();
   const navigate = useNavigate();
   const { handleLogin, isLoading: loginLoading } = useLogin();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("Nurse");
+  const [password, setPassword] = useState("123123");
   const [error, setError] = useState(null);
   const handleUsername = (e) => setUsername(e.target.value);
   const handlePassword = (e) => setPassword(e.target.value);
@@ -43,6 +43,7 @@ const Login = () => {
             <input
               type="text"
               className="form-control col"
+              defaultValue={username}
               onChange={handleUsername}
             />
           </div>
@@ -51,6 +52,7 @@ const Login = () => {
             <input
               type="password"
               className="form-control col"
+              defaultValue={password}
               onChange={handlePassword}
             />
           </div>

@@ -4,11 +4,12 @@
 
 @page {
   size: A4 portrait;
-  margin: 0px;
+  padding: 0cm; /* Add margin to prevent overflow */
+  /* margin: 0px;
   margin-block: 0px !important;
   margin-inline: 0px !important;
   padding-block: 0px !important;
-  padding-inline: 0px !important;
+  padding-inline: 0px !important; */
 }
 
 .abg-container {
@@ -16,13 +17,7 @@
   width: calc(100% - 1rem);
   display: flex;
   flex-direction: column;
-  padding: 1rem;
 }
-
-* {
-  /* border: 1px red solid; */
-}
-
 .form-container {
   display: flex;
   align-items: center;
@@ -63,7 +58,9 @@
   flex-shrink: 0; /* Prevent shrinking */
   display: flex;
 }
-
+.header > .header-title {
+  padding-inline: 15% !important;
+}
 .header-title {
   height: max-content;
   flex-shrink: 0; /* Prevent shrinking */
@@ -144,6 +141,9 @@ td {
 }
 
 @media print {
+  * {
+    box-sizing: border-box;
+  }
   body {
     height: 100vh; /* Full viewport height */
     width: calc(100% - 1rem);
@@ -203,7 +203,9 @@ td {
     flex-shrink: 0; /* Prevent shrinking */
     display: flex;
   }
-
+  .header > .header-title {
+    padding-inline: 15% !important;
+  }
   .header-title {
     height: max-content;
     flex-shrink: 0; /* Prevent shrinking */
@@ -227,6 +229,7 @@ td {
 
   .header-right {
     text-wrap: nowrap;
+    padding-inline: 0.5rem !important;
   }
 
   .header-right > div {

@@ -30,7 +30,7 @@ const App = () => {
         user?.position_id != null ? (
           <Navigate to={"/request"} replace />
         ) : (
-          <Home />
+          <Login />
         ),
     },
     {

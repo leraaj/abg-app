@@ -6,7 +6,7 @@ const Index = () => {
   return (
     <div className="abg-container">
       <div className="header col-12 ">
-        <div className="col header-title" style={{ paddingInline: "15%" }}>
+        <div className="col header-title">
           <div className="logo col-auto">
             <img src={DOHLogo} alt="DOH logo" className="logo-height" />
           </div>
@@ -126,8 +126,8 @@ const Index = () => {
           <div className="col checkboxes">
             <div className="row gap-1 align-centered content">
               <table className="col-12">
-                {/* Adequate Oxygenation / hypoxemia */}
                 <tr>
+                  {/* Adequate Oxygenation / hypoxemia */}
                   <td></td>
                   <td>
                     <div class="form-container">
@@ -143,7 +143,7 @@ const Index = () => {
                       />
                     </div>
                   </td>
-                  <td>
+                  <td colSpan={2}>
                     <div class="form-container">
                       <label htmlFor="hypoxemia" class="form-label uppercased">
                         hypoxemia
@@ -155,11 +155,9 @@ const Index = () => {
                       />
                     </div>
                   </td>
-                  <td></td>
                 </tr>
-
-                {/* Mild, Moderate, Severe */}
                 <tr>
+                  {/* Mild, Moderate, Severe */}
                   <td>
                     <div class="form-container">
                       <label htmlFor="mild" class="form-label uppercased">
@@ -180,7 +178,7 @@ const Index = () => {
                       />
                     </div>
                   </td>
-                  <td>
+                  <td colSpan={2}>
                     <div class="form-container">
                       <label htmlFor="severe" class="form-label uppercased">
                         severe
@@ -192,10 +190,9 @@ const Index = () => {
                       />
                     </div>
                   </td>
-                  <td></td>
                 </tr>
-                {/* Respiratory, Acidosis, Uncompensated, Mild */}
                 <tr>
+                  {/* Respiratory, Acidosis, Uncompensated, Mild */}
                   <td>
                     <div class="form-container">
                       <label
@@ -249,8 +246,8 @@ const Index = () => {
                     </div>
                   </td>
                 </tr>
-                {/* metabolic, alkalosis, partially compensated, moderate */}
                 <tr>
+                  {/* metabolic, alkalosis, partially compensated, moderate */}
                   <td>
                     <div class="form-container">
                       <label
@@ -308,10 +305,9 @@ const Index = () => {
                     </div>
                   </td>
                 </tr>
-                {/* blank, blank , fully compensated, severe */}
                 <tr>
-                  <td></td>
-                  <td></td>
+                  {/* blank, blank , fully compensated, severe */}
+                  <td colSpan={2}></td>
                   <td>
                     <div class="form-container">
                       <label

@@ -15,8 +15,8 @@ const useCreateRequest = () => {
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify(data),
+        // body: JSON.stringify(initialRequestData),
       });
-
       if (!response.ok) {
         const data = await response.json();
         alert(data);
