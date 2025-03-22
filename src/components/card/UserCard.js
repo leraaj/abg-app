@@ -8,7 +8,16 @@ const UserCard = ({ name, date, status, onClick }) => {
       <div className="col row gap-2 px-2">
         <span className="card-name ">{name}</span>
         <span className="card-bdate ">{useFormattedDate(date)}</span>
-        <span className="card-status ">
+        <span
+          className={`card-status ${
+            status === 0
+              ? ""
+              : status === 1
+              ? "bg-warning"
+              : status === 2
+              ? "bg-success text-light"
+              : ""
+          }`}>
           {status == 0
             ? "Pending"
             : status == 1

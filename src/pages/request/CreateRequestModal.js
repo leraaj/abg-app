@@ -60,7 +60,7 @@ const Index = ({ modal, closeModal, title, isStatic, refreshList }) => {
             type="text"
             name="diagnosis"
             placeholder="Specify"
-            className="form-input"
+            className="form-control"
             defaultValue=""
             required
           />
@@ -71,7 +71,7 @@ const Index = ({ modal, closeModal, title, isStatic, refreshList }) => {
             <input
               type="text"
               name="patientName"
-              className="form-input col-12"
+              className="form-control col-12"
               placeholder="fullname"
               defaultValue=""
               required
@@ -82,7 +82,7 @@ const Index = ({ modal, closeModal, title, isStatic, refreshList }) => {
               type="text"
               name="age"
               placeholder="age"
-              className="form-input col"
+              className="form-control col"
               defaultValue=""
               required
             />
@@ -90,26 +90,25 @@ const Index = ({ modal, closeModal, title, isStatic, refreshList }) => {
               type="text"
               name="sex"
               placeholder="sex"
-              className="form-input col"
+              className="form-control col"
               defaultValue=""
               required
             />
           </div>
         </div>
+
         <div className="input-container">
-          <div className="row gap-1">
-            <span className="input-title">Assign Respiratory Therapists</span>
-            <select name="rtId" className="form-input" defaultValue="" required>
-              <option disabled>Select a physician</option>
-              {physicians?.map((user, index) => {
-                return (
-                  <option key={index} value={user?.id}>
-                    {user?.employee_name}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
+          <span className="input-title">Assign Respiratory Therapists</span>
+          <select name="rtId" className="form-control" defaultValue="" required>
+            <option disabled>Select a physician</option>
+            {physicians?.map((user, index) => {
+              return (
+                <option key={index} value={user?.id}>
+                  {user?.employee_name}
+                </option>
+              );
+            })}
+          </select>
         </div>
       </div>
     </Modal>

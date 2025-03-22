@@ -10,6 +10,7 @@ import useFetchRequests from "../../hooks/requests/useFetchRequests";
 import { renderToString } from "react-dom/server";
 
 const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
+  const { user } = useAuthContext();
   const { physicians, fetchAssignee } = useFetchPhysicians();
   const { requests } = useFetchRequests();
   return (
@@ -30,14 +31,16 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
       submitLabel={"Send to physician"}>
       <div className="row gap-3">
         <div className="d-flex gap-3 p-0 m-0" style={{ overflowX: "auto" }}>
-          <div className="req-card input-container ">
-            <span className="col-auto">
-              <Button icon={rightIcon} btnStyle={"next"} />
-            </span>
-            <div className="input-title col-auto">
-              Scan & Upload ABG Results
+          {user?.position_id === 2 && (
+            <div className="req-card input-container ">
+              <span className="col-auto">
+                <Button icon={rightIcon} btnStyle={"next"} />
+              </span>
+              <div className="input-title col-auto">
+                Scan & Upload ABG Results
+              </div>
             </div>
-          </div>
+          )}
           <div className="req-card input-container ">
             <span className="col-auto">
               <Button icon={rightIcon} btnStyle={"next"} />
@@ -68,7 +71,7 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
           </div>
         </div>
         <div className="input-container">
-          <span className="fs-4 bold">
+          <span className="req-title ">
             {useFormattedDate(data?.date_created)}
           </span>
           <span className="fs-sm capitalized">
@@ -77,13 +80,35 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
           </span>
         </div>
         <div className="input-container">
-          <span className="fs-4 bold">Assigned Respiratory Therapist</span>
+          <span className="req-title ">Assigned Respiratory Therapist</span>
           <span>
             {physicians?.find(
               (phy) => parseInt(phy.id) === parseInt(data?.rt_id)
             )?.employee_name || "No Assignee"}
           </span>
         </div>
+        {/* For RT Only */}
+        {user?.position_id === 2 && (
+          <div className="input-container">
+            <span className="req-title ">Assigned Physician</span>
+            <select
+              name="rtId"
+              className="form-input"
+              defaultValue={user?.physician_id}
+              required>
+              <option disabled selected>
+                Select a physician
+              </option>
+              {physicians?.map((user, index) => {
+                return (
+                  <option key={index} value={user?.id}>
+                    {user?.employee_name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        )}
       </div>
     </Modal>
   );

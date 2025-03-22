@@ -33,7 +33,7 @@ const Modal = ({
     <div className="modal-backdrop" onClick={!isStatic ? onClose : undefined}>
       <div className="modal-container" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div className="modal-header">
+        <div className="modal-header ">
           <h2>{title || "No title"}</h2>
           <span onClick={onClose} className="modal-close">
             &times;

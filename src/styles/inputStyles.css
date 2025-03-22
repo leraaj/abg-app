@@ -15,14 +15,31 @@
 }
 .form-control {
   height: 40px;
-  padding: 0.7rem;
-  border-radius: 0.5rem;
+  padding: 0.7rem !important;
+  border-radius: 0.5rem !important;
   border: 1px rgba(0, 0, 0, 0.2) solid;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
-    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  /* box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px !important; */
   box-sizing: border-box !important;
   width: 100% !important;
 }
+select.form-control {
+  height: 45px;
+  width: 100%;
+  padding: 10px;
+  appearance: none; /* Hides the default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: white;
+  border-radius: 5px;
+  padding-right: 40px; /* Space for the arrow */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23777777'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+  cursor: pointer;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
@@ -32,16 +49,21 @@
 input.form-control:focus,
 input.form-control:focus-visible,
 input.form-control:focus-within {
-  outline: none;
+  outline: none !important;
   border: 1px solid var(--primary-color) !important;
+  box-shadow: none !important;
 }
 input.form-input:focus,
 input.form-input:focus-visible,
 input.form-input:focus-within {
-  outline: none;
+  outline: none !important;
+  border: 1px solid var(--primary-color) !important;
+  box-shadow: none !important;
 }
 textarea.form-input:focus,
 textarea.form-input:focus-visible,
 textarea.form-input:focus-within {
-  outline: none;
+  outline: none !important;
+  border: 1px solid var(--primary-color) !important;
+  box-shadow: none !important;
 }

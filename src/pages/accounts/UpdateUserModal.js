@@ -55,28 +55,23 @@ const Index = ({ modal, closeModal, title, isStatic, user, updateUser }) => {
       isStatic={isStatic}
       onSubmit={onSubmit}
       submitLoading={submitLoading}>
-      <div className="row gap-1">
+      <div className="row gap-3">
         <span className="header-title">Profile Information</span>
-        <div className="d-flex gap-1">
-          <div className="input-container">
-            <span className="input-title">Employee name</span>
-            <input
-              type="text"
-              name="employeeName"
-              className="form-control"
-              defaultValue={user?.employee_name || ""}
-            />
-          </div>
-
-          <div className="input-container">
-            <span className="input-title">Employee number</span>
-            <input
-              type="text"
-              name="employeeNumber"
-              className="form-control"
-              defaultValue={user?.employee_number || ""}
-            />
-          </div>
+        <div className="input-container">
+          <span className="input-title">Employee name</span>
+          <input
+            type="text"
+            name="employeeName"
+            className="form-control"
+            defaultValue={user?.employee_name || ""}
+          />
+          <span className="input-title">Employee number</span>
+          <input
+            type="text"
+            name="employeeNumber"
+            className="form-control"
+            defaultValue={user?.employee_number || ""}
+          />
         </div>
         <span className="header-title">Access Credentials</span>
         <div className="input-container">

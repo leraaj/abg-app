@@ -7,8 +7,10 @@ import InternalHeader from "../../components/layouts/InternalLayout/InternalHead
 import CreateRequestModal from "./CreateRequestModal";
 import useFetchRequests from "../../hooks/requests/useFetchRequests";
 import ViewRequestModal from "./ViewRequestModal";
+import { useAuthContext } from "../../hooks/auth/useAuthContext";
 
 const Request = () => {
+  const { user } = useAuthContext();
   const { requests, fetchRequests } = useFetchRequests();
   const [activeButton, setActiveButton] = useState(null);
   const [selectedRequest, setSelectedRequest] = useState(null);
@@ -36,7 +38,11 @@ const Request = () => {
         .sort((a, b) => new Date(b.date_created) - new Date(a.date_created))
     );
   }, [requests, activeButton, search]); // Add `requests` to dependencies
-
+  const isFilteredEmpty = filteredRequest.length === 0;
+  const isStatusEmpty =
+    requests?.filter((req) =>
+      activeButton === null ? true : req.status === activeButton
+    ).length === 0;
   // MODALS
   const [createRequestModal, setCreateRequestModal] = useState(false);
   const [viewRequestModal, setViewRequestModal] = useState(false);
@@ -55,15 +61,17 @@ const Request = () => {
                 style={{ borderRadius: "1.5rem" }}
               />
             </div>
-            <div className="col-auto d-flex gap-2">
-              <Button
-                label={"Request"}
-                btnStyle={"light"}
-                borderRadius={"1rem"}
-                icon={addIcon}
-                onClick={() => setCreateRequestModal(true)}
-              />
-            </div>
+            {user?.position_id === 1 && (
+              <div className="col-auto d-flex gap-2">
+                <Button
+                  label={"Request"}
+                  btnStyle={"light"}
+                  borderRadius={"1rem"}
+                  icon={addIcon}
+                  onClick={() => setCreateRequestModal(true)}
+                />
+              </div>
+            )}
           </div>
           <div className="d-flex gap-2">
             <Button
@@ -94,7 +102,9 @@ const Request = () => {
         </div>
       </InternalHeader>
       <div className="row gap-1 mt-1">
-        {filteredRequest.length ? (
+        {isFilteredEmpty && search ? (
+          <span className="p-2">There is no user, keep searching</span>
+        ) : filteredRequest.length ? (
           filteredRequest.map((req, index) => (
             <UserCard
               key={index}
@@ -109,9 +119,9 @@ const Request = () => {
             />
           ))
         ) : (
-          <p>
+          <span className="p-2">
             {activeButton === null
-              ? "There are no requests for today"
+              ? "There are no requests"
               : activeButton === 0
               ? "There are no pending requests for today"
               : activeButton === 1
@@ -119,7 +129,7 @@ const Request = () => {
               : activeButton === 2
               ? "There are no requests for release today"
               : ""}
-          </p>
+          </span>
         )}
       </div>
       <CreateRequestModal
