@@ -1,8 +1,12 @@
 button {
+  height: 43px !important;
+  width: fit-content !important;
+  margin: 0;
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 12px;
+  padding: 10px 12px !important;
   border-radius: 0.4rem;
   outline: none;
   cursor: pointer;

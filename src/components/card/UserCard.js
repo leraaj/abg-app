@@ -5,11 +5,15 @@ import useFormattedDate from "../../hooks/useFormattedDate";
 const UserCard = ({ name, date, status, onClick }) => {
   return (
     <div className="user-card">
-      <div className="col row gap">
-        <span className="card-name">{name}</span>
-        <span className="card-bdate">{useFormattedDate(date)}</span>
-        <span className="card-status">
-          {status == 1 ? "Pending" : "For Releasing"}
+      <div className="col row gap-2 px-2">
+        <span className="card-name ">{name}</span>
+        <span className="card-bdate ">{useFormattedDate(date)}</span>
+        <span className="card-status ">
+          {status == 0
+            ? "Pending"
+            : status == 1
+            ? "In-progress"
+            : "For Releasing"}
         </span>
       </div>
       <div className="col-auto">

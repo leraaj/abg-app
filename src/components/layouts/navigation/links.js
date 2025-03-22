@@ -17,10 +17,4 @@ export const links = [
     url: "/login",
     label: "Login",
   },
-  {
-    isPrivate: true,
-    access: [1, 2], // null
-    url: "/abg",
-    label: "ABG",
-  },
 ];

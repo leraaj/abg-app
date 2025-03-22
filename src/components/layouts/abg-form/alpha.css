@@ -1,0 +1,105 @@
+@page {
+  size: A4;
+  margin: 0; /* Adjust margin to prevent overlap */
+}
+.print-container {
+  width: 100%; /* Make use of full page width */
+  height: 100vh; /* Ensure content fits within one page */
+  overflow-x: hidden;
+  page-break-inside: avoid; /* Avoid breaking inside elements */
+}
+.right {
+  width: fit-content;
+  text-wrap: nowrap;
+}
+.left {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  gap: 2rem;
+  text-align: center;
+}
+.right .ref-container {
+  display: flex;
+  flex-direction: column;
+  border-inline: 1px black solid;
+}
+.right .ref-container span {
+  display: flex;
+  justify-content: center;
+  padding: 1mm 3mm;
+}
+.right .ref-container > span:first-child,
+.right .ref-container > span:not(:first-child, :nth-last-child(2)) {
+  border-bottom: 1px black solid;
+}
+.right .ref-container > span:last-child,
+.right .ref-container > span:first-child {
+  border-top: 1px black solid;
+}
+.header-container {
+  display: flex;
+  align-items: center;
+}
+.form-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-inline-end: 0.5rem;
+}
+
+.form-container:has(input[type="checkbox"]) {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: start;
+}
+
+.form-input {
+  border-radius: 0% !important;
+  border-top: none !important;
+  border-inline: none !important;
+  border-bottom: 1px var(--gray-700) solid;
+  width: calc(100% - 1.5rem);
+}
+
+.form-label {
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+.form-container-row {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.5rem;
+  padding-inline-end: 0.5rem;
+}
+
+.header {
+  width: 100%;
+  height: max-content;
+  flex-shrink: 0; /* Prevent shrinking */
+  display: flex;
+}
+.header > .header-title {
+  padding-inline: 15% !important;
+}
+.header-title {
+  height: max-content;
+  flex-shrink: 0; /* Prevent shrinking */
+  display: flex;
+  justify-content: center;
+}
+@media print {
+  @page {
+    margin: 0;
+  }
+  .print-container {
+    width: 100%; /* Make use of full page width */
+    height: 100vh; /* Ensure content fits within one page */
+    overflow: hidden; /* Prevent content from overflowing */
+    page-break-inside: avoid; /* Avoid breaking inside elements */
+    font-size: 0.7rem;
+  }
+}

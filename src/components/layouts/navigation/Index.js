@@ -34,11 +34,16 @@ const Navbar = () => {
         <span className="brand-name">ABG</span>
       </div>
       <div
-        className={`col d-flex justify-${
-          !user ? "right" : "left"
-        } align-items-centered gap-1 px-1`}>
+        className={`col d-flex justify-content-${
+          !user ? "end" : "start"
+        } align-items-centered gap-3 px-1`}>
         {privateLinks.map((link) => (
-          <Link key={link.url} to={link.url} className="nav-link">
+          <Link
+            key={link.url}
+            to={link.url}
+            className={`nav-link nav-item ${
+              location.pathname == link.url && "active"
+            }`}>
             {link.label}
           </Link>
         ))}
@@ -48,7 +53,7 @@ const Navbar = () => {
           <>
             <Button btnStyle={"notif"} icon={notifLight} />
             <span
-              className="user-name text-nowrap d-flex align-centered"
+              className="user-name text-nowrap d-flex align-items-center"
               onClick={toggler}>
               <span>{user?.employee_name}</span>
               <img
@@ -60,9 +65,9 @@ const Navbar = () => {
           </>
         )}
         {toggle && (
-          <div className="dropdown-menu">
+          <div className={`dropdown-menu d-${toggle ? "block" : "none"}`}>
             <a
-              className="nav-link dropdown-item"
+              className="nav-link logout"
               onClick={() => {
                 handleLogout();
                 toggler();

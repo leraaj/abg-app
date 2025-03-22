@@ -2,7 +2,7 @@
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.5) !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,9 +51,9 @@
   position: sticky;
   top: 0;
   background-color: white;
-  padding-block: 1rem;
-  padding-inline-start: 1rem;
-  padding-inline-end: 1.3rem;
+  padding-block: 1rem !important;
+  padding-inline-start: 1rem !important;
+  padding-inline-end: 1.3rem !important;
   border-radius: 1rem 1rem 0 0;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -62,15 +62,15 @@
   background-color: rgb(255, 255, 255);
   flex: 1;
   overflow-x: hidden;
-  max-height: 350px;
+  max-height: 350px !important;
   /* height: fit-content; */
-  padding: 1.3rem;
+  padding: 2rem !important;
 }
 /* Footer */
 .modal-footer {
   border-top: 1px solid #e5e7eb;
   background-color: white;
-  padding: 1rem;
+  padding: 1rem !important;
   border-radius: 0 0 1rem 1rem;
   display: flex;
   justify-content: flex-end;

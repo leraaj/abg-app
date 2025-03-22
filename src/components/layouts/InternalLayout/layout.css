@@ -4,11 +4,10 @@ body {
 }
 .internal-header {
   display: flex;
-  gap: 1rem;
   position: sticky;
   top: 0;
   background-color: white;
-  padding-block: 1rem;
+  padding-block: 1rem !important;
 }
 .internal-layout {
   display: flex;
@@ -24,5 +23,5 @@ body {
   flex-grow: 1;
   padding-inline: 2rem;
   overflow: auto;
-  padding-bottom: 2rem;
+  padding-block: 2rem;
 }

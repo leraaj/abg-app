@@ -1,25 +1,25 @@
 :root {
-  --navbar-height: 60px;
-  --navbar-padding-block: 2rem;
-  --navbar-padding-inline: 1rem;
+  --navbar-height: 60px !important;
+  --navbar-padding-block: 2rem !important;
+  --navbar-padding-inline: 1rem !important;
 }
 .navigation-bar {
   background-color: var(--primary-color);
-  height: 60px !important;
   padding: var(--navbar-padding-inline) var(--navbar-padding-block);
   display: flex;
   align-items: center;
 
   .left,
   .right {
-    color: #fff;
+    color: #fff !important;
     display: flex;
     align-items: center;
   }
   .left {
     display: flex;
     justify-content: start;
-    gap: 1rem;
+    gap: 1rem !important;
+    padding-right: 1rem !important;
   }
   .right {
     display: flex;
@@ -33,7 +33,7 @@
   font-weight: 600;
 }
 .nav-link {
-  color: var(--gray-100);
+  color: var(--gray-100) !important;
   text-decoration: none;
   cursor: pointer;
 }
@@ -53,17 +53,16 @@
 
 .dropdown-menu {
   position: absolute;
-  top: calc(var(--navbar-height) + var(--navbar-padding-block));
+  top: calc(var(--navbar-height) + var(--navbar-padding-block) - 5px);
   right: 0;
   background: white;
   border: 1px solid #ddd;
-  border-radius: 0 0 0 5px;
+  border-radius: 0 !important;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 8px 0;
+  padding: 1rem !important;
   width: 150px;
   z-index: 1002;
 }
-
 .dropdown-item {
   display: block;
   padding: 8px 12px;
@@ -71,20 +70,28 @@
   color: black;
   transition: background 0.2s;
 }
-
+.nav-item {
+  color: var(--gray-400) !important ;
+}
+.nav-item:hover,
+.nav-item.active {
+  color: var(--gray-100) !important ;
+}
 .dropdown-item:hover {
   background: #f0f0f0;
 }
-
+.nav-link.logout {
+  color: var(--gray-800) !important;
+}
 .logout-btn {
   border: none;
   background: none;
-  width: 100%;
+  width: 100% !important ;
   text-align: left;
   cursor: pointer;
 }
 
 .logout-icon {
   width: 16px;
-  margin-right: 5px;
+  margin-right: 5px !important ;
 }

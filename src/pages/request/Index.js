@@ -10,7 +10,7 @@ import ViewRequestModal from "./ViewRequestModal";
 
 const Request = () => {
   const { requests, fetchRequests } = useFetchRequests();
-  const [activeButton, setActiveButton] = useState("");
+  const [activeButton, setActiveButton] = useState(null);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [search, setSearch] = useState("");
 
@@ -26,7 +26,7 @@ const Request = () => {
     return (
       requests
         ?.filter((req) => {
-          if (activeButton === "") return true; // Show all requests when "All" is selected
+          if (activeButton === null) return true; // Show all requests when "All" is selected
           return req.status === activeButton;
         })
         .filter((req) =>
@@ -44,8 +44,8 @@ const Request = () => {
   return (
     <>
       <InternalHeader>
-        <div className="col row gap-1">
-          <div className="d-flex gap-1">
+        <div className="col row gap-3">
+          <div className="d-flex align-items-center gap-3">
             <div className="col">
               <input
                 type="search"
@@ -65,15 +65,21 @@ const Request = () => {
               />
             </div>
           </div>
-          <div className="d-flex gap-1">
+          <div className="d-flex gap-2">
             <Button
               label={"All"}
-              btnStyle={activeButton === "" ? "secondary" : "light"}
+              btnStyle={activeButton == null ? "secondary" : "light"}
               borderRadius={"1rem"}
-              onClick={() => handleToggle("")}
+              onClick={() => handleToggle(null)}
             />
             <Button
               label={"Pending"}
+              btnStyle={activeButton === 0 ? "secondary" : "light"}
+              borderRadius={"1rem"}
+              onClick={() => handleToggle(0)}
+            />
+            <Button
+              label={"In-progress"}
               btnStyle={activeButton === 1 ? "secondary" : "light"}
               borderRadius={"1rem"}
               onClick={() => handleToggle(1)}
@@ -92,7 +98,7 @@ const Request = () => {
           filteredRequest.map((req, index) => (
             <UserCard
               key={index}
-              name={req?.patient_name}
+              name={`${req?.patient_name} `}
               age={req?.age}
               status={req?.status}
               date={req?.date_created}
@@ -104,12 +110,14 @@ const Request = () => {
           ))
         ) : (
           <p>
-            {activeButton === ""
+            {activeButton === null
               ? "There are no requests for today"
-              : activeButton === 1
+              : activeButton === 0
               ? "There are no pending requests for today"
+              : activeButton === 1
+              ? "There are no requests in-progress for today"
               : activeButton === 2
-              ? "There are no requests pending release for today"
+              ? "There are no requests for release today"
               : ""}
           </p>
         )}

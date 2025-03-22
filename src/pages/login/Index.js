@@ -32,9 +32,9 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container d-flex justify-centered align-centered">
+    <div className="login-container d-flex justify-content-center align-items-center">
       <div className="login-card d-flex">
-        <div className="login-pane col-auto d-flex justify-centered align-centered ">
+        <div className="login-pane col-auto d-flex justify-content-center align-items-center ">
           <img src={brand} className="brand-image" />
         </div>
         <form className="login-pane form-group col " onSubmit={onSubmit}>

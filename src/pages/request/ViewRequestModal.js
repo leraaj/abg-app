@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import Modal from "../../components/modal/Modal";
 import Button from "../../components/button/Button";
 import rightIcon from "../../assets/icons/chevron-right.svg";
-import UserCard from "../../components/card/UserCard";
 import OCR from "./OCR";
 import useFormattedDate from "../../hooks/useFormattedDate";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
@@ -17,17 +16,21 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
     <Modal
       isOpen={modal}
       onClose={closeModal}
-      title={`${title} - ${data?.status == 1 ? "Pending" : "For Releasing"} `}
+      title={`${title} - ${
+        data?.status == 0
+          ? "Pending"
+          : data?.status == 1
+          ? "In-progress"
+          : "For Releasing"
+      } `}
       isStatic={isStatic}
       onSubmit={(e) => {
         e.preventDefault();
       }}
       submitLabel={"Send to physician"}>
-      <div className="row gap-1">
-        <div
-          className="d-flex gap-1"
-          style={{ overflowX: "scroll", paddingBottom: "1rem" }}>
-          <div className="input-container ">
+      <div className="row gap-3">
+        <div className="d-flex gap-3 p-0 m-0" style={{ overflowX: "auto" }}>
+          <div className="req-card input-container ">
             <span className="col-auto">
               <Button icon={rightIcon} btnStyle={"next"} />
             </span>
@@ -35,7 +38,7 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
               Scan & Upload ABG Results
             </div>
           </div>
-          <div className="input-container ">
+          <div className="req-card input-container ">
             <span className="col-auto">
               <Button icon={rightIcon} btnStyle={"next"} />
             </span>
@@ -43,7 +46,7 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
               View Supporting documents
             </div>
           </div>
-          <div className="input-container ">
+          <div className="req-card input-container ">
             <span className="col-auto">
               <Button
                 icon={rightIcon}
@@ -56,7 +59,6 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
                       "\nRequestor ID: " +
                       data.requestor_id
                   );
-                  // console.log(data);
                 }}
               />
             </span>
@@ -66,23 +68,20 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
           </div>
         </div>
         <div className="input-container">
-          <span className="f6">{useFormattedDate(data?.date_created)}</span>
-          <span className="row gap-1 f4 input-title">
-            <span>{data?.patient_name}</span>
-            <span>
-              {data?.sex || "No specified gender"} <span className="f4">🞄</span>
-              {` ${data?.age} years old`}
-            </span>
+          <span className="fs-4 bold">
+            {useFormattedDate(data?.date_created)}
+          </span>
+          <span className="fs-sm capitalized">
+            {data?.sex || "No specified gender"} <span className="">🞄</span>
+            {` ${data?.age} years old`}
           </span>
         </div>
         <div className="input-container">
-          <span className="row gap-1 f4 input-title">
-            <span className="f6">
-              {physicians?.find(
-                (phy) => parseInt(phy.id) === parseInt(data?.rt_id)
-              )?.employee_name || "No Assignee"}
-            </span>
-            <span>Assigned Physician</span>
+          <span className="fs-4 bold">Assigned Respiratory Therapist</span>
+          <span>
+            {physicians?.find(
+              (phy) => parseInt(phy.id) === parseInt(data?.rt_id)
+            )?.employee_name || "No Assignee"}
           </span>
         </div>
       </div>

@@ -64,7 +64,15 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ ...state, dispatch, toggle, toggler, currentUser, API_URL }}>
+      value={{
+        ...state,
+        dispatch,
+        toggle,
+        toggler,
+        currentUser,
+        userLoading: isLoading,
+        API_URL,
+      }}>
       {/* dispatch = para sa redux functions kung mag LOGIN or LOGOUT */}
       {/* currentUser = tawagin every login or logout or update ng current user */}
       {children}

@@ -14,13 +14,21 @@ import Login from "./pages/login/Index";
 import Request from "./pages/request/Index";
 import Scan from "./pages/scan/Index";
 // Form
-import AbgForm from "./components/layouts/abg-form/Index";
+import ABGFormsPage from "./components/layouts/abg-form/Index";
 
 const App = () => {
-  const { user } = useAuthContext();
+  const { user, userLoading } = useAuthContext();
   const { position } = useFetchUserPosition();
   const p_id = position?.id;
   const p_type = position?.type;
+
+  if (userLoading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center">
+        Loading
+      </div>
+    );
+  }
 
   const defaultRoutes = [
     {
@@ -50,7 +58,7 @@ const App = () => {
         user?.position_id != null ? (
           <Navigate to={"/request"} replace />
         ) : (
-          <AbgForm />
+          <ABGFormsPage />
         ),
     },
   ];

@@ -45,7 +45,7 @@ const Modal = ({
           <div className="modal-body">{children}</div>
 
           {/* Footer */}
-          <div className="modal-footer d-flex gap-1">
+          <div className="modal-footer d-flex gap-2">
             {footer || (
               <button type={"button"} className="cancel-btn" onClick={onClose}>
                 Cancel

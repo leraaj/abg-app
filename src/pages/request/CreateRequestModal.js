@@ -28,20 +28,19 @@ const Index = ({ modal, closeModal, title, isStatic, refreshList }) => {
       age: data?.age,
       sex: data?.sex,
       diagnosis: data?.diagnosis,
-      rtId: data?.rtId,
       requestorId: user?.id,
-      physicianId: 0,
-      // date_created: new Date().toISOString(),
+      rtId: data?.rtId,
       status: 1,
     };
 
     await handleCreateRequest(requestData);
+
     if (!error) {
       setTimeout(() => {
         refreshList();
-        e.target.reset();
         closeModal();
         onSubmitLoading(e);
+        e.target.reset();
       }, 3000);
     }
   };
@@ -54,7 +53,7 @@ const Index = ({ modal, closeModal, title, isStatic, refreshList }) => {
       isStatic={isStatic}
       onSubmit={onSubmit}
       submitLoading={submitLoading}>
-      <div className="row gap-1">
+      <div className="row gap-3">
         <div className="input-container">
           <span className="input-title">diagnosis</span>
           <input
@@ -68,15 +67,17 @@ const Index = ({ modal, closeModal, title, isStatic, refreshList }) => {
         </div>
         <div className="input-container">
           <span className="input-title">patient information</span>
-          <input
-            type="text"
-            name="patientName"
-            className="form-input"
-            placeholder="fullname"
-            defaultValue=""
-            required
-          />
-          <div className="d-flex gap-1 col">
+          <div className="col ">
+            <input
+              type="text"
+              name="patientName"
+              className="form-input col-12"
+              placeholder="fullname"
+              defaultValue=""
+              required
+            />
+          </div>
+          <div className="d-flex gap-2 col ">
             <input
               type="text"
               name="age"
@@ -97,7 +98,7 @@ const Index = ({ modal, closeModal, title, isStatic, refreshList }) => {
         </div>
         <div className="input-container">
           <div className="row gap-1">
-            <span className="input-title">Assignee</span>
+            <span className="input-title">Assign Respiratory Therapists</span>
             <select name="rtId" className="form-input" defaultValue="" required>
               <option disabled>Select a physician</option>
               {physicians?.map((user, index) => {
