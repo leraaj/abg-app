@@ -19,6 +19,14 @@
   align-items: start;
   gap: 2rem;
   text-align: center;
+  padding-inline: 5rem;
+}
+/* .left div:first-child,
+.left div:last-child {
+  border: 1px red solid;
+} */
+.left div:nth-child(2) {
+  /* display: flex; */
 }
 .right .ref-container {
   display: flex;

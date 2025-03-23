@@ -9,28 +9,56 @@ const Index = () => {
   const [revNum, setRevNum] = useState("");
   const [dateEffective, setDateEffective] = useState("");
 
+  const [fullname, setFullname] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [ward, setWard] = useState("");
+  const [date, setDate] = useState("");
+
+  const [diagsnosis, setDiagnosis] = useState("");
+  const [physician, setPhysician] = useState("");
+  const [time, setTime] = useState("");
+
+  const [temp, setTemp] = useState("");
+  const [hgb, setHgb] = useState("");
+  const [fio2, setFio2] = useState("");
+  const [ph, setPh] = useState("");
+  const [pco2, setPco2] = useState("");
+  const [po2, setPo2] = useState("");
+  const [hco3, setHco3] = useState("");
+  const [abe, setAbe] = useState("");
+  const [sao2, setSao2] = useState("");
+  const [ctco2, setCtco2] = useState("");
+
+  const [rtOnDuty, setRtOnDuty] = useState("");
+  const [pulmonaryConsultant, setPulmonaryConsultant] = useState("");
+
   return (
     <div className="print-container">
       <div className="header-container ">
-        <div className="left px-1">
-          <div className="d-flex justify-content-center align-items-center">
+        <div className="left">
+          <div className="d-flex justify-content-end col-lg">
             <img src={DOHLogo} height="55" />
           </div>
-          <div className="row">
-            <span className="capitalized semi-bold">
+          <div className="d-flex justify-content-end row col-lg">
+            <span className="capitalized semi-bold text-nowrap">
               republic of the philippines
             </span>
-            <span className="uppercased semi-bold">department of health</span>
-            <span className="capitalized semi-bold">
+            <span className="uppercased semi-bold text-nowrap">
+              department of health
+            </span>
+            <span className="capitalized semi-bold text-nowrap">
               east avenue medical center
             </span>
             <br />
-            <span className="uppercased bold">pulmonary section</span>
-            <span className="uppercased underlined bold">
+            <span className="uppercased bold text-nowrap">
+              pulmonary section
+            </span>
+            <span className="uppercased underlined bold text-nowrap">
               arterial blood gases official result
             </span>
           </div>
-          <div className="d-flex justify-content-center align-items-center">
+          <div className="d-flex justify-content-start col-lg">
             <img src={EAMCLogo} height="55" />
           </div>
         </div>
@@ -46,134 +74,230 @@ const Index = () => {
         </div>
       </div>
       <br />
-      <div className="row px-3">
+      <div className="row px-3 col-lg-12">
         {/* First Column */}
-        <div className="col-12 d-flex mt-1">
-          <div className="col-5 ">
-            <div className="col form-container">
-              <div className="form-label uppercased">Name:</div>
-              <input type="text" className="form-input" />
+        <div className="col-lg-12 d-flex mt-1">
+          <div className="col-lg-5 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap uppercased">Name:</div>
+              <input
+                type="text"
+                className="form-input"
+                defaultValue={fullname || "N/A"}
+                onChange={(e) => setFullname(e.target.value)}
+              />
             </div>
           </div>
-          <div className="col-3 ">
-            <div className="col form-container">
-              <div className="form-label uppercased">Age/Gender:</div>
-              <input type="text" className="form-input" />
+          <div className="col-lg-3 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap uppercased">
+                Age/Gender:
+              </div>
+              <input
+                type="text"
+                className="form-input text-center"
+                defaultValue={age || "N/A"}
+                onChange={(e) => setAge(e.target.value)}
+              />
               <span>/</span>
-              <input type="text" className="form-input" />
+              <input
+                type="text"
+                className="form-input text-center"
+                defaultValue={"N/A"}
+                onChange={(e) => setGender(e.target.value)}
+              />
             </div>
           </div>
-          <div className="col-2 ">
-            <div className="col form-container">
-              <div className="form-label uppercased">Ward:</div>
-              <input type="text" className="form-input" />
+          <div className="col-lg-2 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap uppercased">Ward:</div>
+              <input
+                type="text"
+                className="form-input"
+                defaultValue={ward || "N/A"}
+                onChange={(e) => setWard(e.target.value)}
+              />
             </div>
           </div>
-          <div className="col-2 ">
-            <div className="col form-container">
-              <div className="form-label uppercased">Date:</div>
-              <input type="text" className="form-input" />
+          <div className="col-lg-2 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap uppercased">Date:</div>
+              <input
+                type="text"
+                className="form-input text-center"
+                defaultValue={date || "N/A"}
+                onChange={(e) => setDate(e.target.value)}
+              />
             </div>
           </div>
         </div>
         {/* Second Column */}
-        <div className="col-12 d-flex mt-1">
-          <div className="col-5 ">
-            <div className="col form-container">
-              <div className="form-label uppercased">Diagnosis:</div>
-              <input type="text" className="form-input" />
+        <div className="col-lg-12 d-flex mt-1">
+          <div className="col-lg-5 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap uppercased">
+                Diagnosis:
+              </div>
+              <input
+                type="text"
+                className="form-input"
+                defaultValue={diagsnosis || "N/A"}
+                onChange={(e) => setDiagnosis(e.target.value)}
+              />
             </div>
           </div>
-          <div className="col-5 ">
-            <div className="col form-container">
-              <div className="form-label uppercased">Physician:</div>
-              <input type="text" className="form-input" />
+          <div className="col-lg-5 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap uppercased">
+                Physician:
+              </div>
+              <input
+                type="text"
+                className="form-input"
+                defaultValue={physician || "N/A"}
+                onChange={(e) => setPhysician(e.target.value)}
+              />
             </div>
           </div>
-          <div className="col-2 ">
-            <div className="col form-container">
-              <div className="form-label uppercased">Time:</div>
-              <input type="text" className="form-input" />
+          <div className="col-lg-2 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap uppercased">Time:</div>
+              <input
+                type="text"
+                className="form-input text-center"
+                defaultValue={time || "N/A"}
+                onChange={(e) => setTime(e.target.value)}
+              />
             </div>
           </div>
         </div>
         {/* Third COlumn */}
-        <div className="col-12 d-flex mt-3 pl-5">
-          <div className="col-2 ">
-            <div className="col form-container">
-              <div className="form-label uppercased">Temp:</div>
-              <input type="text" className="form-input" />
+        <div className="col-lg-12 d-flex mt-3 pl-5">
+          <div className="col-lg-2 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap uppercased">Temp:</div>
+              <input
+                type="text"
+                className="form-input"
+                defaultValue={temp || "N/A"}
+                onChange={(e) => setTemp(e.target.value)}
+              />
             </div>
           </div>
-          <div className="col-2 ">
-            <div className="col form-container">
-              <div className="form-label uppercased">hgb:</div>
-              <input type="text" className="form-input" />
+          <div className="col-lg-2 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap uppercased">hgb:</div>
+              <input
+                type="text"
+                className="form-input"
+                defaultValue={hgb || "N/A"}
+                onChange={(e) => setHgb(e.target.value)}
+              />
             </div>
           </div>
-          <div className="col-2 ">
-            <div className="col form-container">
-              <div className="form-label uppercased">FIO2:</div>
-              <input type="text" className="form-input" />
-            </div>
-          </div>
-        </div>
-        <div
-          className="col-12 d-flex mt-1"
-          style={{ paddingInlineStart: "70px" }}>
-          <div className="col-2 ">
-            <div className="col form-container">
-              <div className="form-label normal">pH:</div>
-              <input type="text" className="form-input" />
-            </div>
-          </div>
-          <div className="col-2 ">
-            <div className="col form-container">
-              <div className="form-label normal">pCO2:</div>
-              <input type="text" className="form-input" />
-            </div>
-          </div>
-          <div className="col-2 ">
-            <div className="col form-container">
-              <div className="form-label normal">pO2:</div>
-              <input type="text" className="form-input" />
-            </div>
-          </div>
-          <div className="col-2">
-            <div className="col form-container">
-              <div className="form-label normal">HCO3:</div>
-              <input type="text" className="form-input" />
+          <div className="col-lg-2 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap uppercased">FIO2:</div>
+              <input
+                type="text"
+                className="form-input"
+                defaultValue={fio2 || "N/A"}
+                onChange={(e) => setFio2(e.target.value)}
+              />
             </div>
           </div>
         </div>
         <div
-          className="col-12 d-flex mt-1"
+          className="col-lg-12 d-flex mt-1"
           style={{ paddingInlineStart: "70px" }}>
-          <div className="col-2 ">
-            <div className="col form-container">
-              <div className="form-label normal">ABE:</div>
-              <input type="text" className="form-input" />
+          <div className="col-lg-2 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap normal">pH:</div>
+              <input
+                type="text"
+                className="form-input"
+                defaultValue={ph || "N/A"}
+                onChange={(e) => setPh(e.target.value)}
+              />
             </div>
           </div>
-          <div className="col-2 ">
-            <div className="col form-container">
-              <div className="form-label normal">SaO2:</div>
-              <input type="text" className="form-input" />
+          <div className="col-lg-2 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap normal">pCO2:</div>
+              <input
+                type="text"
+                className="form-input"
+                defaultValue={pco2 || "N/A"}
+                onChange={(e) => setPco2(e.target.value)}
+              />
             </div>
           </div>
-          <div className="col-2 ">
-            <div className="col form-container">
-              <div className="form-label normal">ctCO2:</div>
-              <input type="text" className="form-input" />
+          <div className="col-lg-2 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap normal">pO2:</div>
+              <input
+                type="text"
+                className="form-input"
+                defaultValue={po2 || "N/A"}
+                onChange={(e) => setPo2(e.target.value)}
+              />
             </div>
           </div>
-          <div className="col-2">
-            <div className="col-12"></div>
+          <div className="col-lg-2">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap normal">HCO3:</div>
+              <input
+                type="text"
+                className="form-input"
+                defaultValue={hco3 || "N/A"}
+                onChange={(e) => setHco3(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          className="col-lg-12 d-flex mt-1"
+          style={{ paddingInlineStart: "70px" }}>
+          <div className="col-lg-2 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap normal">ABE:</div>
+              <input
+                type="text"
+                className="form-input"
+                defaultValue={abe || "N/A"}
+                onChange={(e) => setAbe(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="col-lg-2 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap normal">SaO2:</div>
+              <input
+                type="text"
+                className="form-input"
+                defaultValue={sao2 || "N/A"}
+                onChange={(e) => setSao2(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="col-lg-2 ">
+            <div className="col-lg form-container">
+              <div className="form-label text-nowrap normal">ctCO2:</div>
+              <input
+                type="text"
+                className="form-input"
+                defaultValue={ctco2 || "N/A"}
+                onChange={(e) => setCtco2(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="col-lg-2">
+            <div className="col-lg-12"></div>
           </div>
         </div>
         {/* Checkboxes */}
-        <div className="col-12 mt-5">
-          <table className="col-12">
+        <div className="col-lg-12 mt-5">
+          <table className="col-lg-12">
             <tr>
               {/* Adequate Oxygenation / hypoxemia */}
               <td></td>
@@ -181,7 +305,7 @@ const Index = () => {
                 <div class="form-container">
                   <label
                     htmlFor="adequateOxygenation"
-                    class="form-label uppercased">
+                    class="form-label text-nowrap uppercased">
                     adequate oxygenation
                   </label>
                   <input
@@ -193,7 +317,9 @@ const Index = () => {
               </td>
               <td colSpan={2}>
                 <div class="form-container">
-                  <label htmlFor="hypoxemia" class="form-label uppercased">
+                  <label
+                    htmlFor="hypoxemia"
+                    class="form-label text-nowrap uppercased">
                     hypoxemia
                   </label>
                   <input type="checkbox" id="hypoxemia" class="form-checkbox" />
@@ -204,7 +330,9 @@ const Index = () => {
               {/* Mild, Moderate, Severe */}
               <td>
                 <div class="form-container">
-                  <label htmlFor="mild" class="form-label uppercased">
+                  <label
+                    htmlFor="mild"
+                    class="form-label text-nowrap uppercased">
                     mild
                   </label>
                   <input type="checkbox" id="mild" class="form-checkbox" />
@@ -212,7 +340,9 @@ const Index = () => {
               </td>
               <td>
                 <div class="form-container">
-                  <label htmlFor="moderate" class="form-label uppercased">
+                  <label
+                    htmlFor="moderate"
+                    class="form-label text-nowrap uppercased">
                     moderate
                   </label>
                   <input type="checkbox" id="moderate" class="form-checkbox" />
@@ -220,7 +350,9 @@ const Index = () => {
               </td>
               <td colSpan={2}>
                 <div class="form-container">
-                  <label htmlFor="severe" class="form-label uppercased">
+                  <label
+                    htmlFor="severe"
+                    class="form-label text-nowrap uppercased">
                     severe
                   </label>
                   <input type="checkbox" id="severe" class="form-checkbox" />
@@ -233,7 +365,7 @@ const Index = () => {
                 <div class="form-container">
                   <label
                     htmlFor="respiratory"
-                    class="form-label col-auto uppercased">
+                    class="form-label text-nowrap col-lg-auto uppercased">
                     Respiratory
                   </label>
                   <input
@@ -247,7 +379,7 @@ const Index = () => {
                 <div class="form-container">
                   <label
                     htmlFor="acidosis"
-                    class="form-label col-auto uppercased">
+                    class="form-label text-nowrap col-lg-auto uppercased">
                     Acidosis
                   </label>
                   <input type="checkbox" id="acidosis" class="form-checkbox" />
@@ -257,7 +389,7 @@ const Index = () => {
                 <div class="form-container">
                   <label
                     htmlFor="uncompensated"
-                    class="form-label col-auto uppercased">
+                    class="form-label text-nowrap col-lg-auto uppercased">
                     Uncompensated
                   </label>
                   <input
@@ -271,7 +403,7 @@ const Index = () => {
                 <div class="form-container">
                   <label
                     htmlFor="mild-2"
-                    class="form-label col-auto uppercased">
+                    class="form-label text-nowrap col-lg-auto uppercased">
                     mild
                   </label>
                   <input type="checkbox" id="mild-2" class="form-checkbox" />
@@ -284,7 +416,7 @@ const Index = () => {
                 <div class="form-container">
                   <label
                     htmlFor="metabolic"
-                    class="form-label col-auto uppercased">
+                    class="form-label text-nowrap col-lg-auto uppercased">
                     metabolic
                   </label>
                   <input type="checkbox" id="metabolic" class="form-checkbox" />
@@ -292,7 +424,9 @@ const Index = () => {
               </td>
               <td>
                 <div class="form-container">
-                  <label for="alkalosis" class="form-label col-auto uppercased">
+                  <label
+                    for="alkalosis"
+                    class="form-label text-nowrap col-lg-auto uppercased">
                     alkalosis
                   </label>
                   <input type="checkbox" id="alkalosis" class="form-checkbox" />
@@ -302,7 +436,7 @@ const Index = () => {
                 <div class="form-container">
                   <label
                     htmlFor="partiallyCompensated"
-                    class="form-label col-auto uppercased">
+                    class="form-label text-nowrap col-lg-auto uppercased">
                     partially compensated
                   </label>
                   <input
@@ -316,7 +450,7 @@ const Index = () => {
                 <div class="form-container">
                   <label
                     for="moderate-2"
-                    class="form-label col-auto uppercased">
+                    class="form-label text-nowrap col-lg-auto uppercased">
                     moderate
                   </label>
                   <input
@@ -334,7 +468,7 @@ const Index = () => {
                 <div class="form-container">
                   <label
                     htmlFor="fullyCompensated"
-                    class="form-label col-auto uppercased">
+                    class="form-label text-nowrap col-lg-auto uppercased">
                     fully compensated
                   </label>
                   <input
@@ -348,7 +482,7 @@ const Index = () => {
                 <div class="form-container">
                   <label
                     htmlFor="severe-2"
-                    class="form-label col-auto uppercased">
+                    class="form-label text-nowrap col-lg-auto uppercased">
                     severe
                   </label>
                   <input type="checkbox" id="severe-2" class="form-checkbox" />
@@ -368,7 +502,7 @@ const Index = () => {
                     />
                     <span
                       htmlFor="mixed"
-                      className="form-label semi-bold uppercased ">
+                      className="form-label text-nowrap semi-bold uppercased ">
                       mixed
                     </span>
                   </div>
@@ -384,17 +518,31 @@ const Index = () => {
           <div
             className="d-flex gap-2"
             style={{ width: "70%", marginBlock: "80px 10px" }}>
-            <div className="col  form-container-row">
-              <label className="form-label semi-bold">Prepared By:</label>
-              <input type="text" name="" className="form-input  " />
-              <label className="form-label semi-bold uppercased text-align-center col-12">
+            <div className="col-lg  form-container-row">
+              <label className="form-label text-nowrap semi-bold">
+                Prepared By:
+              </label>
+              <input
+                type="text"
+                name=""
+                className="form-input text-center"
+                defaultValue={rtOnDuty || "N/A"}
+                onChange={(e) => setRtOnDuty(e.target.value)}
+              />
+              <label className="text-nowrap form-label semi-bold uppercased text-align-center col-lg-12">
                 Respiratory therapist on duty
               </label>
             </div>
-            <div className="col form-container-row">
+            <div className="col-lg form-container-row">
               <label className="form-label semi-bold">Interpreted By:</label>
-              <input type="text" name="" className="form-input  " />
-              <label className="form-label semi-bold uppercased text-align-center col-12">
+              <input
+                type="text"
+                name=""
+                className="form-input text-center"
+                defaultValue={pulmonaryConsultant || "N/A"}
+                onChange={(e) => setPulmonaryConsultant(e.target.value)}
+              />
+              <label className="text-nowrap form-label semi-bold uppercased text-align-center col-lg-12">
                 Pulmo Consultant/pulmo result
               </label>
             </div>

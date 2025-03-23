@@ -22,7 +22,9 @@ const App = () => {
 
   if (userLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center">
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "100dvh", width: "100%" }}>
         Loading
       </div>
     );
@@ -44,12 +46,7 @@ const App = () => {
     {
       isPrivate: false,
       path: "/abg",
-      element:
-        position?.id != null ? (
-          <Navigate to={"/request"} replace />
-        ) : (
-          <ABGFormsPage />
-        ),
+      element: <ABGFormsPage />,
     },
   ];
 
@@ -58,6 +55,11 @@ const App = () => {
       isPrivate: true,
       path: "/request",
       element: <Request />,
+    },
+    {
+      isPrivate: true,
+      path: "/abg",
+      element: <ABGFormsPage />,
     },
   ];
   const ADMIN_AUTHORIZED_ROUTES = [
