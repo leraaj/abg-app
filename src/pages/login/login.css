@@ -6,8 +6,7 @@
   align-items: center;
 }
 .brand-image {
-  height: 90px;
-  padding-bottom: 4rem;
+  height: 90px !important;
 }
 .login-card {
   min-width: 500px;

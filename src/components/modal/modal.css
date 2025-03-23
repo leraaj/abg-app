@@ -62,7 +62,7 @@
   background-color: rgb(255, 255, 255);
   flex: 1;
   overflow-x: hidden;
-  max-height: 350px !important;
+  height: 350px !important;
   /* height: fit-content; */
   padding: 2rem !important;
 }

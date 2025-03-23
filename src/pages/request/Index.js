@@ -8,11 +8,12 @@ import CreateRequestModal from "./CreateRequestModal";
 import useFetchRequests from "../../hooks/requests/useFetchRequests";
 import ViewRequestModal from "./ViewRequestModal";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
+import useFetchUserPosition from "../../hooks/auth/useFetchUserPosition";
 
 const Request = () => {
   const { user } = useAuthContext();
   const { requests, fetchRequests } = useFetchRequests();
-  const [activeButton, setActiveButton] = useState(null);
+  const [activeButton, setActiveButton] = useState(0);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [search, setSearch] = useState("");
 
@@ -39,10 +40,14 @@ const Request = () => {
     );
   }, [requests, activeButton, search]); // Add `requests` to dependencies
   const isFilteredEmpty = filteredRequest.length === 0;
-  const isStatusEmpty =
-    requests?.filter((req) =>
-      activeButton === null ? true : req.status === activeButton
-    ).length === 0;
+  const messages = {
+    null: "No records found",
+    0: "No pending requests at the moment",
+    1: "No requests are currently in progress",
+    2: "No requests are ready for release",
+  };
+
+  const messageFilters = messages[activeButton] ?? "";
   // MODALS
   const [createRequestModal, setCreateRequestModal] = useState(false);
   const [viewRequestModal, setViewRequestModal] = useState(false);
@@ -103,7 +108,7 @@ const Request = () => {
       </InternalHeader>
       <div className="row gap-1 mt-1">
         {isFilteredEmpty && search ? (
-          <span className="p-2">There is no user, keep searching</span>
+          <span className="p-2">No matching records found</span>
         ) : filteredRequest.length ? (
           filteredRequest.map((req, index) => (
             <UserCard
@@ -119,17 +124,7 @@ const Request = () => {
             />
           ))
         ) : (
-          <span className="p-2">
-            {activeButton === null
-              ? "There are no requests"
-              : activeButton === 0
-              ? "There are no pending requests for today"
-              : activeButton === 1
-              ? "There are no requests in-progress for today"
-              : activeButton === 2
-              ? "There are no requests for release today"
-              : ""}
-          </span>
+          <span className="p-2">{messageFilters}</span>
         )}
       </div>
       <CreateRequestModal

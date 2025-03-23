@@ -10,7 +10,7 @@ const useUpdateUser = () => {
   const handleUserUpdate = async (id, data) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${API_URL}/api/users/${id}`, {
+      const response = await fetch(`${API_URL}/api/users/current/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

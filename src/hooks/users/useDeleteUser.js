@@ -10,7 +10,7 @@ const useDeleteUser = () => {
   const handleDeleteUser = async (id) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${API_URL}/api/users/${id}`, {
+      const response = await fetch(`${API_URL}/api/users/current/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

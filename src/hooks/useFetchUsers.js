@@ -36,7 +36,7 @@ const useFetchUsers = () => {
     fetchUsers();
   }, []);
 
-  return { users, isLoading, error };
+  return { users, isLoading, error, fetchUsers };
 };
 
 export default useFetchUsers;

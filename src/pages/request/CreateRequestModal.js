@@ -3,7 +3,6 @@ import Modal from "../../components/modal/Modal";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import useCreateRequest from "../../hooks/requests/useCreateRequest";
 import useFetchPhysicians from "../../hooks/requests/useFetchPhysicians";
-
 const Index = ({ modal, closeModal, title, isStatic, refreshList }) => {
   const { user } = useAuthContext();
   const { physicians } = useFetchPhysicians();
@@ -51,64 +50,77 @@ const Index = ({ modal, closeModal, title, isStatic, refreshList }) => {
       onClose={closeModal}
       title={title}
       isStatic={isStatic}
-      onSubmit={onSubmit}
+      onSubmit={(e) => onSubmit(e)}
       submitLoading={submitLoading}>
       <div className="row gap-3">
         <div className="input-container">
           <span className="input-title">diagnosis</span>
-          <input
-            type="text"
-            name="diagnosis"
-            placeholder="Specify"
-            className="form-control"
-            defaultValue=""
-            required
-          />
+          <div class="form-floating">
+            <input
+              type="text"
+              name="diagnosis"
+              placeholder="Specify"
+              className="form-control"
+              defaultValue=""
+              required
+            />
+            <label for="floatingInput">Diagnosis</label>
+          </div>
         </div>
         <div className="input-container">
           <span className="input-title">patient information</span>
-          <div className="col ">
+          <div class="form-floating">
             <input
               type="text"
               name="patientName"
               className="form-control col-12"
-              placeholder="fullname"
+              placeholder="Fullname"
               defaultValue=""
               required
             />
+            <label for="floatingInput">Fullname</label>
           </div>
-          <div className="d-flex gap-2 col ">
+          <div class="form-floating">
             <input
               type="text"
               name="age"
-              placeholder="age"
-              className="form-control col"
+              placeholder="Age"
+              className="form-control"
               defaultValue=""
               required
             />
+            <label for="floatingInput">Age</label>
+          </div>
+          <div class="form-floating">
             <input
               type="text"
               name="sex"
-              placeholder="sex"
-              className="form-control col"
+              placeholder="Sex"
+              className="form-control"
               defaultValue=""
               required
             />
+            <label for="floatingInput">Sex</label>
           </div>
         </div>
 
         <div className="input-container">
           <span className="input-title">Assign Respiratory Therapists</span>
-          <select name="rtId" className="form-control" defaultValue="" required>
-            <option disabled>Select a physician</option>
-            {physicians?.map((user, index) => {
-              return (
-                <option key={index} value={user?.id}>
-                  {user?.employee_name}
-                </option>
-              );
-            })}
-          </select>
+          <div class="form-floating">
+            <select name="rtId" className="form-select" required>
+              <option disabled selected>
+                Select a physician
+              </option>
+              {physicians?.map((user, index) => {
+                return (
+                  <option key={index} value={user?.id}>
+                    {user?.employee_name}
+                  </option>
+                );
+              })}
+            </select>
+            <label for="floatingSelect">Respiratory Therapists</label>
+          </div>
         </div>
       </div>
     </Modal>

@@ -8,6 +8,7 @@
   padding: var(--navbar-padding-inline) var(--navbar-padding-block);
   display: flex;
   align-items: center;
+  z-index: 1002 !important;
 
   .left,
   .right {

@@ -4,7 +4,7 @@ import useFetchPositions from "../../hooks/auth/useFetchPositions";
 import Button from "../../components/button/Button";
 import useUpdateUser from "../../hooks/users/useUpdateUser";
 
-const Index = ({ modal, closeModal, title, isStatic, user, updateUser }) => {
+const Index = ({ modal, closeModal, title, isStatic, user, fetchUsers }) => {
   const { handleUserUpdate, isLoading, error } = useUpdateUser();
   const { positions } = useFetchPositions();
   const [submitLoading, setSubmitLoading] = useState(false);
@@ -40,7 +40,7 @@ const Index = ({ modal, closeModal, title, isStatic, user, updateUser }) => {
           e.target.reset();
           closeModal();
           handleUserUpdate(user?.id, data);
-          updateUser(user?.id, newData);
+          fetchUsers();
           onSubmitLoading();
         }, 3000);
       }
@@ -53,59 +53,58 @@ const Index = ({ modal, closeModal, title, isStatic, user, updateUser }) => {
       onClose={closeModal}
       title={title}
       isStatic={isStatic}
-      onSubmit={onSubmit}
+      onSubmit={(e) => onSubmit(e)}
       submitLoading={submitLoading}>
       <div className="row gap-3">
-        <span className="header-title">Profile Information</span>
         <div className="input-container">
-          <span className="input-title">Employee name</span>
-          <input
-            type="text"
-            name="employeeName"
-            className="form-control"
-            defaultValue={user?.employee_name || ""}
-          />
-          <span className="input-title">Employee number</span>
-          <input
-            type="text"
-            name="employeeNumber"
-            className="form-control"
-            defaultValue={user?.employee_number || ""}
-          />
+          <span className="input-title">Profile Information</span>
+          <div class="form-floating">
+            <input
+              type="text"
+              name="employeeName"
+              className="form-control"
+              defaultValue={user?.employee_name || ""}
+            />
+            <label for="floatingInput">Employee name</label>
+          </div>
+
+          <div class="form-floating">
+            <input
+              type="text"
+              name="employeeNumber"
+              placeholder="Employee number"
+              className="form-control"
+              defaultValue={user?.employee_number || ""}
+            />
+            <label for="floatingInput">Employee number</label>
+          </div>
         </div>
         <span className="header-title">Access Credentials</span>
         <div className="input-container">
-          <span className="input-title">Username</span>
-          <input
-            type="text"
-            name="username"
-            className="form-control"
-            defaultValue={user?.username || ""}
-          />
-          {/* <div className="row gap-1">
-            <span className="input-title">Password</span>
+          <div class="form-floating">
             <input
-              type="password"
-              name="password"
+              type="text"
+              name="username"
+              placeholder="Username"
               className="form-control"
-              defaultValue={user?.password || ""}
+              defaultValue={user?.username || ""}
             />
-          </div> */}
-
-          <span className="input-title">Position</span>
-          <select
-            name="positionId"
-            className="form-control"
-            defaultValue={user?.position_id || ""}>
-            <option value="0" disabled>
-              Select user position
-            </option>
-            {positions?.map((pos) => (
-              <option key={pos?.id} value={pos?.id}>
-                {pos?.type}
-              </option>
-            ))}
-          </select>
+            <label for="floatingInput">Username</label>
+          </div>
+          <div class="form-floating">
+            <select
+              name="positionId"
+              className="form-select"
+              defaultValue={user?.position_id || ""}>
+              <option disabled>Select user position</option>
+              {positions?.map((pos) => (
+                <option key={pos?.id} value={pos?.id}>
+                  {pos?.type}
+                </option>
+              ))}
+            </select>
+            <label for="floatingSelect">Position</label>
+          </div>
         </div>
       </div>
     </Modal>

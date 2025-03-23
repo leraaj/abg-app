@@ -12,6 +12,7 @@ const Modal = ({
   onSubmit,
   submitLabel,
   submitLoading,
+  closeLabel,
 }) => {
   useEffect(() => {
     if (!isStatic) {
@@ -33,7 +34,7 @@ const Modal = ({
     <div className="modal-backdrop" onClick={!isStatic ? onClose : undefined}>
       <div className="modal-container" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
-        <div className="modal-header ">
+        <div className="modal-header">
           <h2>{title || "No title"}</h2>
           <span onClick={onClose} className="modal-close">
             &times;
@@ -45,13 +46,13 @@ const Modal = ({
           <div className="modal-body">{children}</div>
 
           {/* Footer */}
-          <div className="modal-footer d-flex gap-2">
+          <div className="modal-footer d-flex gap-1">
             {footer || (
               <button type={"button"} className="cancel-btn" onClick={onClose}>
-                Cancel
+                {closeLabel || `Cancel`}
               </button>
             )}
-            {onSubmit && (
+            {onSubmit && onSubmit != false && (
               <Button
                 type={"submit"}
                 btnStyle={"primary"}

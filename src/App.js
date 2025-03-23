@@ -19,8 +19,6 @@ import ABGFormsPage from "./components/layouts/abg-form/Index";
 const App = () => {
   const { user, userLoading } = useAuthContext();
   const { position } = useFetchUserPosition();
-  const p_id = position?.id;
-  const p_type = position?.type;
 
   if (userLoading) {
     return (
@@ -35,27 +33,19 @@ const App = () => {
       isPrivate: false,
       path: "/",
       element:
-        user?.position_id != null ? (
-          <Navigate to={"/request"} replace />
-        ) : (
-          <Login />
-        ),
+        position?.id != null ? <Navigate to={"/request"} replace /> : <Login />,
     },
     {
       isPrivate: false,
       path: "/login",
       element:
-        user?.position_id != null ? (
-          <Navigate to={"/request"} replace />
-        ) : (
-          <Login />
-        ),
+        position?.id != null ? <Navigate to={"/request"} replace /> : <Login />,
     },
     {
       isPrivate: false,
       path: "/abg",
       element:
-        user?.position_id != null ? (
+        position?.id != null ? (
           <Navigate to={"/request"} replace />
         ) : (
           <ABGFormsPage />
@@ -63,30 +53,24 @@ const App = () => {
     },
   ];
 
-  const NURSE_ROUTES = [
+  const COMMON_ROUTES = [
     {
       isPrivate: true,
       path: "/request",
       element: <Request />,
     },
+  ];
+  const ADMIN_AUTHORIZED_ROUTES = [
     {
       isPrivate: true,
       path: "/accounts",
       element: <Accounts />,
     },
   ];
-  const RT_ROUTES = [
-    {
-      isPrivate: true,
-      path: "/request",
-      element: <Request />,
-    },
-  ];
 
   let routes = [];
-
-  if (user?.position_id) {
-    routes = [...defaultRoutes, ...NURSE_ROUTES, ...RT_ROUTES];
+  if (position?.id != null) {
+    routes = [...defaultRoutes, ...COMMON_ROUTES, ...ADMIN_AUTHORIZED_ROUTES];
   } else {
     routes = [...defaultRoutes];
   }

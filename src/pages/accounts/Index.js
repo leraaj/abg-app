@@ -12,7 +12,7 @@ import updateIcon from "../../assets/icons/pen-solid.svg";
 import deleteIcon from "../../assets/icons/trash-solid.svg";
 
 const Index = () => {
-  const { users, isLoading: userLoading } = useFetchUsers();
+  const { users, isLoading: userLoading, fetchUsers } = useFetchUsers();
   const {
     handleDeleteUser,
     error: deleteUserError,
@@ -21,61 +21,25 @@ const Index = () => {
   const { positions, isLoading: positionsLoading } = useFetchPositions();
 
   const [selectedUser, setSelectedUser] = useState(null);
-  const [editedUsers, setEditedUsers] = useState({}); // Store edited users
-  const [createdUsers, setCreatedUsers] = useState([]); // Store new users before fetching updates
-
-  // Function to edit a user by ID
-  const updateUser = (id, updatedData) => {
-    setEditedUsers((prev) => {
-      const newUserData = { ...prev[id], ...updatedData };
-
-      // Ensure position_type updates dynamically
-      const newPosition = positions.find(
-        (pos) => pos.id === newUserData.position_id
-      );
-      newUserData.position_type = newPosition
-        ? newPosition.type
-        : prev[id]?.position_type;
-
-      return { ...prev, [id]: newUserData };
-    });
-  };
-
-  // Function to add a new user (used in CreateUserModal)
-  const addUser = (newUser) => {
-    setCreatedUsers((prev) => [...prev, newUser]);
-  };
-  const deleteUser = (id) => {
-    setCreatedUsers((prev) => prev.filter((user) => user.id !== id));
-    setEditedUsers((prev) => {
-      const newEditedUsers = { ...prev };
-      delete newEditedUsers[id];
-      return newEditedUsers;
-    });
-  };
 
   // Memoized data with applied edits & created users
   const data = useMemo(() => {
     if (!users) return [];
 
-    // Combine fetched users and locally created users
-    const allUsers = [...users, ...createdUsers];
-
-    return allUsers.map((user) => {
+    return users.map((user) => {
       const position = positions.find((pos) => pos?.id === user?.position_id);
-      const editedUser = editedUsers[user.id] || {};
 
       return {
         id: user?.id,
-        employee_name: editedUser.employee_name ?? user?.employee_name,
-        employee_number: editedUser.employee_number ?? user?.employee_number,
-        username: editedUser.username ?? user?.username,
-        password: editedUser.password ?? user?.password,
-        position_id: editedUser.position_id ?? user?.position_id,
-        position_type: editedUser.position_type ?? position?.type, // Ensure correct type mapping
+        employee_name: user?.employee_name, // Directly use user data
+        employee_number: user?.employee_number, // Directly use user data
+        username: user?.username, // Directly use user data
+        password: user?.password, // Directly use user data
+        position_id: user?.position_id, // Directly use user data
+        position_type: position?.type, // Ensure correct type mapping
       };
     });
-  }, [users, createdUsers, editedUsers, positions]); // Include `createdUsers`
+  }, [users, positions]); // Include `positions` dependency
 
   const columns = useMemo(
     () => [
@@ -92,11 +56,11 @@ const Index = () => {
     [users]
   );
   const handleDelete = async (user) => {
+    const deleteId = user?.id;
     await handleDeleteUser(user.id); // Await the deletion before continuing
 
     if (!deleteUserError) {
-      // Check if there was no error
-      deleteUser(user.id); // Proceed to delete the user
+      fetchUsers();
     } else {
       console.log(deleteUserMessage);
       alert("Failed to delete user");
@@ -118,6 +82,7 @@ const Index = () => {
           renderRowActions={({ row }) => (
             <div className={"d-flex gap-1"}>
               <Button
+                size={"sm"}
                 label={<img src={updateIcon} height={15} />}
                 btnStyle={"light"}
                 borderRadius={"1rem"}
@@ -127,13 +92,13 @@ const Index = () => {
                 }}
               />
               <Button
+                size={"sm"}
                 label={<img src={deleteIcon} height={15} />}
                 btnStyle={"light"}
                 borderRadius={"1rem"}
                 onClick={() => {
-                  // setSelectedUser(row.original);
-                  // setDeleteUserModal(true);
                   handleDelete(row.original);
+                  fetchUsers();
                 }}
               />
             </div>
@@ -154,7 +119,7 @@ const Index = () => {
         closeModal={() => setCreateUserModal(false)}
         title="Create User"
         isStatic={true}
-        addUser={addUser} // Pass addUser function to modal
+        fetchUsers={fetchUsers} // Pass addUser function to modal
       />
       <UpdateUserModal
         modal={updateUserModal}
@@ -162,15 +127,8 @@ const Index = () => {
         title={`Update User - ${selectedUser?.employee_name}`}
         isStatic={true}
         user={selectedUser}
-        updateUser={updateUser} // Pass edit function to modal
+        fetchUsers={fetchUsers} // Pass edit function to modal
       />
-      {/* <DeleteUserModal
-        modal={deleteUserModal}
-        closeModal={() => setDeleteUserModal(false)}
-        title={`Delete User - ${selectedUser?.employee_name}`}
-        isStatic={false}
-        user={selectedUser}
-      /> */}
     </>
   );
 };

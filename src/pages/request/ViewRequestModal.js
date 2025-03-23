@@ -8,9 +8,11 @@ import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import useFetchPhysicians from "../../hooks/requests/useFetchPhysicians";
 import useFetchRequests from "../../hooks/requests/useFetchRequests";
 import { renderToString } from "react-dom/server";
+import useFetchUserPosition from "../../hooks/auth/useFetchUserPosition";
 
 const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
   const { user } = useAuthContext();
+  const { position } = useFetchUserPosition();
   const { physicians, fetchAssignee } = useFetchPhysicians();
   const { requests } = useFetchRequests();
   return (
@@ -25,13 +27,16 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
           : "For Releasing"
       } `}
       isStatic={isStatic}
-      onSubmit={(e) => {
-        e.preventDefault();
-      }}
-      submitLabel={"Send to physician"}>
+      {...(position?.id === 2 && {
+        onSubmit: (e) => {
+          e.preventDefault();
+        },
+        submitLabel: "Send to physician",
+      })}
+      closeLabel={position?.id === 1 && "Close"}>
       <div className="row gap-3">
-        <div className="d-flex gap-3 p-0 m-0" style={{ overflowX: "auto" }}>
-          {user?.position_id === 2 && (
+        <div className="d-flex gap-3 p-0 m-0 pb-2 overflow-x-auto">
+          {position?.id === 2 && (
             <div className="req-card input-container ">
               <span className="col-auto">
                 <Button icon={rightIcon} btnStyle={"next"} />
@@ -88,25 +93,28 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
           </span>
         </div>
         {/* For RT Only */}
-        {user?.position_id === 2 && (
+        {position?.id === 2 && (
           <div className="input-container">
             <span className="req-title ">Assigned Physician</span>
-            <select
-              name="rtId"
-              className="form-input"
-              defaultValue={user?.physician_id}
-              required>
-              <option disabled selected>
-                Select a physician
-              </option>
-              {physicians?.map((user, index) => {
-                return (
-                  <option key={index} value={user?.id}>
-                    {user?.employee_name}
-                  </option>
-                );
-              })}
-            </select>
+            <div class="form-floating">
+              <select
+                name="rtId"
+                className="form-select"
+                defaultValue={user?.physician_id}
+                required>
+                <option disabled selected>
+                  Select a physician
+                </option>
+                {physicians?.map((user, index) => {
+                  return (
+                    <option key={index} value={user?.id}>
+                      {user?.employee_name}
+                    </option>
+                  );
+                })}
+              </select>
+              <label for="floatingSelect">Physician</label>
+            </div>
           </div>
         )}
       </div>

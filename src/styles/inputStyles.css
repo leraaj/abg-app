@@ -1,3 +1,6 @@
+:root {
+  --form-control-animation: all none !important;
+}
 .input-group {
   display: flex;
   flex-direction: column;
@@ -23,6 +26,23 @@
   box-sizing: border-box !important;
   width: 100% !important;
 }
+.form-floating .form-control {
+  padding-block: 2.5rem 1.5rem !important;
+  transition: var(--form-control-animation);
+}
+
+.form-floating > .form-control:not(:placeholder-shown) ~ label::after {
+  background-color: transparent !important;
+  color: black !important;
+}
+.form-floating label {
+  margin-top: 0.25rem !important;
+  transition: var(--form-control-animation) !important;
+}
+.form-floating select.form-select + label {
+  margin-top: 0 !important;
+  transition: var(--form-control-animation) !important;
+}
 select.form-control {
   height: 45px;
   width: 100%;
@@ -39,7 +59,22 @@ select.form-control {
   background-size: 20px;
   cursor: pointer;
 }
-
+select.form-select {
+  height: 45px;
+  width: 100%;
+  padding: 10px;
+  appearance: none; /* Hides the default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: white;
+  border-radius: 5px;
+  padding-right: 40px; /* Space for the arrow */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23777777'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 20px;
+  cursor: pointer;
+}
 .form-group {
   display: flex;
   flex-direction: column;

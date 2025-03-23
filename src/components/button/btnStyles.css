@@ -12,7 +12,15 @@ button {
   cursor: pointer;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 2px 9px 0px;
 }
-
+button.sm {
+  transform: scale(0.7);
+}
+button.md {
+  transform: scale(0.9);
+}
+button.lg {
+  transform: scale(1.1);
+}
 .primary,
 .secondary,
 .secondary-outline,
@@ -36,11 +44,6 @@ button {
 .secondary-outline-icon,
 .light-icon {
   height: 15px;
-}
-
-.primary-label,
-.secondary-outline-label {
-  font-size: 0.9rem;
 }
 
 .primary-label {

@@ -9,12 +9,13 @@ const Button = ({
   onClick,
   type,
   disabled,
+  size,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   return (
     <button
       type={type || "button"}
-      className={`${btnStyle || "primary"}`}
+      className={`${btnStyle || "primary"} ${"" || size}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       disabled={disabled || false}
