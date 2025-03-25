@@ -42,7 +42,8 @@ const Navbar = () => {
             key={link.url}
             to={link.url}
             className={`nav-link nav-item ${
-              location.pathname == link.url && "active"
+              (location.pathname == link.url && "active") ||
+              (location.pathname === "/" && link.url === "/login" && "active")
             }`}>
             {link.label}
           </Link>

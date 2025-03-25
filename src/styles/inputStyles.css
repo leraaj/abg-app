@@ -21,8 +21,6 @@
   padding: 0.7rem !important;
   border-radius: 0.5rem !important;
   border: 1px rgba(0, 0, 0, 0.2) solid;
-  /* box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
-    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px !important; */
   box-sizing: border-box !important;
   width: 100% !important;
 }
@@ -98,6 +96,13 @@ input.form-input:focus-within {
 textarea.form-input:focus,
 textarea.form-input:focus-visible,
 textarea.form-input:focus-within {
+  outline: none !important;
+  border: 1px solid var(--primary-color) !important;
+  box-shadow: none !important;
+}
+select.form-select:focus,
+select.form-select:focus-visible,
+select.form-select:focus-within {
   outline: none !important;
   border: 1px solid var(--primary-color) !important;
   box-shadow: none !important;

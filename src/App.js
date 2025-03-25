@@ -35,7 +35,7 @@ const App = () => {
       isPrivate: false,
       path: "/",
       element:
-        position?.id != null ? <Navigate to={"/request"} replace /> : <Login />,
+        position?.id != null ? <Navigate to={"/request"} replace /> : <Home />,
     },
     {
       isPrivate: false,
