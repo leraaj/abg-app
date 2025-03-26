@@ -80,7 +80,7 @@ const Index = () => {
           columns={columns}
           enableLoading={userLoading || positionsLoading}
           renderRowActions={({ row }) => (
-            <div className={"d-flex gap-1"}>
+            <div className={"d-flex"}>
               <Button
                 size={"sm"}
                 label={<img src={updateIcon} height={15} />}

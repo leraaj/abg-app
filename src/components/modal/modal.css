@@ -12,7 +12,6 @@
 
 /* Modal container */
 .modal-container {
-  max-width: 90%;
   border-radius: 0.5rem; /* Equivalent to rounded-lg */
   box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
   display: flex;

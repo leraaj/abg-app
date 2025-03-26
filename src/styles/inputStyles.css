@@ -36,6 +36,9 @@
 .form-floating label {
   margin-top: 0.25rem !important;
   transition: var(--form-control-animation) !important;
+  word-break: break-word !important;
+  word-wrap: break-word !important;
+  width: 100% !important;
 }
 .form-floating select.form-select + label {
   margin-top: 0 !important;

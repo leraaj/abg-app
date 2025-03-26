@@ -106,7 +106,7 @@ const Request = () => {
           </div>
         </div>
       </InternalHeader>
-      <div className="row gap-1 mt-1">
+      <div className="row gap-3 mt-1">
         {isFilteredEmpty && search ? (
           <span className="p-2">No matching records found</span>
         ) : filteredRequest.length ? (
@@ -117,6 +117,7 @@ const Request = () => {
               age={req?.age}
               status={req?.status}
               date={req?.date_created}
+              diagnosis={req?.diagnosis}
               onClick={() => {
                 setSelectedRequest(req);
                 setViewRequestModal(true);

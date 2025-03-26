@@ -13,6 +13,7 @@ const Modal = ({
   submitLabel,
   submitLoading,
   closeLabel,
+  modalSize,
 }) => {
   useEffect(() => {
     if (!isStatic) {
@@ -32,7 +33,9 @@ const Modal = ({
 
   return (
     <div className="modal-backdrop" onClick={!isStatic ? onClose : undefined}>
-      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+      <div
+        className={`modal-container col col-sm col-md-7 col-lg-6`}
+        onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="modal-header">
           <h2>{title || "No title"}</h2>

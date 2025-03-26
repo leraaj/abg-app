@@ -64,7 +64,10 @@ const Index = ({ modal, closeModal, title, isStatic, refreshList }) => {
               defaultValue=""
               required
             />
-            <label for="floatingInput">Diagnosis</label>
+            <label for="floatingInput">
+              E.g., Respiratory Acidosis, Respiratory Alkalosis, Metabolic
+              Acidosis, Mixed Respiratory and Metabolic Acidosis
+            </label>
           </div>
         </div>
         <div className="input-container">

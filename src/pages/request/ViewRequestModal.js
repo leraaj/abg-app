@@ -35,7 +35,7 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
       })}
       closeLabel={position?.id === 1 && "Close"}>
       <div className="row gap-3">
-        <div className="d-flex gap-3 p-0 m-0 pb-2 overflow-x-auto">
+        <div className="d-flex gap-3 p-0 m-0 overflow-x-auto">
           {position?.id === 2 && (
             <div className="req-card input-container ">
               <span className="col-auto">
@@ -75,21 +75,31 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
             </div>
           </div>
         </div>
-        <div className="input-container">
+        <div className="input-container gap-1">
           <span className="req-title ">
             {useFormattedDate(data?.date_created)}
           </span>
-          <span className="fs-sm capitalized">
+          <span
+            className="text-secondary capitalized"
+            style={{ fontSize: "0.8rem" }}>
             {data?.sex || "No specified gender"} <span className="">🞄</span>
             {` ${data?.age} years old`}
           </span>
         </div>
-        <div className="input-container">
-          <span className="req-title ">Assigned Respiratory Therapist</span>
+        <div className="input-container gap-0">
+          {/* <span className="req-title ">Assigned Respiratory Therapist</span>
           <span>
             {physicians?.find(
               (phy) => parseInt(phy.id) === parseInt(data?.rt_id)
             )?.employee_name || "No Assignee"}
+          </span> */}
+          <span className="req-title">
+            {physicians?.find(
+              (phy) => parseInt(phy.id) === parseInt(data?.rt_id)
+            )?.employee_name || "No Assignee"}
+          </span>
+          <span className="text-secondary" style={{ fontSize: "0.8rem" }}>
+            Assigned Respiratory Therapist
           </span>
         </div>
         {/* For RT Only */}

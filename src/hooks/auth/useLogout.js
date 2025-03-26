@@ -7,8 +7,8 @@ const useLogout = () => {
   const [error, setError] = useState(null);
 
   const handleLogout = async () => {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
       const response = await fetch(`${API_URL}/api/users/logout`, {
         method: "POST",
         headers: {
@@ -19,14 +19,17 @@ const useLogout = () => {
       const data = await response.json();
       if (!response.ok) {
         setError(data.message || "Logout failed");
+        setIsLoading(false);
         return console.error("Logout Error:", data);
       }
-      dispatch({ type: "LOGOUT" });
-      await currentUser(); //after dispatch, refreshing the states para bumalik sa default
+      setTimeout(async () => {
+        dispatch({ type: "LOGOUT" });
+        await currentUser(); //after dispatch, refreshing the states para bumalik sa default
+        setIsLoading(false);
+      }, 3000);
     } catch (error) {
       console.error("Error during logout:", error);
       setError(error.message);
-    } finally {
       setIsLoading(false);
     }
   };

@@ -56,6 +56,8 @@ const Navbar = () => {
             <span
               className="user-name text-nowrap d-flex align-items-center"
               onClick={toggler}>
+              <span>{position.type}</span>
+              <span className="vr mx-2" />
               <span>{user?.employee_name}</span>
               <img
                 src={dropdownIcon}
@@ -63,19 +65,20 @@ const Navbar = () => {
                 alt="caret-down"
               />
             </span>
+
+            {toggle && (
+              <div className={`dropdown-menu d-${toggle ? "block" : "none"}`}>
+                <a
+                  className="nav-link logout"
+                  onClick={() => {
+                    handleLogout();
+                    toggler();
+                  }}>
+                  Logout
+                </a>
+              </div>
+            )}
           </>
-        )}
-        {toggle && (
-          <div className={`dropdown-menu d-${toggle ? "block" : "none"}`}>
-            <a
-              className="nav-link logout"
-              onClick={() => {
-                handleLogout();
-                toggler();
-              }}>
-              Logout
-            </a>
-          </div>
         )}
       </div>
     </div>

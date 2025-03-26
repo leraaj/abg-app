@@ -20,19 +20,19 @@ const useLogin = () => {
       if (!response.ok) {
         const data = await response.json();
         setError(response);
+        setIsLoading(false);
         return console.error(`Response Error:\n`, data);
       } else {
         const data = await response.json();
-        dispatch({ type: "LOGIN", payload: data?.user?.user[0] });
-        //after dispatch, refreshing the states para live makuha
-        //ang user creds at maaccess agad
-        await currentUser();
-        console.log(data);
+        setTimeout(async () => {
+          dispatch({ type: "LOGIN", payload: data?.user?.user[0] });
+          await currentUser();
+          setIsLoading(false);
+        }, 3000);
       }
     } catch (error) {
       console.error(`Try/Catch Error:\n`, error);
       setError(error);
-    } finally {
       setIsLoading(false);
     }
   };

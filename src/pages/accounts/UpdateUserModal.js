@@ -79,8 +79,8 @@ const Index = ({ modal, closeModal, title, isStatic, user, fetchUsers }) => {
             <label for="floatingInput">Employee number</label>
           </div>
         </div>
-        <span className="header-title">Access Credentials</span>
         <div className="input-container">
+          <span className="header-title">Access Credentials</span>
           <div class="form-floating">
             <input
               type="text"

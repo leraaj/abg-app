@@ -2,12 +2,13 @@ import Button from "../button/Button";
 import "./userCard.css";
 import rightIcon from "../../assets/icons/chevron-right.svg";
 import useFormattedDate from "../../hooks/useFormattedDate";
-const UserCard = ({ name, date, status, onClick }) => {
+const UserCard = ({ name, date, status, diagnosis, onClick }) => {
   return (
     <div className="user-card">
       <div className="col row gap-2 px-2">
         <span className="card-name ">{name}</span>
-        <span className="card-bdate ">{useFormattedDate(date)}</span>
+        {/* <span className="card-bdate ">{useFormattedDate(date)}</span> */}
+        <span className="card-bdate ">{diagnosis}</span>
         <span
           className={`card-status ${
             status === 0

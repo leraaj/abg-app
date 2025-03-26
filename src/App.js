@@ -15,11 +15,18 @@ import Request from "./pages/request/Index";
 import Scan from "./pages/scan/Index";
 // Form
 import ABGFormsPage from "./components/layouts/abg-form/Index";
+import useLogout from "./hooks/auth/useLogout";
+import { useEffect, useState } from "react";
 
 const App = () => {
   const { user, userLoading } = useAuthContext();
   const { position } = useFetchUserPosition();
+  const { isLoading: logoutLoading } = useLogout();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
+  useEffect(() => {
+    setIsLoggingOut(logoutLoading);
+  }, [logoutLoading]);
   if (userLoading) {
     return (
       <div
@@ -29,7 +36,15 @@ const App = () => {
       </div>
     );
   }
-
+  if (isLoggingOut) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "100dvh", width: "100%" }}>
+        Logging you out, please wait
+      </div>
+    );
+  }
   const defaultRoutes = [
     {
       isPrivate: false,
@@ -60,6 +75,11 @@ const App = () => {
       isPrivate: true,
       path: "/abg",
       element: <ABGFormsPage />,
+    },
+    {
+      isPrivate: true,
+      path: "/ocr",
+      element: <Scan />,
     },
   ];
   const ADMIN_AUTHORIZED_ROUTES = [
