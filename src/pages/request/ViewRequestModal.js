@@ -132,7 +132,7 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
           <>
             <div className="card flex-row align-items-center gap-0">
               <div
-                className="col m-0 p-0 text-start"
+                className="col m-0 p-0 text-start gap-1"
                 style={{ display: "flex", flexDirection: "column" }}>
                 <span className="req-title">Supporting Documents</span>
                 <span className="text-secondary" style={{ fontSize: "0.8rem" }}>
@@ -150,7 +150,7 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
             </div>
             <div className="card flex-row align-items-center gap-0">
               <div
-                className="col m-0 p-0 text-start"
+                className="col m-0 p-0 text-start gap-1"
                 style={{ display: "flex", flexDirection: "column" }}>
                 <span className="req-title">Reports</span>
                 <div className="col-auto">

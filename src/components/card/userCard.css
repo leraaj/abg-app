@@ -12,7 +12,7 @@
   font-weight: 700;
   padding: 0;
 }
-.user-card .card-bdate {
+.user-card .card-subtle {
   text-transform: capitalize;
   color: var(--secondary-light-color);
   padding: 0;
