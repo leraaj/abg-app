@@ -26,7 +26,7 @@ const useLogout = () => {
         dispatch({ type: "LOGOUT" });
         await currentUser(); //after dispatch, refreshing the states para bumalik sa default
         setIsLoading(false);
-      }, 3000);
+      }, 1500);
     } catch (error) {
       console.error("Error during logout:", error);
       setError(error.message);

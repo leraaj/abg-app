@@ -26,13 +26,13 @@ const UserCard = ({ name, date, status, diagnosis, onClick }) => {
             : "For Releasing"}
         </span>
       </div>
-      <div className="col-auto">
+      {/* <div className="col-auto">
         <div className="col-auto d-flex justify-centered align-centered ">
           {onClick && (
             <Button icon={rightIcon} btnStyle={"next"} onClick={onClick} />
           )}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

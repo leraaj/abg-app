@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const { currentUser } = useAuthContext();
   const navigate = useNavigate();
-  const { handleLogin, isLoading: loginLoading } = useLogin();
+  const { handleLogin, isLoading } = useLogin();
   const [username, setUsername] = useState("Nurse");
   const [password, setPassword] = useState("123123");
   const [error, setError] = useState(null);
@@ -56,7 +56,7 @@ const Login = () => {
               onChange={handlePassword}
             />
           </div>
-          <div className="d-flex justify-right mt-1 gap-1">
+          <div className="d-flex justify-content-end mt-1 gap-1">
             <Button
               type={"button"}
               label={"Back to Homepage"}
@@ -64,16 +64,10 @@ const Login = () => {
               onClick={() => navigate("/")}
             />
             <Button
+              btnStyle={"primary"}
               type={"submit"}
-              label={loginLoading ? "Loading" : "Login"}
-              btnStyle={"primary"}
-              disable={loginLoading}
-            />
-            <Button
-              type={"button"}
-              label={"Current User"}
-              btnStyle={"primary"}
-              onClick={currentUser}
+              label={isLoading ? "Loading" : "Login"}
+              disable={isLoading ? true : false}
             />
           </div>
         </form>

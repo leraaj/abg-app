@@ -27,57 +27,70 @@ const Navbar = () => {
     <></>
   ) : (
     <div className="navigation-bar">
-      <div className="left col-auto">
-        <span className="brand">
-          <img src={logo} alt="logo" height={55} />
-        </span>
-        <span className="brand-name">ABG</span>
-      </div>
       <div
-        className={`col d-flex justify-content-${
-          !user ? "end" : "start"
-        } align-items-centered gap-3 px-1`}>
-        {privateLinks.map((link) => (
-          <Link
-            key={link.url}
-            to={link.url}
-            className={`nav-link nav-item ${
-              (location.pathname == link.url && "active") ||
-              (location.pathname === "/" && link.url === "/login" && "active")
-            }`}>
-            {link.label}
-          </Link>
-        ))}
+        className={`col-12 col-sm text-light d-flex justify-content-start
+        } align-items-center gap-3 px-1`}>
+        <div className="col-auto d-flex justify-content-center align-items-center gap-3">
+          <span className="brand">
+            <img src={logo} alt="logo" height={55} />
+          </span>
+          <span className="brand-name text-light">ABG</span>
+        </div>
+        {user &&
+          privateLinks.map((link) => (
+            <Link
+              key={link.url}
+              to={link.url}
+              className={`nav-link nav-item ${
+                location.pathname == link.url && "active"
+              }`}>
+              {link.label}
+            </Link>
+          ))}
       </div>
-      <div className="right col-auto">
+      <div className="col-12 col-sm text-light d-flex justify-content-end align-items-center gap-3">
+        {!user &&
+          privateLinks.map((link) => (
+            <Link
+              key={link.url}
+              to={link.url}
+              className={`nav-link nav-item ${
+                (location.pathname == link.url && "active") ||
+                (location.pathname === "/" && link.url === "/login" && "active")
+              }`}>
+              {link.label}
+            </Link>
+          ))}
         {user && (
           <>
             <Button btnStyle={"notif"} icon={notifLight} />
-            <span
-              className="user-name text-nowrap d-flex align-items-center"
-              onClick={toggler}>
-              <span>{position.type}</span>
-              <span className="vr mx-2" />
-              <span>{user?.employee_name}</span>
-              <img
-                src={dropdownIcon}
-                className="dropdown-icon"
-                alt="caret-down"
-              />
-            </span>
+            <div className="col-auto position-relative">
+              <span
+                className="user-name text-nowrap d-flex align-items-center"
+                onClick={toggler}>
+                <span>{position.type}</span>
+                <span className="vr mx-2" />
+                <span>{user?.employee_name}</span>
+                <img
+                  src={dropdownIcon}
+                  className="dropdown-icon"
+                  alt="caret-down"
+                />
+              </span>
 
-            {toggle && (
-              <div className={`dropdown-menu d-${toggle ? "block" : "none"}`}>
-                <a
-                  className="nav-link logout"
-                  onClick={() => {
-                    handleLogout();
-                    toggler();
-                  }}>
-                  Logout
-                </a>
-              </div>
-            )}
+              {toggle && (
+                <div className={`dropdown-menu d-${toggle ? "block" : "none"}`}>
+                  <a
+                    className="nav-link logout"
+                    onClick={() => {
+                      handleLogout();
+                      toggler();
+                    }}>
+                    Logout
+                  </a>
+                </div>
+              )}
+            </div>
           </>
         )}
       </div>

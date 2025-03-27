@@ -12,6 +12,9 @@ button {
   cursor: pointer;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 2px 9px 0px;
 }
+button:disabled {
+  opacity: 0.5 !important;
+}
 button.sm {
   transform: scale(0.7);
 }
@@ -28,12 +31,18 @@ button.lg {
   width: max-content;
   border: 1px solid;
 }
-
+/* PRIMARY */
 .primary {
   background-color: var(--primary-color);
   border-color: var(--primary-color);
 }
-
+.primary:disabled.primary:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+.primary:disabled.primary:hover .primary-label {
+  color: white;
+}
 .primary:hover {
   background-color: white;
   border-color: var(--primary-color);
@@ -58,11 +67,16 @@ button.lg {
   background-color: var(--secondary-color);
   border-color: var(--secondary-color);
 }
-
 .secondary-label {
   color: white;
 }
-
+.secondary:disabled.secondary:hover {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+.secondary:disabled.secondary:hover .secondary-label {
+  color: white;
+}
 .secondary:hover {
   background-color: var(--secondary-light-color);
   border-color: var(--secondary-color);
@@ -81,7 +95,13 @@ button.lg {
 .secondary-outline-label {
   color: black;
 }
-
+.secondary-outline:disabled.secondary-outline:hover {
+  background-color: var(--secondary-outline-color);
+  border-color: var(--secondary-color);
+}
+.secondary-outline:disabled.secondary-outline:hover .secondary-outline-label {
+  color: black;
+}
 .secondary-outline:hover {
   background-color: var(--secondary-color);
   border-color: white;
@@ -100,7 +120,13 @@ button.lg {
 .light-label {
   color: var(--secondary-light-color);
 }
-
+.light:disabled.light:hover {
+  background-color: var(--light-color);
+  border-color: var(--light-color);
+}
+.light:disabled.light:hover .light-label {
+  color: var(--secondary-light-color);
+}
 .light:hover {
   background-color: var(--gray-100);
   border-color: var(--gray-200);

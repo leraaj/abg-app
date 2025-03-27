@@ -101,7 +101,7 @@ const App = () => {
     <Router>
       <Routes>
         {routes.map((route, index) =>
-          route.isPrivate ? (
+          route.isPrivate || (!route.isPrivate && "/") ? (
             <Route key={index} element={<InternalLayout />}>
               <Route key={index} {...route} />
             </Route>

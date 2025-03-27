@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../auth/useAuthContext";
 
-const useFetchPhysicians = () => {
+const useFetchRT = () => {
   const { API_URL } = useAuthContext();
-  const [physicians, setPhysicians] = useState([]);
+  const [rt, setRt] = useState([]);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,7 +22,7 @@ const useFetchPhysicians = () => {
         return console.error(`Response Error:\n`, response);
       } else {
         const data = await response.json();
-        setPhysicians(data);
+        setRt(data);
       }
     } catch (error) {
       console.error(`Try/Catch Error:\n`, error);
@@ -35,7 +35,7 @@ const useFetchPhysicians = () => {
     fetchAssignee();
   }, []);
 
-  return { physicians, isLoading, error, fetchAssignee };
+  return { rt, isLoading, error, fetchAssignee };
 };
 
-export default useFetchPhysicians;
+export default useFetchRT;

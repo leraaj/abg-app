@@ -28,7 +28,7 @@ const useLogin = () => {
           dispatch({ type: "LOGIN", payload: data?.user?.user[0] });
           await currentUser();
           setIsLoading(false);
-        }, 3000);
+        }, 1500);
       }
     } catch (error) {
       console.error(`Try/Catch Error:\n`, error);

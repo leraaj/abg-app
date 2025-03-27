@@ -16,6 +16,7 @@ const Request = () => {
   const [activeButton, setActiveButton] = useState(0);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [search, setSearch] = useState("");
+  const isNurse = user?.position_id === 1;
 
   const handleToggle = (button) => {
     setActiveButton(button);
@@ -66,7 +67,7 @@ const Request = () => {
                 style={{ borderRadius: "1.5rem" }}
               />
             </div>
-            {user?.position_id === 1 && (
+            {isNurse && (
               <div className="col-auto d-flex gap-2">
                 <Button
                   label={"Request"}

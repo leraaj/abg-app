@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import Modal from "../../components/modal/Modal";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
 import useCreateRequest from "../../hooks/requests/useCreateRequest";
-import useFetchPhysicians from "../../hooks/requests/useFetchPhysicians";
+import useFetchRT from "../../hooks/requests/useFetchRT";
 const Index = ({ modal, closeModal, title, isStatic, refreshList }) => {
   const { user } = useAuthContext();
-  const { physicians } = useFetchPhysicians();
+  const { rt } = useFetchRT();
   const { handleCreateRequest, isLoading, error } = useCreateRequest();
   const [submitLoading, setSubmitLoading] = useState(false);
 
@@ -110,11 +110,15 @@ const Index = ({ modal, closeModal, title, isStatic, refreshList }) => {
         <div className="input-container">
           <span className="input-title">Assign Respiratory Therapists</span>
           <div class="form-floating">
-            <select name="rtId" className="form-select" required>
+            <select
+              name="rtId"
+              className="form-select"
+              defaultValue={""}
+              required>
               <option disabled selected>
-                Select a physician
+                Select a respiratory therapist
               </option>
-              {physicians?.map((user, index) => {
+              {rt?.map((user, index) => {
                 return (
                   <option key={index} value={user?.id}>
                     {user?.employee_name}

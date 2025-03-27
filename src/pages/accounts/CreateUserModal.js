@@ -15,7 +15,6 @@ const Index = ({ modal, closeModal, title, isStatic, fetchUsers }) => {
   };
 
   const onSubmit = async (e) => {
-    setSubmitLoading(true);
     e.preventDefault();
 
     const formData = new FormData(e.target);
@@ -33,12 +32,11 @@ const Index = ({ modal, closeModal, title, isStatic, fetchUsers }) => {
     const emptyFields = requiredFields.filter(
       (field) => !data[field] || data[field].toString().trim() === ""
     );
-
     if (emptyFields.length > 0) {
       alert(`Please fill in all required fields: ${emptyFields.join(", ")}`);
       return;
     }
-
+    setSubmitLoading(true);
     const newUser = {
       id: Date.now(), // Temporary unique ID until the backend assigns one
       employee_name: data.employeeName,

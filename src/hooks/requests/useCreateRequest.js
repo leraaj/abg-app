@@ -15,23 +15,22 @@ const useCreateRequest = () => {
         headers: { "Content-Type": "application/json" },
         credentials: "include",
         body: JSON.stringify(data),
-        // body: JSON.stringify(initialRequestData),
       });
       if (!response.ok) {
         const data = await response.json();
         alert(data);
         setError(data);
-        return console.error("Response Error", data);
+        setIsLoading(false);
       } else {
         const data = await response.json();
         setMessage(data);
         setError(null);
+        setIsLoading(false);
       }
     } catch (error) {
       console.log(error);
       alert(error);
       setError("Catch Error: ", error);
-    } finally {
       setIsLoading(false);
     }
   };

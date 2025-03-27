@@ -5,38 +5,47 @@ import rightIcon from "../../assets/icons/chevron-right.svg";
 import OCR from "./OCR";
 import useFormattedDate from "../../hooks/useFormattedDate";
 import { useAuthContext } from "../../hooks/auth/useAuthContext";
-import useFetchPhysicians from "../../hooks/requests/useFetchPhysicians";
+import useFetchRT from "../../hooks/requests/useFetchRT";
 import useFetchRequests from "../../hooks/requests/useFetchRequests";
-import { renderToString } from "react-dom/server";
 import useFetchUserPosition from "../../hooks/auth/useFetchUserPosition";
+import useFetchPhysician from "../../hooks/requests/useFetchPhysicians";
 
 const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
   const { user } = useAuthContext();
   const { position } = useFetchUserPosition();
-  const { physicians, fetchAssignee } = useFetchPhysicians();
+  const { rt } = useFetchRT();
+  const { physicians } = useFetchPhysician();
   const { requests } = useFetchRequests();
+  const isRespiratoryTherapist = position?.id === 2;
+  const isPhysician = position?.id === 3;
+  const patientsTherapist =
+    rt?.find((phy) => parseInt(phy.id) === parseInt(data?.rt_id))
+      ?.employee_name || "No Assignee";
+
+  const patientStatus =
+    data?.status === 0
+      ? "Pending"
+      : data?.status === 1
+      ? "In-progress"
+      : "For Releasing";
+  const patientSex = data?.sex || "No specified gender";
+
   return (
     <Modal
       isOpen={modal}
       onClose={closeModal}
-      title={`${title} - ${
-        data?.status == 0
-          ? "Pending"
-          : data?.status == 1
-          ? "In-progress"
-          : "For Releasing"
-      } `}
+      closeLabel={"Close"}
+      title={`${title} - ${patientStatus} `}
       isStatic={isStatic}
-      {...(position?.id === 2 && {
+      {...(isRespiratoryTherapist && {
         onSubmit: (e) => {
           e.preventDefault();
         },
         submitLabel: "Send to physician",
-      })}
-      closeLabel={position?.id === 1 && "Close"}>
-      <div className="row gap-3">
-        <div className="d-flex gap-3 p-0 m-0 overflow-x-auto">
-          {position?.id === 2 && (
+      })}>
+      <div className={`row gap-3`}>
+        {isRespiratoryTherapist && (
+          <div className={`d-flex overflow-x-auto gap-3 p-0 m-0 `}>
             <div className="req-card input-container ">
               <span className="col-auto">
                 <Button icon={rightIcon} btnStyle={"next"} />
@@ -45,36 +54,39 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
                 Scan & Upload ABG Results
               </div>
             </div>
-          )}
-          <div className="req-card input-container ">
-            <span className="col-auto">
-              <Button icon={rightIcon} btnStyle={"next"} />
-            </span>
-            <div className="input-title col-auto">
-              View Supporting documents
+            <div className="req-card input-container ">
+              <span className="col-auto">
+                <Button icon={rightIcon} btnStyle={"next"} />
+              </span>
+              <div className="input-title col-auto">
+                <span>View Supporting documents</span>
+              </div>
+            </div>
+            <div className="req-card input-container ">
+              <span className="col-auto">
+                <Button
+                  icon={rightIcon}
+                  btnStyle={"next"}
+                  onClick={() => {
+                    OCR({
+                      requestId: data?.id,
+                      requestorId: data?.requestor_id,
+                    });
+                    alert(
+                      "Request ID: " +
+                        data?.id +
+                        "\nRequestor ID: " +
+                        data.requestor_id
+                    );
+                  }}
+                />
+              </span>
+              <div className="input-title col-auto">
+                View ABG Medical Information
+              </div>
             </div>
           </div>
-          <div className="req-card input-container ">
-            <span className="col-auto">
-              <Button
-                icon={rightIcon}
-                btnStyle={"next"}
-                onClick={() => {
-                  OCR({ requestId: data?.id, requestorId: data?.requestor_id });
-                  alert(
-                    "Request ID: " +
-                      data?.id +
-                      "\nRequestor ID: " +
-                      data.requestor_id
-                  );
-                }}
-              />
-            </span>
-            <div className="input-title col-auto">
-              View ABG Medical Information
-            </div>
-          </div>
-        </div>
+        )}
         <div className="input-container gap-1">
           <span className="req-title ">
             {useFormattedDate(data?.date_created)}
@@ -82,28 +94,17 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
           <span
             className="text-secondary capitalized"
             style={{ fontSize: "0.8rem" }}>
-            {data?.sex || "No specified gender"} <span className="">🞄</span>
+            {patientSex} <span className="">🞄</span>
             {` ${data?.age} years old`}
           </span>
         </div>
         <div className="input-container gap-0">
-          {/* <span className="req-title ">Assigned Respiratory Therapist</span>
-          <span>
-            {physicians?.find(
-              (phy) => parseInt(phy.id) === parseInt(data?.rt_id)
-            )?.employee_name || "No Assignee"}
-          </span> */}
-          <span className="req-title">
-            {physicians?.find(
-              (phy) => parseInt(phy.id) === parseInt(data?.rt_id)
-            )?.employee_name || "No Assignee"}
-          </span>
+          <span className="req-title">{patientsTherapist}</span>
           <span className="text-secondary" style={{ fontSize: "0.8rem" }}>
             Assigned Respiratory Therapist
           </span>
         </div>
-        {/* For RT Only */}
-        {position?.id === 2 && (
+        {isRespiratoryTherapist && (
           <div className="input-container">
             <span className="req-title ">Assigned Physician</span>
             <div class="form-floating">
@@ -126,6 +127,53 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
               <label for="floatingSelect">Physician</label>
             </div>
           </div>
+        )}
+        {isPhysician && (
+          <>
+            <div className="card flex-row align-items-center gap-0">
+              <div
+                className="col m-0 p-0 text-start"
+                style={{ display: "flex", flexDirection: "column" }}>
+                <span className="req-title">Supporting Documents</span>
+                <span className="text-secondary" style={{ fontSize: "0.8rem" }}>
+                  Test Results (static)
+                </span>
+                <div className="col-auto">
+                  <span className="card-status">Pending (static)</span>
+                </div>
+              </div>
+              <div className="col-auto">
+                <span className="col-auto">
+                  <Button icon={rightIcon} btnStyle={"next"} />
+                </span>
+              </div>
+            </div>
+            <div className="card flex-row align-items-center gap-0">
+              <div
+                className="col m-0 p-0 text-start"
+                style={{ display: "flex", flexDirection: "column" }}>
+                <span className="req-title">Reports</span>
+                <div className="col-auto">
+                  <span className="card-status">Pending (static)</span>
+                </div>
+              </div>
+              <div className="col-auto">
+                <span className="col-auto">
+                  <Button icon={rightIcon} btnStyle={"next"} />
+                </span>
+              </div>
+            </div>
+            <div className="row m-0 p-0 col-12 gap-3">
+              <button
+                type="button"
+                className="button secondary-outline rounded-3 col">
+                <span className="secondary-outline-label">Reject</span>
+              </button>
+              <button type="button" className="button primary rounded-3 col">
+                <span className="primary-label">Approve</span>
+              </button>
+            </div>
+          </>
         )}
       </div>
     </Modal>

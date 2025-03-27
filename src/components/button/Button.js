@@ -12,13 +12,23 @@ const Button = ({
   size,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const mouseEnter = () => {
+    if (disabled) {
+      setIsHovered(false);
+    } else {
+      setIsHovered(true);
+    }
+  };
+  const mouseLeave = () => {
+    setIsHovered(false);
+  };
   return (
     <button
       type={type || "button"}
-      className={`${btnStyle || "primary"} ${"" || size}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      disabled={disabled || false}
+      className={`${btnStyle ? btnStyle : "primary"} ${"" || size}`}
+      onMouseEnter={mouseEnter}
+      onMouseLeave={mouseLeave}
+      {...(disabled && { disabled: true })}
       onClick={onClick || undefined}
       style={{ borderRadius: borderRadius || "0.8rem" }}>
       {icon && (

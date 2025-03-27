@@ -68,6 +68,23 @@ code {
   padding: 1.5rem !important;
   border-radius: 16px;
 }
+.card {
+  gap: 0.8rem;
+  border: 1px rgba(0, 0, 0, 0.25) solid;
+  padding: 1.5rem !important;
+  border-radius: 16px !important;
+}
+.card-status {
+  text-transform: capitalize;
+  font-size: small;
+  background-color: var(--gray-400);
+  width: max-content;
+  padding-inline: 0.5rem;
+  padding-block-start: 0.1rem;
+  padding-block-end: 0.3rem;
+  border-radius: 0.25rem;
+}
+
 .fs-sm {
   font-size: 0.9rem;
 }
