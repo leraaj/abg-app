@@ -21,7 +21,12 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
   const patientsTherapist =
     rt?.find((phy) => parseInt(phy.id) === parseInt(data?.rt_id))
       ?.employee_name || "No Assignee";
-
+  const patientsPhysician =
+    physicians?.find((phy) => parseInt(phy.id) === parseInt(data?.physician_id))
+      ?.employee_name || "No Assignee";
+  const hasPhysician = physicians?.find(
+    (phy) => parseInt(phy.id) === parseInt(data?.physician_id)
+  )?.employee_name;
   const patientStatus =
     data?.status === 0
       ? "Pending"
@@ -37,12 +42,13 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
       closeLabel={"Close"}
       title={`${title} - ${patientStatus} `}
       isStatic={isStatic}
-      {...(isRespiratoryTherapist && {
-        onSubmit: (e) => {
-          e.preventDefault();
-        },
-        submitLabel: "Send to physician",
-      })}>
+      {...(isRespiratoryTherapist &&
+        !hasPhysician && {
+          onSubmit: (e) => {
+            e.preventDefault();
+          },
+          submitLabel: "Send to physician",
+        })}>
       <div className={`row gap-3`}>
         {isRespiratoryTherapist && (
           <div className={`d-flex overflow-x-auto gap-3 p-0 m-0 `}>
@@ -105,27 +111,36 @@ const ViewRequestModal = ({ modal, closeModal, title, isStatic, data }) => {
           </span>
         </div>
         {isRespiratoryTherapist && (
-          <div className="input-container">
-            <span className="req-title ">Assigned Physician</span>
-            <div class="form-floating">
-              <select
-                name="rtId"
-                className="form-select"
-                defaultValue={user?.physician_id}
-                required>
-                <option disabled selected>
-                  Select a physician
-                </option>
-                {physicians?.map((user, index) => {
-                  return (
-                    <option key={index} value={user?.id}>
-                      {user?.employee_name}
-                    </option>
-                  );
-                })}
-              </select>
-              <label for="floatingSelect">Physician</label>
-            </div>
+          <div className={`input-container ${hasPhysician && "gap-0"}`}>
+            <span className="req-title ">
+              {hasPhysician ? patientsPhysician : "Assigned Physician"}
+            </span>
+            {hasPhysician && (
+              <span className="text-secondary" style={{ fontSize: "0.8rem" }}>
+                Assigned Physician
+              </span>
+            )}
+            {!hasPhysician && (
+              <div class="form-floating">
+                <select
+                  name="rtId"
+                  className="form-select"
+                  defaultValue={data?.physician_id}
+                  required>
+                  <option disabled selected>
+                    Select a physician
+                  </option>
+                  {physicians?.map((user, index) => {
+                    return (
+                      <option key={index} value={user?.id}>
+                        {user?.employee_name}
+                      </option>
+                    );
+                  })}
+                </select>
+                <label for="floatingSelect">Physician</label>
+              </div>
+            )}
           </div>
         )}
         {isPhysician && (
