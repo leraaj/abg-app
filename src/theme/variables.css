@@ -1,2 +1,10 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+:root {
+  --ion-color-success: #3e8841;
+  --ion-color-success-rgb: 45, 213, 91;
+  --ion-color-success-contrast: #ffffff !important;
+  --ion-color-success-contrast-rgb: 0, 0, 0;
+  --ion-color-success-shade: #2c652e;
+  --ion-color-success-tint: #42d96b;
+}
