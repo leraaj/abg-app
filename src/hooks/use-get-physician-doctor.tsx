@@ -23,7 +23,7 @@ const useGetPhysicianDoctor = () => {
           throw new Error("Failed to fetch users");
         }
         const result: PhysicianDoctor[] = await response.json();
-        console.log("UseGetPhysicianDoctor", result);
+        // console.log("UseGetPhysicianDoctor", result);
         setData(result);
       } catch (err: unknown) {
         if (err instanceof Error) {

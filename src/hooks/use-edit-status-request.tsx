@@ -51,7 +51,7 @@ const useEditStatusRequest = () => {
       showToast("Record successfully updated", "success");
     } catch (err: any) {
       setError(err.message);
-      showToast("Record failed to update", "warning");
+      showToast("Record failed to update", "danger");
     } finally {
       setIsLoading(false);
     }

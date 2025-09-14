@@ -1,35 +1,29 @@
+import { ReactElement } from "react";
 import { Chip, ChipProps } from "@mui/material";
-import React from "react";
 
-// Define a type for the keys of the status map
-type StatusCode = 1 | 2 | 3;
-
-// Define the structure of each status config
-interface StatusConfig {
+type Status = {
   text: string;
   sx: ChipProps["sx"];
-}
+};
 
-// Define the map with stricter typing
-const statusMap: Record<StatusCode, StatusConfig> = {
+const statusMap: Record<number, Status> = {
   1: {
     text: "On Process",
-    sx: { color: "orange", backgroundColor: "rgb(252, 217, 148)" },
+    sx: { color: "gray", backgroundColor: "rgb(236, 232, 232)" },
   },
   2: {
     text: "For Review",
-    sx: { color: "rgb(120, 60, 169)", backgroundColor: "rgb(205, 193, 255)" },
+    sx: { color: "green", backgroundColor: "rgb(148, 252, 163)" },
   },
   3: {
     text: "Completed",
-    sx: { color: "green", backgroundColor: "rgb(148, 252, 163)" },
+    sx: { color: "blue", backgroundColor: "rgba(148, 186, 252, 1)" },
   },
 };
 
-// Accepts any status code, including ones not defined in statusMap
-export const formatStatus = (value: number) => {
-  const status: StatusConfig = statusMap[value as StatusCode] || {
-    text: "Pending",
+export const formatStatus = (value: number): ReactElement => {
+  const status: Status = statusMap[value] || {
+    text: "Unknown", // fixed typo ✅
     sx: { color: "gray", backgroundColor: "rgb(236, 232, 232)" },
   };
 
@@ -38,6 +32,7 @@ export const formatStatus = (value: number) => {
       label={status.text}
       color="default"
       size="small"
+      variant="filled" // ✅ use 'filled' or 'outlined', not 'contained'
       sx={{ p: 1, ...status.sx }}
     />
   );

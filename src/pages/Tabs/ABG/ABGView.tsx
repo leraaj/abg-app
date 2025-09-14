@@ -29,6 +29,7 @@ import useEditMedicalResult from "../../../hooks/use-edit-medical-result";
 import useGetPhysicianDoctor from "../../../hooks/use-get-physician-doctor";
 import { TextField } from "@mui/material";
 import SimpleAutoCompleteInput from "../../../shared-components/fields/SimpleAutoCompleteInput";
+import useCreateEmail from "../../../hooks/useCreateEmail";
 interface OptionType {
   id: number;
   label: string;
@@ -57,6 +58,7 @@ const ABGView: React.FC = () => {
   const { editStatusRequest } = useEditStatusRequest();
   const { editMedicalResult, isLoading: isEditResultLoading } =
     useEditMedicalResult();
+  const { sendEmail, isLoading: isSendEmailLoading } = useCreateEmail();
   const history = useHistory();
   // Convert id to number and filter
   const selectedEmployee = useMemo(() => {
@@ -81,13 +83,21 @@ const ABGView: React.FC = () => {
       // setSelectedResultId(null);
     }, 2000);
   };
-  const handleUpdateInterpretation = (formData: [] | any) => {
-    editMedicalResult(id, formData);
+  // still just handles formData
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleUpdateInterpretation(formData); // <-- just use your state
+  };
+
+  const handleUpdateInterpretation = (payload: any) => {
+    editMedicalResult(id, payload);
     setTimeout(() => {
       history.push("/tabs");
       // setSelectedResultId(null);
     }, 2000);
+    console.log("Submitting payload:", payload);
   };
+
   // ==================
   const [formData, setFormData] = useState<Record<string, string>>({
     interpreted_by: "",
@@ -121,8 +131,10 @@ const ABGView: React.FC = () => {
       [key]: value,
     }));
   };
-  console.log("Physician Options:", physicianOptions);
-  console.log("Form Data:", formData);
+  console.log(specificResultQuery);
+  const handleSendEmail = () => {
+    sendEmail({ id }); // wrap id in an object
+  };
 
   return (
     <IonPage>
@@ -137,20 +149,20 @@ const ABGView: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <IonGrid>
-          <IonRow>
-            <IonCol size="12">
-              <IonText className="ion-text-bold">
-                <strong>
-                  Update patient {specificResultQuery?.patient_name}'s result
-                  interpretation
-                </strong>
-              </IonText>
-            </IonCol>
-            <IonCol size="12">
-              <form onSubmit={handleUpdateInterpretation}>
+        <form className="ion-margin-0 ion-padding-0" onSubmit={handleSubmit}>
+          <IonGrid className="ion-padding-top ion-padding-horizontal">
+            <IonRow>
+              <IonCol size="12">
+                <IonText className="ion-text-bold">
+                  <strong>
+                    Update patient {specificResultQuery?.patient_name}'s result
+                    interpretation
+                  </strong>
+                </IonText>
+              </IonCol>
+              <IonCol size="12">
                 {items.map((item) => (
-                  <div key={item.name} className="mb-3">
+                  <div key={item.name}>
                     {item.type === "text" || item.type === "number" ? (
                       <TextField
                         size="small"
@@ -161,53 +173,67 @@ const ABGView: React.FC = () => {
                         onChange={(e) =>
                           handleChange(item.name, e.target.value)
                         }
+                        required
                       />
                     ) : item.type === "autocomplete" ? (
-                      <SimpleAutoCompleteInput
-                        data={item.options || []} // <-- fallback
-                        label={item.label}
-                        value={
-                          (item.options || []).find(
-                            (option) => option.value === formData[item.name]
-                          ) || null
-                        }
-                        onChange={(event, newValue) =>
-                          handleChange(item.name, newValue?.value || "")
-                        }
-                        getOptionLabel={(option) => option?.label || ""}
-                        loading={item?.loading || false}
-                      />
+                      <div className="ion-padding-bottom">
+                        <SimpleAutoCompleteInput
+                          data={item.options || []} // <-- fallback
+                          label={item.label}
+                          value={
+                            (item.options || []).find(
+                              (option) => option.value === formData[item.name]
+                            ) || null
+                          }
+                          onChange={(event, newValue) =>
+                            handleChange(item.name, newValue?.value || "")
+                          }
+                          getOptionLabel={(option) => option?.label || ""}
+                          loading={item?.loading || false}
+                          required
+                        />
+                      </div>
                     ) : null}
                   </div>
                 ))}
-              </form>
-            </IonCol>
-            {specificResultQuery && (
-              <>
-                <IonCol size="auto">
-                  <IonButton
-                    type="button"
-                    className="ion-text-capitalize"
-                    color={"success"}
-                    disabled={specificResulIsLoading}
-                    onClick={handleComplete}>
-                    Mark as complete
-                  </IonButton>
-                </IonCol>
-                <IonCol size="auto">
-                  <IonButton
-                    type="submit"
-                    className="ion-text-capitalize"
-                    color={"success"}
-                    // onClick={handleUpdateInterpretation}
-                  >
-                    Update Interpretation
-                  </IonButton>
-                </IonCol>
-              </>
-            )}
-          </IonRow>
-        </IonGrid>
+              </IonCol>
+
+              <IonCol>
+                {specificResultQuery && (
+                  <>
+                    {specificResultQuery?.status === 2 && (
+                      <IonButton
+                        type="button"
+                        className="ion-text-capitalize"
+                        color={"success"}
+                        disabled={specificResulIsLoading}
+                        onClick={handleComplete}>
+                        Mark as complete
+                      </IonButton>
+                    )}
+
+                    <IonButton
+                      type="submit"
+                      className="ion-text-capitalize"
+                      color={"success"}>
+                      Update Interpretation
+                    </IonButton>
+
+                    {specificResultQuery?.status === 3 && (
+                      <IonButton
+                        type="button"
+                        className="ion-text-capitalize"
+                        color={"success"}
+                        onClick={handleSendEmail}>
+                        Email to Department
+                      </IonButton>
+                    )}
+                  </>
+                )}
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+        </form>
         <div className="border p-3 mb-3 d-flex align-items-center gap-3">
           {specificResulIsLoading ? (
             <div
@@ -244,7 +270,8 @@ const ABGView: React.FC = () => {
                   be: fields?.BE,
                   sao2: fields?.SO2,
                   ctco2: fields?.TCO2,
-                  interpreted_by: (selectedEmployee as any)?.employee_name,
+                  interpreted_by: specificResultQuery?.interpreted_by,
+                  mixed: specificResultQuery?.interpreted_message,
                 }}
               />
             </div>

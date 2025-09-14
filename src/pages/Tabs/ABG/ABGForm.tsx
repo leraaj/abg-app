@@ -19,25 +19,26 @@ import {
   IonToolbar,
   useIonViewWillEnter,
 } from "@ionic/react";
+import { calendarOutline } from "ionicons/icons";
 import { logOutOutline } from "ionicons/icons";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useAuthContext } from "../../../hooks/context/AuthContext";
 import useLogout from "../../../hooks/auth/use-logout";
-import useCreateMedicalResult from "../../../hooks/use-create-medical-result";
 import useGetMedicalResults from "../../../hooks/use-get-medical-results";
 import StatusList from "../../../components/StatusList";
 import SimpleAutoCompleteInput from "../../../shared-components/fields/SimpleAutoCompleteInput";
-import { MedicalResult } from "../../../hooks/use-get-medical-results"; // Import interface
-import Loading from "../../other/Loading";
-import useGetPhysicianDoctor from "../../../hooks/use-get-physician-doctor";
+import { MedicalResult } from "../../../hooks/use-get-medical-results";
+import moment from "moment";
+import ScreenHeader from "../../../components/ScreenHeader";
 
 const ABGForm: React.FC = () => {
+  const now = moment().utcOffset(8).format("YYYY-MM-DDTHH:mm");
   const { user } = useAuthContext();
   const { logout: handleLogout } = useLogout();
   const datetime = new Date().toISOString().split("T")[0];
   const [date, setDate] = useState<{ from: string; to: string } | null>({
-    from: datetime,
-    to: datetime,
+    from: now,
+    to: now,
   });
 
   const {
@@ -75,21 +76,8 @@ const ABGForm: React.FC = () => {
   });
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>ABG Form</IonTitle>
-          <IonButtons slot="end">
-            <IonButton
-              color={"danger"}
-              className="ion-text-capitalize"
-              onClick={handleLogout}>
-              <IonText>Logout</IonText>
-              <IonIcon icon={logOutOutline} slot="start" />
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen={false} className="ion-margin-horizontal">
+      <ScreenHeader />
+      <IonContent className="ion-margin-horizontal">
         <IonRefresher
           slot="fixed"
           onIonRefresh={async (event) => {
@@ -121,42 +109,47 @@ const ABGForm: React.FC = () => {
               getOptionLabel={(option: any) => option?.patient_name ?? ""}
             />
           </div>
-          <IonInput
-            type="date"
-            value={date?.from}
-            onIonChange={(e) => {
-              setDate((prev) => ({
-                ...prev!,
-                from: e.detail.value as string,
-              }));
-            }}
-            label="Date From"
-            labelPlacement="floating"
-            fill="outline"
-            className="ion-margin-bottom"
-          />
-          <IonInput
-            type="date"
-            value={date?.to}
-            onIonChange={(e) => {
-              setDate((prev) => ({
-                ...prev!,
-                to: e.detail.value as string,
-              }));
-            }}
-            label="Date To"
-            labelPlacement="floating"
-            fill="outline"
-          />
+          <div className="ion-margin-bottom">
+            <IonInput
+              type="datetime-local"
+              value={date?.from}
+              onIonChange={(e) => {
+                setDate((prev) => ({
+                  ...prev!,
+                  from: e.detail.value as string,
+                }));
+              }}
+              label="Date From"
+              labelPlacement="floating"
+              fill="outline">
+              <IonIcon slot={"start"} icon={calendarOutline} />
+            </IonInput>
+          </div>
+          <div>
+            <IonInput
+              type="datetime-local"
+              value={date?.to}
+              onIonChange={(e) => {
+                setDate((prev) => ({
+                  ...prev!,
+                  to: e.detail.value as string,
+                }));
+              }}
+              label="Date To"
+              labelPlacement="floating"
+              fill="outline">
+              <IonIcon slot={"start"} icon={calendarOutline} />
+            </IonInput>
+          </div>
         </div>
         {resultIsLoading ? (
           <div
             style={{
-              height: "100vh",
+              height: "calc(100dvh - var(--ion-safe-area-top))",
               width: "100%",
               display: "flex",
               justifyContent: "center",
-              padding: "1rem",
+              paddingTop: "var(--ion-safe-area-top)",
             }}>
             <IonSpinner />
           </div>

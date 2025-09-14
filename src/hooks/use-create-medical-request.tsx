@@ -44,7 +44,7 @@ const useCreateMedicalRequest = (requestBody: MedicalRequestBody) => {
             error.message ||
             "An unknown error occurred"
         );
-        showToast("Record Failed to create", "warning");
+        showToast("Record Failed to create", "danger");
       } finally {
         setIsLoading(false);
       }

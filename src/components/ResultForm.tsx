@@ -83,12 +83,12 @@ const ResultForm: FC<ResultFormProps> = ({ defaultValues }) => {
     { gridName: "physician", label: "PHYSICIAN:" },
     { gridName: "time", label: "TIME:" },
     { gridName: "temp", label: "TEMP:" },
-    { gridName: "hgb", label: "HGB:" },
     { gridName: "fio2", label: "FIO2:" },
     { gridName: "pH", label: "pH:" },
     { gridName: "pco2", label: "pCO2:" },
     { gridName: "hco3", label: "HC03:" },
     { gridName: "be", label: "ABE:" },
+    { gridName: "hgb", label: "HGB:" },
     { gridName: "sao2", label: "Sa02:" },
     { gridName: "ctco2", label: "ctC02:" },
     { gridName: "po2", label: "PO2:" },
@@ -126,7 +126,7 @@ const ResultForm: FC<ResultFormProps> = ({ defaultValues }) => {
       subLabel: "PULMO CONSULTANT/PULMO RESIDENT",
     },
   ];
-
+  console.log(defaultValues);
   const footerStyle: CSSProperties = {
     gridArea: "footer",
     padding: "10px",
@@ -204,7 +204,7 @@ const ResultForm: FC<ResultFormProps> = ({ defaultValues }) => {
       <div style={contentStyle}>
         {fields.map((item, index) => (
           <div key={index} style={{ gridArea: item.gridName, ...fieldStyle }}>
-            {item.box ? (
+            {item.box && (
               <>
                 <div
                   style={{
@@ -214,16 +214,9 @@ const ResultForm: FC<ResultFormProps> = ({ defaultValues }) => {
                   }}></div>
                 <label style={{ width: "100%" }}>{item.label}</label>
               </>
-            ) : (
+            )}
+            {!item.box && (
               <>
-                {item.label === "INTERPRETATION:" && (
-                  <div
-                    style={{
-                      height: "15px",
-                      width: "10px",
-                      border: "1px solid",
-                    }}></div>
-                )}
                 <label>{item.label}</label>
                 <label
                   style={{
@@ -246,7 +239,7 @@ const ResultForm: FC<ResultFormProps> = ({ defaultValues }) => {
           <div key={index} style={{ width: "200px" }}>
             <label style={{ marginBottom: "1.5em" }}>{item.label}</label>
             <br />
-            <label
+            <p
               style={{
                 width: "100%",
                 border: "none",
@@ -255,7 +248,7 @@ const ResultForm: FC<ResultFormProps> = ({ defaultValues }) => {
                 height: "12px",
               }}>
               {item.value || ""}
-            </label>
+            </p>
             <label>{item.subLabel}</label>
           </div>
         ))}

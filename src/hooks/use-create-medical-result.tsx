@@ -45,7 +45,7 @@ const useCreateMedicalResult = (requestBody: RequestBody) => {
         // navigate("../scanned-result");
       } catch (error: any) {
         setError(error?.message ?? "Unknown error occurred");
-        showToast("Record Failed to create", "error");
+        showToast("Record Failed to create", "danger");
       } finally {
         setIsLoading(false);
       }

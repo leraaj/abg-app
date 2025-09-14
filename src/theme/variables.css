@@ -7,4 +7,7 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-success-contrast-rgb: 0, 0, 0;
   --ion-color-success-shade: #2c652e;
   --ion-color-success-tint: #42d96b;
+  --ion-statusbar-padding: 1rem !important;
+  --ion-safe-area-top: 1.5rem !important;
+  --ion-safe-area-bottom: 1rem !important;
 }

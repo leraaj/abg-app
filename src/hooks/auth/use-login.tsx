@@ -37,8 +37,8 @@ const useLogin = () => {
       );
 
       if (!response) {
-        setError("Invalid username/password");
-        return showToast("Invalid username/password", "danger");
+        setError("Invalid credentials");
+        return showToast("Invalid credentials", "danger");
       }
       const userData = response.data.data;
       setUser(userData);
@@ -53,8 +53,8 @@ const useLogin = () => {
       // showToast(err.message, "danger");
       // setError(err.message);
       if (err.status == 400) {
-        setError("Invalid username/password");
-        return showToast("Invalid username/password", "danger");
+        setError(err.response.data.message);
+        return showToast(err.response.data.message, "danger");
       } else {
         showToast(err.message, "danger");
         setError(err.message);

@@ -18,21 +18,28 @@ import {
   IonLabel,
   IonSelect,
   IonSelectOption,
+  IonRadioGroup,
+  IonRadio,
+  IonList,
 } from "@ionic/react";
-import React, { createRef, useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
-import { logOut, logOutOutline } from "ionicons/icons";
-import { useToast } from "../../../utils/ToastContext";
-import axios from "axios";
+import {
+  cameraOutline,
+  imageOutline,
+  refreshOutline,
+  scanOutline,
+} from "ionicons/icons";
 import { useAuthContext } from "../../../hooks/context/AuthContext";
-import useLogout from "../../../hooks/auth/use-logout";
 import useGetMedicalRequest from "../../../hooks/use-get-medical-requests";
 import useOCR from "../../../hooks/use-ocr";
 import useCreateMedicalResult from "../../../hooks/use-create-medical-result";
 import CreateScannedRecordField from "../ABG/components/CreateScannedRecordField";
 import imagePlaceholder from "../../../assets/images/placeholders/image.jpg";
 import useGetMachineDevice from "../../../hooks/use-get-machine-device";
-import Loading from "../../other/Loading";
+
+import moment from "moment";
+import ScreenHeader from "../../../components/ScreenHeader";
 
 interface MachineDevice {
   id: string;
@@ -42,13 +49,11 @@ interface MachineDevice {
 }
 
 const Scan: React.FC = () => {
+  const now = moment().utcOffset(8).format("YYYY-MM-DDTHH:mm");
   const contentRef = useRef<HTMLIonContentElement | null>(null);
   const { user } = useAuthContext();
 
-  const { logout: handleLogout } = useLogout();
   const employee = user;
-  console.log(employee);
-
   const { data: requests, isLoading } = useGetMedicalRequest();
   const { data: machines, isLoading: isMachineLoading } = useGetMachineDevice();
   const { isProcessing, ocrResult, handleOCR } = useOCR();
@@ -61,6 +66,7 @@ const Scan: React.FC = () => {
   const [selectedMachineId, setSelectedMachineId] = useState<string | null>(
     null
   );
+  const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const { isLoading: isGetRequestLoading } = useCreateMedicalResult(input);
 
   const patientOptions = useMemo(() => {
@@ -111,6 +117,7 @@ const Scan: React.FC = () => {
       rtId: employee?.id,
       machineId: selectedMachineId,
       extractedText: abgFields,
+      isDetermined: Number(selectedValue),
     });
 
     if (!isMachineLoading) {
@@ -133,6 +140,7 @@ const Scan: React.FC = () => {
     setInput(null);
     setSelectedPatientId(null);
     setSelectedMachineId(null);
+    setSelectedValue(null);
   };
 
   useEffect(() => {
@@ -159,23 +167,15 @@ const Scan: React.FC = () => {
   if (isGetRequestLoading) {
     return <IonText>Loading...</IonText>;
   }
+  const handleIsDetermined = (e: CustomEvent) => {
+    setSelectedValue(e.detail.value);
+    console.log(e.detail.value);
+  };
+
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Scanned Result</IonTitle>
-          <IonButtons slot="end">
-            <IonButton
-              color={"danger"}
-              className="ion-text-capitalize"
-              onClick={handleLogout}>
-              <IonText>Logout</IonText>
-              <IonIcon icon={logOutOutline} slot="start" />
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen={false} className="ion-padding" ref={contentRef}>
+      <ScreenHeader />
+      <IonContent className="ion-padding" ref={contentRef}>
         <IonCard>
           <IonCardHeader>
             <IonCardTitle>Image Preview</IonCardTitle>
@@ -201,26 +201,34 @@ const Scan: React.FC = () => {
               />
             </div>
             <IonButton
-              expand="block"
+              expand="full"
               className="ion-text-capitalize"
               color="success"
               onClick={takePhoto}>
               Take Photo
+              <IonIcon slot="start" icon={cameraOutline} aria-hidden="true" />
             </IonButton>
             <IonButton
-              expand="block"
+              expand="full"
               className="ion-text-capitalize"
               color="success"
               onClick={choosePhoto}>
               Choose from Gallery
+              <IonIcon slot="start" icon={imageOutline} aria-hidden="true" />
             </IonButton>
             <IonButton
-              expand="block"
+              expand="full"
               className="ion-text-capitalize"
               color="success"
               disabled={!image || isProcessing}
               onClick={() => image && handleOCR(image)}>
               {isProcessing ? "Processing..." : "Scan Result"}
+
+              <IonIcon
+                slot="start"
+                icon={isProcessing ? refreshOutline : scanOutline}
+                aria-hidden="true"
+              />
             </IonButton>
             <IonButton
               expand="block"
@@ -228,56 +236,86 @@ const Scan: React.FC = () => {
               fill="outline"
               className="ion-text-capitalize"
               onClick={handleClear}
-              disabled={!image && result.length === 0 && !selectedPatientId}>
+              disabled={
+                !image &&
+                result.length === 0 &&
+                !selectedPatientId &&
+                !selectedMachineId &&
+                !selectedValue
+              }>
               Clear
             </IonButton>
           </IonCardContent>
         </IonCard>
-
         <IonCard>
           <IonCardHeader>
             <IonCardTitle>Patient</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <IonItem className="ion-padding-bottom">
-              <IonSelect
-                value={selectedPatientId}
-                label="Patient name"
-                labelPlacement="start"
-                placeholder="Select a Patient"
-                onIonChange={(e) => setSelectedPatientId(e.detail.value)}>
-                {patientOptions?.map((option) => (
-                  <IonSelectOption
-                    key={option.id}
-                    value={option.id}
-                    className="ion-text-capitalize">
-                    {option.patient_name} (#{option.id})
-                  </IonSelectOption>
-                ))}
-              </IonSelect>
-            </IonItem>
-            <IonItem>
-              <IonSelect
-                value={selectedMachineId}
-                label="Machine"
-                placeholder="Select a Machine"
+            <IonList lines="none" className="d-flex flex-column gap-3">
+              <IonItem>
+                <IonSelect
+                  value={selectedPatientId}
+                  label="Patient name"
+                  labelPlacement="start"
+                  placeholder="Select a Patient"
+                  onIonChange={(e) => setSelectedPatientId(e.detail.value)}>
+                  {patientOptions?.map((option) => (
+                    <IonSelectOption
+                      key={option.id}
+                      value={option.id}
+                      className="ion-text-capitalize">
+                      {option.patient_name} (#{option.id})
+                    </IonSelectOption>
+                  ))}
+                </IonSelect>
+              </IonItem>
+              <IonItem>
+                <IonSelect
+                  value={selectedMachineId}
+                  label="Machine"
+                  placeholder="Select a Machine"
+                  onIonChange={(e) => setSelectedMachineId(e.detail.value)}>
+                  {machineName?.map((machine) => (
+                    <IonSelectOption
+                      key={machine.id}
+                      className="ion-text-capitalize"
+                      value={machine.id}>
+                      {machine.machine_name}
+                    </IonSelectOption>
+                  ))}
+                </IonSelect>
+              </IonItem>
+              <IonItem>
+                <div className="d-flex justify-content-between col-12 ">
+                  <IonRadioGroup
+                    className="col-12"
+                    value={selectedValue || 0}
+                    onIonChange={handleIsDetermined}>
+                    <div className="d-flex justify-content-end gap-3">
+                      <span className="col-auto">
+                        <IonRadio value={1}>Determined</IonRadio>
+                      </span>
+                      <span className="col-auto">
+                        <IonRadio value={2}>Extracted</IonRadio>
+                      </span>
+                    </div>
+                  </IonRadioGroup>
+                </div>
+              </IonItem>
+              <IonButton
                 className="ion-text-capitalize"
-                onIonChange={(e) => setSelectedMachineId(e.detail.value)}>
-                {machineName?.map((machine) => (
-                  <IonSelectOption key={machine.id} value={machine.id}>
-                    {machine.machine_name}
-                  </IonSelectOption>
-                ))}
-              </IonSelect>
-            </IonItem>
-            <IonButton
-              className="ion-text-capitalize ion-margin-top"
-              expand="block"
-              color={"success"}
-              disabled={!image && result.length === 0 && !selectedPatientId}
-              onClick={handleSubmit}>
-              Approve Result
-            </IonButton>
+                color="success"
+                size="default"
+                expand="full"
+                disabled={
+                  (!image && result.length === 0 && !selectedPatientId) ||
+                  !selectedValue
+                }
+                onClick={handleSubmit}>
+                Approve Result
+              </IonButton>
+            </IonList>
           </IonCardContent>
         </IonCard>
 

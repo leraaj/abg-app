@@ -8,9 +8,9 @@ import {
   IonTabButton,
   IonTabs,
   setupIonicReact,
+  useIonViewWillEnter,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
 
@@ -48,7 +48,7 @@ import { useAuthContext } from "./hooks/context/AuthContext";
 
 setupIonicReact();
 
-import React from "react";
+import React, { useEffect } from "react";
 import Loading from "./pages/other/Loading";
 import Dashboard from "./pages/Tabs/ABG/ABGForm";
 import Scan from "./pages/Tabs/Scan/Scan";
@@ -56,17 +56,18 @@ import SignInLoading from "./pages/other/SignInLoading";
 import SignOutLoading from "./pages/other/SignOutLoading";
 import ScanView from "./pages/Tabs/ABG/ABGView";
 import ABGView from "./pages/Tabs/ABG/ABGView";
+import { StatusBar } from "@capacitor/status-bar";
 
 setupIonicReact();
 
 const Tabs: React.FC = () => (
   <IonTabs>
     <IonRouterOutlet>
-      <Route path="/tabs/scan" exact>
-        <Scan />
-      </Route>
       <Route path="/tabs/abg" exact>
         <Dashboard />
+      </Route>
+      <Route path="/tabs/scan" exact>
+        <Scan />
       </Route>
       <Redirect exact from="/tabs" to="/tabs/abg" />
     </IonRouterOutlet>
@@ -86,7 +87,9 @@ const Tabs: React.FC = () => (
 
 const App: React.FC = () => {
   const { user, isLoading, hasToken } = useAuthContext();
-
+  useIonViewWillEnter(() => {
+    StatusBar.setOverlaysWebView({ overlay: false });
+  });
   if (hasToken && user && isLoading) return <Loading />;
   return (
     <IonApp>
