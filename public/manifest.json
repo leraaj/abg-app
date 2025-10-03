@@ -8,7 +8,7 @@
       "type": "image/x-icon"
     },
     {
-      "src": "assets/icon/sample-logo-png.png",
+      "src": "/src/assets/images/brand/eastAveLogo.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "maskable"

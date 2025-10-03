@@ -30,6 +30,7 @@ import useGetPhysicianDoctor from "../../../hooks/use-get-physician-doctor";
 import { TextField } from "@mui/material";
 import SimpleAutoCompleteInput from "../../../shared-components/fields/SimpleAutoCompleteInput";
 import useCreateEmail from "../../../hooks/useCreateEmail";
+import { useAuthContext } from "../../../hooks/context/AuthContext";
 interface OptionType {
   id: number;
   label: string;
@@ -51,6 +52,7 @@ type Item =
     };
 
 const ABGView: React.FC = () => {
+  const { user } = useAuthContext();
   const { id } = useParams<{ id: string }>();
   const { data: userPhysicianQuery, isLoading: isPhysicianDoctorLoading } =
     useGetPhysicianDoctor();
@@ -176,23 +178,25 @@ const ABGView: React.FC = () => {
                         required
                       />
                     ) : item.type === "autocomplete" ? (
-                      <div className="ion-padding-bottom">
-                        <SimpleAutoCompleteInput
-                          data={item.options || []} // <-- fallback
-                          label={item.label}
-                          value={
-                            (item.options || []).find(
-                              (option) => option.value === formData[item.name]
-                            ) || null
-                          }
-                          onChange={(event, newValue) =>
-                            handleChange(item.name, newValue?.value || "")
-                          }
-                          getOptionLabel={(option) => option?.label || ""}
-                          loading={item?.loading || false}
-                          required
-                        />
-                      </div>
+                      <>
+                        <div className="ion-padding-bottom">
+                          <SimpleAutoCompleteInput
+                            data={item.options || []} // <-- fallback
+                            label={item.label}
+                            value={
+                              (item.options || []).find(
+                                (option) => option.value === formData[item.name]
+                              ) || null
+                            }
+                            onChange={(event, newValue) =>
+                              handleChange(item.name, newValue?.value || "")
+                            }
+                            getOptionLabel={(option) => option?.label || ""}
+                            loading={item?.loading || false}
+                            required
+                          />
+                        </div>
+                      </>
                     ) : null}
                   </div>
                 ))}
@@ -212,12 +216,15 @@ const ABGView: React.FC = () => {
                       </IonButton>
                     )}
 
-                    <IonButton
-                      type="submit"
-                      className="ion-text-capitalize"
-                      color={"success"}>
-                      Update Interpretation
-                    </IonButton>
+                    {user?.position_id !== undefined &&
+                      [4, 5].includes(user.position_id) && (
+                        <IonButton
+                          type="submit"
+                          className="ion-text-capitalize"
+                          color="success">
+                          Update Interpretation
+                        </IonButton>
+                      )}
 
                     {specificResultQuery?.status === 3 && (
                       <IonButton
@@ -256,10 +263,11 @@ const ABGView: React.FC = () => {
                     specificResultQuery?.age && specificResultQuery?.sex
                       ? `${specificResultQuery.age} / ${specificResultQuery.sex}`
                       : "",
-                  ward: "",
+                  ward: specificResultQuery?.ward || "",
                   diagnosis: specificResultQuery?.diagnosis,
                   physician: specificResultQuery?.physician_doctor,
-                  time: "",
+                  date: specificResultQuery?.date || "",
+                  time: specificResultQuery?.date || "",
                   temp: "",
                   hgb: fields?.HGB,
                   fio2: fields?.FIO2,

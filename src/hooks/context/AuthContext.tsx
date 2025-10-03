@@ -77,7 +77,7 @@ export const AuthContextProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     setSessionErrorState(error);
-  }, [sessionErrorState]);
+  }, [error]);
 
   useEffect(() => {
     fetchUser();

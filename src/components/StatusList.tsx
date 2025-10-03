@@ -45,7 +45,7 @@ const StatusList: React.FC<StatusListProps> = ({
               <div className="d-flex align-items-center gap-2">
                 {formatStatus(item[status])}
                 <Chip
-                  label={item["date_created_formatted"]}
+                  label={item["date_text"]}
                   color="default"
                   size="small"
                   sx={{ p: 1 }}
