@@ -3,17 +3,17 @@ import { useHistory } from "react-router";
 import { useToast } from "../utils/ToastContext";
 
 interface EmailPayload {
-  id: string;
+  patientName: string;
+  [key: string]: any;
 }
 
 interface EmailResponse {
-  success: boolean;
-  message: string;
-  [key: string]: unknown; // extendable depending on API
+  success?: boolean;
+  message?: string;
+  [key: string]: unknown;
 }
 
 const useCreateEmail = () => {
-  const server = import.meta.env.VITE_APP_API as string;
   const showToast = useToast();
   const [data, setData] = useState<EmailResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -24,20 +24,24 @@ const useCreateEmail = () => {
     try {
       setIsLoading(true);
 
-      const response = await fetch(`${server}/api/emails/send-abg-form`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-        credentials: "include",
-      });
+      const formData = new FormData();
+      formData.append("patientName", payload.patientName);
 
-      if (!response.ok) {
-        throw new Error("Failed to send Email");
-      }
+      // You can add more fields if needed
+      // formData.append("physician", payload.physician);
+      // formData.append("diagnosis", payload.diagnosis);
+
+      const response = await fetch(
+        "https://script.google.com/macros/s/AKfycbz5TnR6kLY6hirCoWZLtS6GJZ6-pEBhY0ijwJeCJrkr3LDFF88KmHu2VNnZiChHPYSs/exec",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const result: EmailResponse = await response.json();
+      console.log("Email API response:", result);
+
       showToast("Email successfully sent", "success");
       setData(result);
       history.push("/tabs");
@@ -46,6 +50,7 @@ const useCreateEmail = () => {
         err instanceof Error ? err.message : "Unknown error occurred";
       setError(message);
       showToast("Email failed to send", "danger");
+      console.error(err);
     } finally {
       setIsLoading(false);
     }

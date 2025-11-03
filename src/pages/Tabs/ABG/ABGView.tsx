@@ -135,7 +135,11 @@ const ABGView: React.FC = () => {
   };
   console.log(specificResultQuery);
   const handleSendEmail = () => {
-    sendEmail({ id }); // wrap id in an object
+    if (!specificResultQuery) return;
+
+    sendEmail({
+      patientName: specificResultQuery.patient_name,
+    });
   };
 
   return (

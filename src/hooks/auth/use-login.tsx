@@ -56,8 +56,8 @@ const useLogin = () => {
         setError(err.response.data.message);
         return showToast(err.response.data.message, "danger");
       } else {
-        showToast(err.message, "danger");
         setError(err.message);
+        return showToast(err.response.data.message, "danger");
       }
     } finally {
       setIsLoading(false);
